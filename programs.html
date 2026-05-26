@@ -1,0 +1,1808 @@
+<!doctype html>
+<html lang="fr" data-lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UniPlaceholder — Formations</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              p: {
+                50: "#F7F4FF",
+                100: "#EDE6FF",
+                200: "#D4BEFA",
+                300: "#B89AF5",
+                400: "#9B72E8",
+                500: "#7040D4",
+                600: "#5520B8",
+                700: "#3E1490",
+                800: "#2D0A6E",
+                900: "#1E0845",
+              },
+              gold: { DEFAULT: "#BFA050", light: "#D4B866", dark: "#9A7C30" },
+            },
+            fontFamily: {
+              heading: ["Cormorant Garamond", "Georgia", "serif"],
+              body: ["DM Sans", "system-ui", "sans-serif"],
+              label: ["Barlow Condensed", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "DM Sans", system-ui, sans-serif;
+      }
+      .font-heading {
+        font-family: "Cormorant Garamond", Georgia, serif;
+      }
+      .font-label {
+        font-family: "Barlow Condensed", sans-serif;
+      }
+
+      .nav-link {
+        border-bottom: 2px solid transparent;
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+      }
+      .nav-link:hover {
+        color: #bfa050;
+        border-bottom-color: #bfa050;
+      }
+      .lang-btn {
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+      .lang-btn.active {
+        background: #bfa050;
+        color: #1e0845;
+      }
+
+      /* Scroll reveal */
+      .reveal {
+        opacity: 0;
+        transform: translateY(26px);
+        transition:
+          opacity 0.6s ease,
+          transform 0.6s ease;
+      }
+      .reveal.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Filter tabs */
+      .filter-btn {
+        transition: all 0.25s;
+      }
+      .filter-btn.active {
+        background: #3e1490;
+        color: #fff;
+        box-shadow: 0 4px 14px rgba(62, 20, 144, 0.3);
+      }
+
+      /* Program card */
+      .prog-card {
+        transition:
+          transform 0.35s cubic-bezier(0.22, 0.68, 0, 1.2),
+          box-shadow 0.35s;
+        cursor: pointer;
+      }
+      .prog-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 24px 50px rgba(30, 8, 69, 0.16);
+      }
+      .prog-card.hidden-card {
+        display: none;
+      }
+
+      /* Card header stripe pattern */
+      .stripe-pattern::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 12px,
+          rgba(255, 255, 255, 0.1) 12px,
+          rgba(255, 255, 255, 0.1) 24px
+        );
+      }
+
+      /* Duration badge */
+      .duration-badge {
+        background: rgba(255, 255, 255, 0.18);
+        backdrop-filter: blur(4px);
+      }
+
+      /* Modal overlay */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(30, 8, 69, 0.6);
+        backdrop-filter: blur(4px);
+        z-index: 200;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+      }
+      .modal-overlay.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .modal-box {
+        background: #fff;
+        border-radius: 20px;
+        max-width: 640px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        transform: translateY(20px) scale(0.97);
+        transition: transform 0.3s;
+      }
+      .modal-overlay.open .modal-box {
+        transform: translateY(0) scale(1);
+      }
+
+      /* Slant */
+      .slant-bot {
+        clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+      }
+      .slant-top {
+        clip-path: polygon(0 6%, 100% 0, 100% 100%, 0 100%);
+      }
+
+      /* Sticky filter bar */
+      .filter-bar {
+        position: sticky;
+        top: 68px;
+        z-index: 30;
+        background: rgba(247, 244, 255, 0.95);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid #ede6ff;
+      }
+    </style>
+  </head>
+  <body class="bg-white text-p-900 overflow-x-hidden">
+    <!-- ══════════════════════════════════════════
+       ANNOUNCEMENT BAR
+  ══════════════════════════════════════════ -->
+    <div
+      class="bg-gold text-p-900 text-center py-2 px-4 font-label text-xs font-semibold tracking-widest z-50 relative"
+    >
+      <span
+        data-fr="🎓 Inscriptions ouvertes — Année académique 2024–2025"
+        data-en="🎓 Enrolments open — Academic year 2024–2025"
+      >
+        🎓 Inscriptions ouvertes — Année académique 2024–2025
+      </span>
+      <a
+        href="#"
+        class="underline font-bold ml-2"
+        data-fr="Postuler →"
+        data-en="Apply now →"
+        >Postuler →</a
+      >
+    </div>
+
+    <!-- ══════════════════════════════════════════
+       NAVBAR
+  ══════════════════════════════════════════ -->
+    <nav
+      id="navbar"
+      class="sticky top-0 z-40 bg-p-900 border-b border-gold/20 px-6 h-[68px] flex items-center justify-between transition-shadow duration-300"
+    >
+      <a href="home.html" class="flex items-center gap-3 flex-shrink-0">
+        <div
+          class="w-10 h-10 rounded-full bg-gold flex items-center justify-center font-heading text-[18px] font-bold text-p-900"
+        >
+          U
+        </div>
+        <div class="leading-tight">
+          <div
+            class="font-heading text-[1.35rem] font-semibold text-white leading-none"
+          >
+            UniPlaceholder
+          </div>
+          <div
+            class="font-label text-[.6rem] tracking-[.2em] uppercase text-gold"
+            data-fr="Université d'Excellence"
+            data-en="University of Excellence"
+          >
+            Université d'Excellence
+          </div>
+        </div>
+      </a>
+      <ul class="hidden lg:flex items-center list-none gap-0 h-[68px]">
+        <li>
+          <a
+            href="home.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Accueil"
+            data-en="Home"
+            >Accueil</a
+          >
+        </li>
+        <li>
+          <a
+            href="about.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="À Propos"
+            data-en="About"
+            >À Propos</a
+          >
+        </li>
+        <li>
+          <a
+            href="programs.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-gold px-3 h-[68px] flex items-center border-b-2 border-gold"
+            data-fr="Formations"
+            data-en="Programs"
+            >Formations</a
+          >
+        </li>
+        <li>
+          <a
+            href="library.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Bibliothèque"
+            data-en="Library"
+            >Bibliothèque</a
+          >
+        </li>
+        <li>
+          <a
+            href="news.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Actualités"
+            data-en="News"
+            >Actualités</a
+          >
+        </li>
+        <li>
+          <a
+            href="team.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Équipe"
+            data-en="Team"
+            >Équipe</a
+          >
+        </li>
+        <li>
+          <a
+            href="events.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Événements"
+            data-en="Events"
+            >Événements</a
+          >
+        </li>
+        <li>
+          <a
+            href="contact.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Contact"
+            data-en="Contact"
+            >Contact</a
+          >
+        </li>
+      </ul>
+      <div class="flex items-center gap-2.5">
+        <div
+          class="flex rounded-full overflow-hidden border border-white/20 bg-white/10"
+        >
+          <button
+            onclick="setLang('fr')"
+            class="lang-btn active font-label text-[.7rem] font-bold tracking-[.05em] px-3 py-1 text-white/55 bg-transparent border-none cursor-pointer"
+          >
+            FR
+          </button>
+          <button
+            onclick="setLang('en')"
+            class="lang-btn font-label text-[.7rem] font-bold tracking-[.05em] px-3 py-1 text-white/55 bg-transparent border-none cursor-pointer"
+          >
+            EN
+          </button>
+        </div>
+        <a
+          href="#"
+          class="hidden sm:inline-block font-label text-[.78rem] font-semibold tracking-[.08em] uppercase px-4 py-2 border border-gold text-gold rounded hover:bg-gold hover:text-p-900 transition-colors duration-200"
+          data-fr="Se Connecter"
+          data-en="Login"
+          >Se Connecter</a
+        >
+        <button
+          onclick="toggleMenu()"
+          class="lg:hidden flex flex-col gap-[5px] p-1 bg-transparent border-none cursor-pointer"
+        >
+          <span class="block w-5 h-[2px] bg-white rounded"></span>
+          <span class="block w-5 h-[2px] bg-white rounded"></span>
+          <span class="block w-5 h-[2px] bg-white rounded"></span>
+        </button>
+      </div>
+    </nav>
+    <div
+      id="mobileMenu"
+      class="hidden lg:hidden bg-p-900 border-t border-white/10 z-30 relative"
+    >
+      <a
+        href="home.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Accueil"
+        data-en="Home"
+        >Accueil</a
+      >
+      <a
+        href="about.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="À Propos"
+        data-en="About"
+        >À Propos</a
+      >
+      <a
+        href="programs.html"
+        class="block font-label text-sm tracking-widest uppercase text-gold px-6 py-3 border-b border-white/5"
+        data-fr="Formations"
+        data-en="Programs"
+        >Formations</a
+      >
+      <a
+        href="library.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Bibliothèque"
+        data-en="Library"
+        >Bibliothèque</a
+      >
+      <a
+        href="news.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Actualités"
+        data-en="News"
+        >Actualités</a
+      >
+      <a
+        href="team.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Équipe"
+        data-en="Team"
+        >Équipe</a
+      >
+      <a
+        href="events.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Événements"
+        data-en="Events"
+        >Événements</a
+      >
+      <a
+        href="contact.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Contact"
+        data-en="Contact"
+        >Contact</a
+      >
+    </div>
+
+    <!-- ══════════════════════════════════════════
+       PAGE HERO BANNER
+  ══════════════════════════════════════════ -->
+    <div class="slant-bot bg-p-900 pt-20 pb-32 px-6 relative overflow-hidden">
+      <div
+        class="absolute inset-0 pointer-events-none"
+        style="
+          background-image:
+            linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+            linear-gradient(
+              90deg,
+              rgba(255, 255, 255, 0.025) 1px,
+              transparent 1px
+            );
+          background-size: 50px 50px;
+        "
+      ></div>
+      <div
+        class="absolute -right-16 top-0 w-96 h-96 rounded-full pointer-events-none"
+        style="
+          background: radial-gradient(
+            circle,
+            rgba(155, 114, 232, 0.15) 0%,
+            transparent 70%
+          );
+        "
+      ></div>
+      <div class="max-w-6xl mx-auto relative z-10">
+        <div class="flex items-center gap-2 mb-4">
+          <span class="block w-7 h-[2px] bg-gold"></span>
+          <span
+            class="font-label text-[.7rem] tracking-[.28em] uppercase text-gold"
+            data-fr="Nos offres de formation"
+            data-en="Our training offers"
+            >Nos offres de formation</span
+          >
+        </div>
+        <h1
+          class="font-heading font-semibold text-white leading-[1.1] mb-4"
+          style="font-size: clamp(2.4rem, 4.5vw, 4rem)"
+        >
+          <span data-fr="Choisissez votre" data-en="Choose your"
+            >Choisissez votre</span
+          >
+          <em class="text-gold italic" data-fr=" Parcours" data-en=" Path">
+            Parcours</em
+          >
+        </h1>
+        <p
+          class="text-white/65 max-w-xl leading-relaxed mb-6"
+          style="font-size: 0.95rem"
+          data-fr="12 filières soigneusement conçues pour vous préparer à exceller dans votre domaine, alliant théorie rigoureuse et pratique professionnelle."
+          data-en="12 carefully designed programs to prepare you to excel in your field, combining rigorous theory with professional practice."
+        >
+          12 filières soigneusement conçues pour vous préparer à exceller dans
+          votre domaine, alliant théorie rigoureuse et pratique professionnelle.
+        </p>
+        <!-- Quick stats -->
+        <div class="flex flex-wrap gap-4">
+          <div
+            class="flex items-center gap-2 bg-white/10 rounded-full px-4 py-2"
+          >
+            <span class="text-gold font-label font-bold text-sm">12</span>
+            <span
+              class="font-label text-[.72rem] tracking-wider uppercase text-white/70"
+              data-fr="Filières"
+              data-en="Programs"
+              >Filières</span
+            >
+          </div>
+          <div
+            class="flex items-center gap-2 bg-white/10 rounded-full px-4 py-2"
+          >
+            <span class="text-gold font-label font-bold text-sm">2</span>
+            <span
+              class="font-label text-[.72rem] tracking-wider uppercase text-white/70"
+              data-fr="Niveaux"
+              data-en="Levels"
+              >Niveaux</span
+            >
+          </div>
+          <div
+            class="flex items-center gap-2 bg-white/10 rounded-full px-4 py-2"
+          >
+            <span class="text-gold font-label font-bold text-sm">6</span>
+            <span
+              class="font-label text-[.72rem] tracking-wider uppercase text-white/70"
+              data-fr="Départements"
+              data-en="Departments"
+              >Départements</span
+            >
+          </div>
+          <div
+            class="flex items-center gap-2 bg-white/10 rounded-full px-4 py-2"
+          >
+            <span class="text-gold font-label font-bold text-sm">100%</span>
+            <span
+              class="font-label text-[.72rem] tracking-wider uppercase text-white/70"
+              data-fr="Accrédités"
+              data-en="Accredited"
+              >Accrédités</span
+            >
+          </div>
+        </div>
+        <!-- Breadcrumb -->
+        <div
+          class="flex items-center gap-2 mt-6 font-label text-[.72rem] tracking-widest uppercase text-white/35"
+        >
+          <a
+            href="home.html"
+            class="hover:text-gold transition-colors"
+            data-fr="Accueil"
+            data-en="Home"
+            >Accueil</a
+          >
+          <span>/</span>
+          <span class="text-gold" data-fr="Formations" data-en="Programs"
+            >Formations</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+       STICKY FILTER BAR
+  ══════════════════════════════════════════ -->
+    <div class="filter-bar px-6 py-3">
+      <div class="max-w-6xl mx-auto flex flex-wrap items-center gap-2">
+        <!-- Level filters -->
+        <div class="flex items-center gap-1 mr-3">
+          <span
+            class="font-label text-[.68rem] tracking-widest uppercase text-p-400 mr-1"
+            data-fr="Niveau :"
+            data-en="Level:"
+            >Niveau :</span
+          >
+          <button
+            onclick="filterCards('level', 'all')"
+            class="filter-btn active font-label text-[.72rem] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full border border-p-200 text-p-700 hover:bg-p-700 hover:text-white hover:border-p-700"
+            data-fr="Tous"
+            data-en="All"
+            data-filter-type="level"
+            data-filter-val="all"
+          >
+            Tous
+          </button>
+          <button
+            onclick="filterCards('level', 'licence')"
+            class="filter-btn font-label text-[.72rem] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full border border-p-200 text-p-700 hover:bg-p-700 hover:text-white hover:border-p-700"
+            data-fr="Licence"
+            data-en="Bachelor"
+            data-filter-type="level"
+            data-filter-val="licence"
+          >
+            Licence
+          </button>
+          <button
+            onclick="filterCards('level', 'master')"
+            class="filter-btn font-label text-[.72rem] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full border border-p-200 text-p-700 hover:bg-p-700 hover:text-white hover:border-p-700"
+            data-fr="Master"
+            data-en="Master"
+            data-filter-type="level"
+            data-filter-val="master"
+          >
+            Master
+          </button>
+        </div>
+
+        <span class="hidden md:block w-px h-5 bg-p-200"></span>
+
+        <!-- Domain filters -->
+        <div class="flex items-center gap-1 flex-wrap">
+          <span
+            class="font-label text-[.68rem] tracking-widest uppercase text-p-400 mr-1"
+            data-fr="Domaine :"
+            data-en="Domain:"
+            >Domaine :</span
+          >
+          <button
+            onclick="filterCards('domain', 'all')"
+            class="filter-btn font-label text-[.72rem] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full border border-p-200 text-p-700 hover:bg-p-700 hover:text-white hover:border-p-700"
+            data-fr="Tous"
+            data-en="All"
+            data-filter-type="domain"
+            data-filter-val="all"
+          >
+            Tous
+          </button>
+          <button
+            onclick="filterCards('domain', 'tech')"
+            class="filter-btn font-label text-[.72rem] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full border border-p-200 text-p-700 hover:bg-p-700 hover:text-white hover:border-p-700"
+            data-fr="Tech & Sciences"
+            data-en="Tech & Science"
+            data-filter-type="domain"
+            data-filter-val="tech"
+          >
+            Tech & Sciences
+          </button>
+          <button
+            onclick="filterCards('domain', 'business')"
+            class="filter-btn font-label text-[.72rem] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full border border-p-200 text-p-700 hover:bg-p-700 hover:text-white hover:border-p-700"
+            data-fr="Commerce"
+            data-en="Business"
+            data-filter-type="domain"
+            data-filter-val="business"
+          >
+            Commerce
+          </button>
+          <button
+            onclick="filterCards('domain', 'law')"
+            class="filter-btn font-label text-[.72rem] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full border border-p-200 text-p-700 hover:bg-p-700 hover:text-white hover:border-p-700"
+            data-fr="Droit & Social"
+            data-en="Law & Social"
+            data-filter-type="domain"
+            data-filter-val="law"
+          >
+            Droit & Social
+          </button>
+          <button
+            onclick="filterCards('domain', 'eng')"
+            class="filter-btn font-label text-[.72rem] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full border border-p-200 text-p-700 hover:bg-p-700 hover:text-white hover:border-p-700"
+            data-fr="Ingénierie"
+            data-en="Engineering"
+            data-filter-type="domain"
+            data-filter-val="eng"
+          >
+            Ingénierie
+          </button>
+          <button
+            onclick="filterCards('domain', 'media')"
+            class="filter-btn font-label text-[.72rem] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full border border-p-200 text-p-700 hover:bg-p-700 hover:text-white hover:border-p-700"
+            data-fr="Médias"
+            data-en="Media"
+            data-filter-type="domain"
+            data-filter-val="media"
+          >
+            Médias
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+       PROGRAMS GRID
+  ══════════════════════════════════════════ -->
+    <section class="py-16 px-6 bg-p-50">
+      <div class="max-w-6xl mx-auto">
+        <!-- Result count -->
+        <div class="flex items-center justify-between mb-8 reveal">
+          <p
+            class="font-label text-[.75rem] tracking-widest uppercase text-p-400"
+          >
+            <span id="countDisplay">6</span>
+            <span data-fr=" formations affichées" data-en=" programs shown">
+              formations affichées</span
+            >
+          </p>
+          <a
+            href="#"
+            class="font-label text-[.75rem] tracking-widest uppercase text-p-600 hover:text-gold transition-colors flex items-center gap-1"
+            data-fr="Comparer les filières →"
+            data-en="Compare programs →"
+            >Comparer les filières →</a
+          >
+        </div>
+
+        <!-- Cards grid -->
+        <div
+          id="programsGrid"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          <!-- ── CARD 1: Informatique ── -->
+          <div
+            class="prog-card bg-white rounded-2xl overflow-hidden shadow-sm reveal"
+            data-level="licence master"
+            data-domain="tech"
+            onclick="openModal('modal-info')"
+          >
+            <div
+              class="relative h-[130px] stripe-pattern flex items-end p-5"
+              style="background: linear-gradient(135deg, #3e1490, #7040d4)"
+            >
+              <span class="absolute top-4 right-4 text-3xl z-10">💻</span>
+              <div
+                class="duration-badge font-label text-[.65rem] tracking-widest uppercase text-white px-2.5 py-1 rounded-full z-10"
+              >
+                <span data-fr="3 ans · 5 ans" data-en="3 yrs · 5 yrs"
+                  >3 ans · 5 ans</span
+                >
+              </div>
+            </div>
+            <div class="p-6">
+              <div
+                class="font-label text-[.68rem] tracking-[.14em] uppercase text-p-500 mb-1"
+                data-fr="Sciences & Technologies"
+                data-en="Science & Technology"
+              >
+                Sciences & Technologies
+              </div>
+              <h3
+                class="font-heading font-semibold text-p-900 text-[1.35rem] leading-snug mb-2"
+                data-fr="Informatique & Génie Logiciel"
+                data-en="Computer Science & Software Engineering"
+              >
+                Informatique & Génie Logiciel
+              </h3>
+              <p
+                class="text-p-600/75 leading-relaxed mb-4"
+                style="font-size: 0.84rem"
+                data-fr="Développement logiciel, intelligence artificielle, réseaux, cybersécurité et systèmes d'information."
+                data-en="Software development, AI, networks, cybersecurity and information systems."
+              >
+                Développement logiciel, intelligence artificielle, réseaux,
+                cybersécurité et systèmes d'information.
+              </p>
+              <div class="flex flex-wrap gap-2 mb-5">
+                <span
+                  class="font-label text-[.68rem] font-semibold px-2.5 py-1 bg-p-100 text-p-700 rounded-full"
+                  >Licence</span
+                >
+                <span
+                  class="font-label text-[.68rem] font-semibold px-2.5 py-1 bg-p-100 text-p-700 rounded-full"
+                  >Master</span
+                >
+                <span
+                  class="font-label text-[.68rem] font-semibold px-2.5 py-1 bg-gold/15 text-gold-dark rounded-full"
+                  data-fr="Présentiel + En ligne"
+                  data-en="On-campus + Online"
+                  >Présentiel + En ligne</span
+                >
+              </div>
+              <div
+                class="flex items-center justify-between pt-4 border-t border-p-50"
+              >
+                <div class="flex items-center gap-1.5">
+                  <span class="text-sm">👤</span>
+                  <span
+                    class="font-label text-[.68rem] tracking-wider uppercase text-p-400"
+                    data-fr="280 étudiants"
+                    data-en="280 students"
+                    >280 étudiants</span
+                  >
+                </div>
+                <span
+                  class="font-label text-[.72rem] font-bold tracking-wider uppercase text-p-600 hover:text-p-800 transition-colors"
+                  data-fr="Voir détails →"
+                  data-en="See details →"
+                  >Voir détails →</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- ── CARD 2: Finance ── -->
+          <div
+            class="prog-card bg-white rounded-2xl overflow-hidden shadow-sm reveal"
+            data-level="licence master"
+            data-domain="business"
+            onclick="openModal('modal-finance')"
+            style="transition-delay: 0.07s"
+          >
+            <div
+              class="relative h-[130px] stripe-pattern flex items-end p-5"
+              style="background: linear-gradient(135deg, #14507a, #2888c8)"
+            >
+              <span class="absolute top-4 right-4 text-3xl z-10">📊</span>
+              <div
+                class="duration-badge font-label text-[.65rem] tracking-widest uppercase text-white px-2.5 py-1 rounded-full z-10"
+              >
+                <span data-fr="3 ans · 5 ans" data-en="3 yrs · 5 yrs"
+                  >3 ans · 5 ans</span
+                >
+              </div>
+            </div>
+            <div class="p-6">
+              <div
+                class="font-label text-[.68rem] tracking-[.14em] uppercase text-p-500 mb-1"
+                data-fr="Commerce & Gestion"
+                data-en="Business & Management"
+              >
+                Commerce & Gestion
+              </div>
+              <h3
+                class="font-heading font-semibold text-p-900 text-[1.35rem] leading-snug mb-2"
+                data-fr="Finance & Comptabilité"
+                data-en="Finance & Accounting"
+              >
+                Finance & Comptabilité
+              </h3>
+              <p
+                class="text-p-600/75 leading-relaxed mb-4"
+                style="font-size: 0.84rem"
+                data-fr="Gestion financière, comptabilité analytique, audit, contrôle de gestion et marchés financiers."
+                data-en="Financial management, cost accounting, auditing, management control and financial markets."
+              >
+                Gestion financière, comptabilité analytique, audit, contrôle de
+                gestion et marchés financiers.
+              </p>
+              <div class="flex flex-wrap gap-2 mb-5">
+                <span
+                  class="font-label text-[.68rem] font-semibold px-2.5 py-1 bg-p-100 text-p-700 rounded-full"
+                  >Licence</span
+                >
+                <span
+                  class="font-label text-[.68rem] font-semibold px-2.5 py-1 bg-p-100 text-p-700 rounded-full"
+                  >Master</span
+                >
+              </div>
+              <div
+                class="flex items-center justify-between pt-4 border-t border-p-50"
+              >
+                <div class="flex items-center gap-1.5">
+                  <span class="text-sm">👤</span>
+                  <span
+                    class="font-label text-[.68rem] tracking-wider uppercase text-p-400"
+                    data-fr="340 étudiants"
+                    data-en="340 students"
+                    >340 étudiants</span
+                  >
+                </div>
+                <span
+                  class="font-label text-[.72rem] font-bold tracking-wider uppercase text-p-600"
+                  data-fr="Voir détails →"
+                  data-en="See details →"
+                  >Voir détails →</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- ── CARD 3: Génie Civil ── -->
+          <div
+            class="prog-card bg-white rounded-2xl overflow-hidden shadow-sm reveal"
+            data-level="licence master"
+            data-domain="eng"
+            onclick="openModal('modal-gc')"
+            style="transition-delay: 0.14s"
+          >
+            <div
+              class="relative h-[130px] stripe-pattern flex items-end p-5"
+              style="background: linear-gradient(135deg, #7a3014, #c85028)"
+            >
+              <span class="absolute top-4 right-4 text-3xl z-10">⚙️</span>
+              <div
+                class="duration-badge font-label text-[.65rem] tracking-widest uppercase text-white px-2.5 py-1 rounded-full z-10"
+              >
+                <span data-fr="3 ans · 5 ans" data-en="3 yrs · 5 yrs"
+                  >3 ans · 5 ans</span
+                >
+              </div>
+            </div>
+            <div class="p-6">
+              <div
+                class="font-label text-[.68rem] tracking-[.14em] uppercase text-p-500 mb-1"
+                data-fr="Ingénierie"
+                data-en="Engineering"
+              >
+                Ingénierie
+              </div>
+              <h3
+                class="font-heading font-semibold text-p-900 text-[1.35rem] leading-snug mb-2"
+                data-fr="Génie Civil & BTP"
+                data-en="Civil Engineering & Construction"
+              >
+                Génie Civil & BTP
+              </h3>
+              <p
+                class="text-p-600/75 leading-relaxed mb-4"
+                style="font-size: 0.84rem"
+                data-fr="Construction, infrastructures, calcul de structures, topographie et gestion de projets BTP en contexte africain."
+                data-en="Construction, infrastructure, structural analysis, topography and construction project management in an African context."
+              >
+                Construction, infrastructures, calcul de structures, topographie
+                et gestion de projets BTP en contexte africain.
+              </p>
+              <div class="flex flex-wrap gap-2 mb-5">
+                <span
+                  class="font-label text-[.68rem] font-semibold px-2.5 py-1 bg-p-100 text-p-700 rounded-full"
+                  >Licence</span
+                >
+                <span
+                  class="font-label text-[.68rem] font-semibold px-2.5 py-1 bg-p-100 text-p-700 rounded-full"
+                  >Master</span
+                >
+              </div>
+              <div
+                class="flex items-center justify-between pt-4 border-t border-p-50"
+              >
+                <div class="flex items-center gap-1.5">
+                  <span class="text-sm">👤</span>
+                  <span
+                    class="font-label text-[.68rem] tracking-wider uppercase text-p-400"
+                    data-fr="210 étudiants"
+                    data-en="210 students"
+                    >210 étudiants</span
+                  >
+                </div>
+                <span
+                  class="font-label text-[.72rem] font-bold tracking-wider uppercase text-p-600"
+                  data-fr="Voir détails →"
+                  data-en="See details →"
+                  >Voir détails →</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- ── CARD 4: Agro-alimentaire ── -->
+          <div
+            class="prog-card bg-white rounded-2xl overflow-hidden shadow-sm reveal"
+            data-level="licence"
+            data-domain="tech"
+            onclick="openModal('modal-agro')"
+            style="transition-delay: 0.07s"
+          >
+            <div
+              class="relative h-[130px] stripe-pattern flex items-end p-5"
+              style="background: linear-gradient(135deg, #147a3c, #28c868)"
+            >
+              <span class="absolute top-4 right-4 text-3xl z-10">🌿</span>
+              <div
+                class="duration-badge font-label text-[.65rem] tracking-widest uppercase text-white px-2.5 py-1 rounded-full z-10"
+              >
+                <span data-fr="3 ans" data-en="3 yrs">3 ans</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <div
+                class="font-label text-[.68rem] tracking-[.14em] uppercase text-p-500 mb-1"
+                data-fr="Sciences de la Vie"
+                data-en="Life Sciences"
+              >
+                Sciences de la Vie
+              </div>
+              <h3
+                class="font-heading font-semibold text-p-900 text-[1.35rem] leading-snug mb-2"
+                data-fr="Agro-alimentaire & Nutrition"
+                data-en="Agri-food & Nutrition"
+              >
+                Agro-alimentaire & Nutrition
+              </h3>
+              <p
+                class="text-p-600/75 leading-relaxed mb-4"
+                style="font-size: 0.84rem"
+                data-fr="Production alimentaire, transformation, sécurité sanitaire, nutrition et développement agricole durable."
+                data-en="Food production, processing, food safety, nutrition and sustainable agricultural development."
+              >
+                Production alimentaire, transformation, sécurité sanitaire,
+                nutrition et développement agricole durable.
+              </p>
+              <div class="flex flex-wrap gap-2 mb-5">
+                <span
+                  class="font-label text-[.68rem] font-semibold px-2.5 py-1 bg-p-100 text-p-700 rounded-full"
+                  >Licence</span
+                >
+                <span
+                  class="font-label text-[.68rem] font-semibold px-2.5 py-1 bg-gold/15 text-gold-dark rounded-full"
+                  data-fr="Stages intensifs"
+                  data-en="Intensive internships"
+                  >Stages intensifs</span
+                >
+              </div>
+              <div
+                class="flex items-center justify-between pt-4 border-t border-p-50"
+              >
+                <div class="flex items-center gap-1.5">
+                  <span class="text-sm">👤</span>
+                  <span
+                    class="font-label text-[.68rem] tracking-wider uppercase text-p-400"
+                    data-fr="165 étudiants"
+                    data-en="165 students"
+                    >165 étudiants</span
+                  >
+                </div>
+                <span
+                  class="font-label text-[.72rem] font-bold tracking-wider uppercase text-p-600"
+                  data-fr="Voir détails →"
+                  data-en="See details →"
+                  >Voir détails →</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- ── CARD 5: Droit des Affaires ── -->
+          <div
+            class="prog-card bg-white rounded-2xl overflow-hidden shadow-sm reveal"
+            data-level="licence master"
+            data-domain="law"
+            onclick="openModal('modal-droit')"
+            style="transition-delay: 0.14s"
+          >
+            <div
+              class="relative h-[130px] stripe-pattern flex items-end p-5"
+              style="background: linear-gradient(135deg, #7a1450, #c82888)"
+            >
+              <span class="absolute top-4 right-4 text-3xl z-10">⚖️</span>
+              <div
+                class="duration-badge font-label text-[.65rem] tracking-widest uppercase text-white px-2.5 py-1 rounded-full z-10"
+              >
+                <span data-fr="3 ans · 5 ans" data-en="3 yrs · 5 yrs"
+                  >3 ans · 5 ans</span
+                >
+              </div>
+            </div>
+            <div class="p-6">
+              <div
+                class="font-label text-[.68rem] tracking-[.14em] uppercase text-p-500 mb-1"
+                data-fr="Droit & Sciences Sociales"
+                data-en="Law & Social Sciences"
+              >
+                Droit & Sciences Sociales
+              </div>
+              <h3
+                class="font-heading font-semibold text-p-900 text-[1.35rem] leading-snug mb-2"
+                data-fr="Droit des Affaires"
+                data-en="Business Law"
+              >
+                Droit des Affaires
+              </h3>
+              <p
+                class="text-p-600/75 leading-relaxed mb-4"
+                style="font-size: 0.84rem"
+                data-fr="Droit commercial, droit des contrats, propriété intellectuelle et gouvernance d'entreprise en contexte OHADA."
+                data-en="Commercial law, contract law, intellectual property and corporate governance in the OHADA context."
+              >
+                Droit commercial, droit des contrats, propriété intellectuelle
+                et gouvernance d'entreprise en contexte OHADA.
+              </p>
+              <div class="flex flex-wrap gap-2 mb-5">
+                <span
+                  class="font-label text-[.68rem] font-semibold px-2.5 py-1 bg-p-100 text-p-700 rounded-full"
+                  >Licence</span
+                >
+                <span
+                  class="font-label text-[.68rem] font-semibold px-2.5 py-1 bg-p-100 text-p-700 rounded-full"
+                  >Master</span
+                >
+              </div>
+              <div
+                class="flex items-center justify-between pt-4 border-t border-p-50"
+              >
+                <div class="flex items-center gap-1.5">
+                  <span class="text-sm">👤</span>
+                  <span
+                    class="font-label text-[.68rem] tracking-wider uppercase text-p-400"
+                    data-fr="195 étudiants"
+                    data-en="195 students"
+                    >195 étudiants</span
+                  >
+                </div>
+                <span
+                  class="font-label text-[.72rem] font-bold tracking-wider uppercase text-p-600"
+                  data-fr="Voir détails →"
+                  data-en="See details →"
+                  >Voir détails →</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- ── CARD 6: Journalisme ── -->
+          <div
+            class="prog-card bg-white rounded-2xl overflow-hidden shadow-sm reveal"
+            data-level="licence"
+            data-domain="media"
+            onclick="openModal('modal-media')"
+            style="transition-delay: 0.21s"
+          >
+            <div
+              class="relative h-[130px] stripe-pattern flex items-end p-5"
+              style="background: linear-gradient(135deg, #7a6014, #c8a028)"
+            >
+              <span class="absolute top-4 right-4 text-3xl z-10">📡</span>
+              <div
+                class="duration-badge font-label text-[.65rem] tracking-widest uppercase text-white px-2.5 py-1 rounded-full z-10"
+              >
+                <span data-fr="3 ans" data-en="3 yrs">3 ans</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <div
+                class="font-label text-[.68rem] tracking-[.14em] uppercase text-p-500 mb-1"
+                data-fr="Communication & Médias"
+                data-en="Communication & Media"
+              >
+                Communication & Médias
+              </div>
+              <h3
+                class="font-heading font-semibold text-p-900 text-[1.35rem] leading-snug mb-2"
+                data-fr="Journalisme & Médias Numériques"
+                data-en="Journalism & Digital Media"
+              >
+                Journalisme & Médias Numériques
+              </h3>
+              <p
+                class="text-p-600/75 leading-relaxed mb-4"
+                style="font-size: 0.84rem"
+                data-fr="Presse écrite et en ligne, reportage multimédia, communication institutionnelle et marketing digital."
+                data-en="Print and online press, multimedia reporting, institutional communication and digital marketing."
+              >
+                Presse écrite et en ligne, reportage multimédia, communication
+                institutionnelle et marketing digital.
+              </p>
+              <div class="flex flex-wrap gap-2 mb-5">
+                <span
+                  class="font-label text-[.68rem] font-semibold px-2.5 py-1 bg-p-100 text-p-700 rounded-full"
+                  >Licence</span
+                >
+                <span
+                  class="font-label text-[.68rem] font-semibold px-2.5 py-1 bg-gold/15 text-gold-dark rounded-full"
+                  data-fr="Atelier radio/TV"
+                  data-en="Radio/TV workshop"
+                  >Atelier radio/TV</span
+                >
+              </div>
+              <div
+                class="flex items-center justify-between pt-4 border-t border-p-50"
+              >
+                <div class="flex items-center gap-1.5">
+                  <span class="text-sm">👤</span>
+                  <span
+                    class="font-label text-[.68rem] tracking-wider uppercase text-p-400"
+                    data-fr="140 étudiants"
+                    data-en="140 students"
+                    >140 étudiants</span
+                  >
+                </div>
+                <span
+                  class="font-label text-[.72rem] font-bold tracking-wider uppercase text-p-600"
+                  data-fr="Voir détails →"
+                  data-en="See details →"
+                  >Voir détails →</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /grid -->
+
+        <!-- Empty state -->
+        <div id="emptyState" class="hidden text-center py-20">
+          <div class="text-5xl mb-4">🔍</div>
+          <h3
+            class="font-heading text-2xl text-p-700 mb-2"
+            data-fr="Aucune formation trouvée"
+            data-en="No programs found"
+          >
+            Aucune formation trouvée
+          </h3>
+          <p
+            class="text-p-400 text-sm"
+            data-fr="Essayez un autre filtre."
+            data-en="Try another filter."
+          >
+            Essayez un autre filtre.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+       WHY SECTION
+  ══════════════════════════════════════════ -->
+    <section class="py-20 px-6 bg-white">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-12 reveal">
+          <div class="flex items-center justify-center gap-2 mb-3">
+            <span class="block w-7 h-[2px] bg-gold"></span>
+            <span
+              class="font-label text-[.7rem] tracking-[.28em] uppercase text-p-600"
+              data-fr="Pourquoi nous choisir"
+              data-en="Why choose us"
+              >Pourquoi nous choisir</span
+            >
+            <span class="block w-7 h-[2px] bg-gold"></span>
+          </div>
+          <h2
+            class="font-heading font-semibold text-p-900 leading-[1.15]"
+            style="font-size: clamp(2rem, 3.5vw, 2.9rem)"
+          >
+            <span data-fr="Une pédagogie" data-en="A pedagogy"
+              >Une pédagogie</span
+            >
+            <em
+              class="text-p-600 italic"
+              data-fr=" tournée vers l'emploi"
+              data-en=" focused on employment"
+            >
+              tournée vers l'emploi</em
+            >
+          </h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div
+            class="reveal text-center p-6 rounded-2xl bg-p-50 hover:bg-p-100 transition-colors duration-300"
+          >
+            <div
+              class="w-14 h-14 rounded-full bg-p-700 flex items-center justify-center text-2xl mx-auto mb-4"
+            >
+              🎯
+            </div>
+            <h4
+              class="font-heading font-semibold text-p-900 text-lg mb-2"
+              data-fr="Curricula actualisés"
+              data-en="Updated curricula"
+            >
+              Curricula actualisés
+            </h4>
+            <p
+              class="text-p-600/75 text-sm leading-relaxed"
+              data-fr="Nos programmes sont revus chaque année avec des professionnels du secteur pour rester à la pointe."
+              data-en="Our programs are reviewed annually with industry professionals to stay at the cutting edge."
+            >
+              Nos programmes sont revus chaque année avec des professionnels du
+              secteur pour rester à la pointe.
+            </p>
+          </div>
+          <div
+            class="reveal text-center p-6 rounded-2xl bg-p-50 hover:bg-p-100 transition-colors duration-300"
+            style="transition-delay: 0.1s"
+          >
+            <div
+              class="w-14 h-14 rounded-full bg-gold flex items-center justify-center text-2xl mx-auto mb-4"
+            >
+              🤝
+            </div>
+            <h4
+              class="font-heading font-semibold text-p-900 text-lg mb-2"
+              data-fr="Stages garantis"
+              data-en="Guaranteed internships"
+            >
+              Stages garantis
+            </h4>
+            <p
+              class="text-p-600/75 text-sm leading-relaxed"
+              data-fr="Chaque formation intègre au moins un stage en entreprise garanti grâce à notre réseau de partenaires."
+              data-en="Every program includes at least one guaranteed company internship through our partner network."
+            >
+              Chaque formation intègre au moins un stage en entreprise garanti
+              grâce à notre réseau de partenaires.
+            </p>
+          </div>
+          <div
+            class="reveal text-center p-6 rounded-2xl bg-p-50 hover:bg-p-100 transition-colors duration-300"
+            style="transition-delay: 0.2s"
+          >
+            <div
+              class="w-14 h-14 rounded-full bg-p-700 flex items-center justify-center text-2xl mx-auto mb-4"
+            >
+              🌍
+            </div>
+            <h4
+              class="font-heading font-semibold text-p-900 text-lg mb-2"
+              data-fr="Double diplomation"
+              data-en="Double degree"
+            >
+              Double diplomation
+            </h4>
+            <p
+              class="text-p-600/75 text-sm leading-relaxed"
+              data-fr="Certaines filières offrent une option de double diplôme avec nos universités partenaires à l'étranger."
+              data-en="Some programs offer a double degree option with our partner universities abroad."
+            >
+              Certaines filières offrent une option de double diplôme avec nos
+              universités partenaires à l'étranger.
+            </p>
+          </div>
+          <div
+            class="reveal text-center p-6 rounded-2xl bg-p-50 hover:bg-p-100 transition-colors duration-300"
+            style="transition-delay: 0.3s"
+          >
+            <div
+              class="w-14 h-14 rounded-full bg-gold flex items-center justify-center text-2xl mx-auto mb-4"
+            >
+              📈
+            </div>
+            <h4
+              class="font-heading font-semibold text-p-900 text-lg mb-2"
+              data-fr="Taux d'insertion 87%"
+              data-en="87% employment rate"
+            >
+              Taux d'insertion 87%
+            </h4>
+            <p
+              class="text-p-600/75 text-sm leading-relaxed"
+              data-fr="87% de nos diplômés trouvent un emploi ou créent leur entreprise dans les 6 mois suivant l'obtention du diplôme."
+              data-en="87% of our graduates find employment or start a business within 6 months of graduation."
+            >
+              87% de nos diplômés trouvent un emploi ou créent leur entreprise
+              dans les 6 mois suivant l'obtention du diplôme.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+       CTA BANNER
+  ══════════════════════════════════════════ -->
+    <section
+      class="slant-top py-28 px-6 relative overflow-hidden"
+      style="background: linear-gradient(140deg, #3e1490, #5520b8)"
+    >
+      <div
+        class="absolute inset-0 pointer-events-none"
+        style="
+          background-image:
+            linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+            linear-gradient(
+              90deg,
+              rgba(255, 255, 255, 0.025) 1px,
+              transparent 1px
+            );
+          background-size: 50px 50px;
+        "
+      ></div>
+      <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
+        <div
+          class="font-label text-[.74rem] tracking-[.28em] uppercase text-gold mb-3"
+          data-fr="Prêt à vous lancer ?"
+          data-en="Ready to get started?"
+        >
+          Prêt à vous lancer ?
+        </div>
+        <h2
+          class="font-heading font-semibold text-white leading-[1.15] mb-4"
+          style="font-size: clamp(2rem, 3.5vw, 3rem)"
+        >
+          <span data-fr="Postulez avant le" data-en="Apply before"
+            >Postulez avant le</span
+          >
+          <em class="text-gold italic"> 31 Août 2024</em>
+        </h2>
+        <p
+          class="text-white/65 leading-relaxed mb-8 max-w-lg mx-auto"
+          style="font-size: 0.94rem"
+          data-fr="Les places sont limitées. Déposez votre dossier en ligne dès maintenant et rejoignez la communauté UniPlaceholder."
+          data-en="Places are limited. Submit your application online now and join the UniPlaceholder community."
+        >
+          Les places sont limitées. Déposez votre dossier en ligne dès
+          maintenant et rejoignez la communauté UniPlaceholder.
+        </p>
+        <div class="flex gap-3 justify-center flex-wrap">
+          <a
+            href="#"
+            class="font-label text-[.82rem] font-bold tracking-[.1em] uppercase px-8 py-3 bg-gold text-p-900 rounded hover:bg-gold-light transition-all duration-300"
+            data-fr="Déposer ma candidature"
+            data-en="Submit my application"
+            >Déposer ma candidature</a
+          >
+          <a
+            href="#"
+            class="font-label text-[.82rem] font-semibold tracking-[.1em] uppercase px-8 py-3 border border-white/40 text-white rounded hover:bg-white/10 transition-all duration-300"
+            data-fr="Télécharger la brochure"
+            data-en="Download brochure"
+            >Télécharger la brochure</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+       MODALS (Detail views)
+  ══════════════════════════════════════════ -->
+    <!-- Generic modal template used for all cards -->
+    <div
+      id="modal-info"
+      class="modal-overlay"
+      onclick="closeModalOutside(event, 'modal-info')"
+    >
+      <div class="modal-box">
+        <div
+          class="h-32 relative flex items-end p-6 stripe-pattern"
+          style="background: linear-gradient(135deg, #3e1490, #7040d4)"
+        >
+          <span class="absolute top-4 right-4 text-4xl">💻</span>
+          <button
+            onclick="closeModal('modal-info')"
+            class="absolute top-4 left-4 w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white hover:bg-white/30 transition font-bold"
+          >
+            ✕
+          </button>
+          <div>
+            <div
+              class="font-label text-[.65rem] tracking-widest uppercase text-white/70 mb-1"
+              data-fr="Sciences & Technologies"
+              data-en="Science & Technology"
+            >
+              Sciences & Technologies
+            </div>
+            <h3
+              class="font-heading font-semibold text-white text-2xl"
+              data-fr="Informatique & Génie Logiciel"
+              data-en="Computer Science & Software Engineering"
+            >
+              Informatique & Génie Logiciel
+            </h3>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="grid grid-cols-3 gap-3 mb-6">
+            <div class="text-center bg-p-50 rounded-xl p-3">
+              <div class="font-heading font-bold text-p-700 text-xl">3–5</div>
+              <div
+                class="font-label text-[.65rem] tracking-widest uppercase text-p-400"
+                data-fr="ans"
+                data-en="years"
+              >
+                ans
+              </div>
+            </div>
+            <div class="text-center bg-p-50 rounded-xl p-3">
+              <div class="font-heading font-bold text-p-700 text-xl">280</div>
+              <div
+                class="font-label text-[.65rem] tracking-widest uppercase text-p-400"
+                data-fr="étudiants"
+                data-en="students"
+              >
+                étudiants
+              </div>
+            </div>
+            <div class="text-center bg-p-50 rounded-xl p-3">
+              <div class="font-heading font-bold text-p-700 text-xl">91%</div>
+              <div
+                class="font-label text-[.65rem] tracking-widest uppercase text-p-400"
+                data-fr="insertion"
+                data-en="employed"
+              >
+                insertion
+              </div>
+            </div>
+          </div>
+          <h4
+            class="font-label font-semibold tracking-widest uppercase text-p-600 text-xs mb-2"
+            data-fr="Description"
+            data-en="Description"
+          >
+            Description
+          </h4>
+          <p
+            class="text-p-600/80 text-sm leading-relaxed mb-5"
+            data-fr="La filière Informatique & Génie Logiciel forme des ingénieurs capables de concevoir, développer et maintenir des systèmes informatiques complexes. Les étudiants acquièrent des compétences solides en algorithmique, développement web et mobile, intelligence artificielle, cybersécurité et gestion de projets informatiques."
+            data-en="The Computer Science & Software Engineering program trains engineers capable of designing, developing and maintaining complex computer systems. Students acquire solid skills in algorithms, web and mobile development, artificial intelligence, cybersecurity and IT project management."
+          >
+            La filière Informatique & Génie Logiciel forme des ingénieurs
+            capables de concevoir, développer et maintenir des systèmes
+            informatiques complexes.
+          </p>
+          <h4
+            class="font-label font-semibold tracking-widest uppercase text-p-600 text-xs mb-2"
+            data-fr="Modules clés"
+            data-en="Key modules"
+          >
+            Modules clés
+          </h4>
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span
+              class="font-label text-xs px-2.5 py-1 bg-p-100 text-p-700 rounded-full"
+              >Algorithmique</span
+            >
+            <span
+              class="font-label text-xs px-2.5 py-1 bg-p-100 text-p-700 rounded-full"
+              >Dev Web & Mobile</span
+            >
+            <span
+              class="font-label text-xs px-2.5 py-1 bg-p-100 text-p-700 rounded-full"
+              >IA & Machine Learning</span
+            >
+            <span
+              class="font-label text-xs px-2.5 py-1 bg-p-100 text-p-700 rounded-full"
+              >Cybersécurité</span
+            >
+            <span
+              class="font-label text-xs px-2.5 py-1 bg-p-100 text-p-700 rounded-full"
+              >Réseaux & Systèmes</span
+            >
+            <span
+              class="font-label text-xs px-2.5 py-1 bg-p-100 text-p-700 rounded-full"
+              >Gestion de projets</span
+            >
+          </div>
+          <a
+            href="#"
+            class="block w-full text-center font-label text-[.82rem] font-bold tracking-[.1em] uppercase py-3 bg-p-700 text-white rounded-lg hover:bg-p-800 transition-colors"
+            data-fr="Postuler pour cette filière"
+            data-en="Apply for this program"
+            >Postuler pour cette filière</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Minimal modals for other cards -->
+    <script>
+      const modalData = {
+        "modal-finance": {
+          icon: "📊",
+          color: "linear-gradient(135deg,#14507A,#2888C8)",
+          deptFr: "Commerce & Gestion",
+          deptEn: "Business & Management",
+          nameFr: "Finance & Comptabilité",
+          nameEn: "Finance & Accounting",
+          stats: ["3–5", "340", "89%"],
+          statLblFr: ["ans", "étudiants", "insertion"],
+          statLblEn: ["years", "students", "employed"],
+          descFr:
+            "La filière Finance & Comptabilité prépare des experts capables de gérer les flux financiers d'une organisation, d'établir des états financiers et d'assurer le contrôle de gestion dans un environnement professionnel exigeant.",
+          descEn:
+            "The Finance & Accounting program prepares experts capable of managing an organization's financial flows, preparing financial statements and ensuring management control in a demanding professional environment.",
+          modules: [
+            "Comptabilité générale",
+            "Comptabilité analytique",
+            "Audit & contrôle",
+            "Finance d'entreprise",
+            "Fiscalité",
+            "Marchés financiers",
+          ],
+        },
+        "modal-gc": {
+          icon: "⚙️",
+          color: "linear-gradient(135deg,#7A3014,#C85028)",
+          deptFr: "Ingénierie",
+          deptEn: "Engineering",
+          nameFr: "Génie Civil & BTP",
+          nameEn: "Civil Engineering & Construction",
+          stats: ["3–5", "210", "85%"],
+          statLblFr: ["ans", "étudiants", "insertion"],
+          statLblEn: ["years", "students", "employed"],
+          descFr:
+            "La filière Génie Civil & BTP forme des ingénieurs spécialisés dans la conception et la réalisation d'ouvrages de construction, intégrant les contraintes locales et les normes internationales de durabilité.",
+          descEn:
+            "The Civil Engineering program trains engineers specializing in the design and construction of buildings, integrating local constraints and international sustainability standards.",
+          modules: [
+            "Résistance des matériaux",
+            "Béton armé",
+            "Topographie",
+            "Hydraulique",
+            "Gestion de chantier",
+            "Urbanisme durable",
+          ],
+        },
+        "modal-agro": {
+          icon: "🌿",
+          color: "linear-gradient(135deg,#147A3C,#28C868)",
+          deptFr: "Sciences de la Vie",
+          deptEn: "Life Sciences",
+          nameFr: "Agro-alimentaire & Nutrition",
+          nameEn: "Agri-food & Nutrition",
+          stats: ["3", "165", "82%"],
+          statLblFr: ["ans", "étudiants", "insertion"],
+          statLblEn: ["years", "students", "employed"],
+          descFr:
+            "La filière Agro-alimentaire forme des spécialistes de la chaîne alimentaire, de la production agricole à la transformation industrielle, en passant par la nutrition et la sécurité sanitaire des aliments.",
+          descEn:
+            "The Agri-food program trains specialists in the food chain, from agricultural production to industrial processing, including nutrition and food safety.",
+          modules: [
+            "Biochimie alimentaire",
+            "Microbiologie",
+            "Technologie des IAA",
+            "Nutrition humaine",
+            "Contrôle qualité",
+            "Agriculture durable",
+          ],
+        },
+        "modal-droit": {
+          icon: "⚖️",
+          color: "linear-gradient(135deg,#7A1450,#C82888)",
+          deptFr: "Droit & Sciences Sociales",
+          deptEn: "Law & Social Sciences",
+          nameFr: "Droit des Affaires",
+          nameEn: "Business Law",
+          stats: ["3–5", "195", "86%"],
+          statLblFr: ["ans", "étudiants", "insertion"],
+          statLblEn: ["years", "students", "employed"],
+          descFr:
+            "La filière Droit des Affaires forme des juristes d'entreprise maîtrisant le droit des sociétés, des contrats commerciaux et de la propriété intellectuelle dans l'espace OHADA et au-delà.",
+          descEn:
+            "The Business Law program trains corporate lawyers mastering company law, commercial contracts and intellectual property in the OHADA space and beyond.",
+          modules: [
+            "Droit des sociétés",
+            "Droit des contrats",
+            "Droit fiscal",
+            "Propriété intellectuelle",
+            "Arbitrage commercial",
+            "Droit OHADA",
+          ],
+        },
+        "modal-media": {
+          icon: "📡",
+          color: "linear-gradient(135deg,#7A6014,#C8A028)",
+          deptFr: "Communication & Médias",
+          deptEn: "Communication & Media",
+          nameFr: "Journalisme & Médias Numériques",
+          nameEn: "Journalism & Digital Media",
+          stats: ["3", "140", "84%"],
+          statLblFr: ["ans", "étudiants", "insertion"],
+          statLblEn: ["years", "students", "employed"],
+          descFr:
+            "La filière Journalisme & Médias Numériques forme des professionnels de l'information capables d'évoluer dans les rédactions traditionnelles comme dans les médias numériques émergents.",
+          descEn:
+            "The Journalism & Digital Media program trains information professionals able to work in traditional newsrooms as well as emerging digital media.",
+          modules: [
+            "Techniques rédactionnelles",
+            "Photojournalisme",
+            "Radio & TV",
+            "Community management",
+            "Marketing digital",
+            "Éthique des médias",
+          ],
+        },
+      };
+    </script>
+
+    <!-- Dynamic modal container -->
+    <div
+      id="dynamicModal"
+      class="modal-overlay"
+      onclick="closeModalOutside(event, 'dynamicModal')"
+    >
+      <div class="modal-box">
+        <div
+          id="dm-header"
+          class="h-32 relative flex items-end p-6 stripe-pattern"
+        >
+          <span id="dm-icon" class="absolute top-4 right-4 text-4xl"></span>
+          <button
+            onclick="closeModal('dynamicModal')"
+            class="absolute top-4 left-4 w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white hover:bg-white/30 transition font-bold"
+          >
+            ✕
+          </button>
+          <div>
+            <div
+              id="dm-dept"
+              class="font-label text-[.65rem] tracking-widest uppercase text-white/70 mb-1"
+            ></div>
+            <h3
+              id="dm-name"
+              class="font-heading font-semibold text-white text-2xl"
+            ></h3>
+          </div>
+        </div>
+        <div class="p-6">
+          <div id="dm-stats" class="grid grid-cols-3 gap-3 mb-6"></div>
+          <h4
+            class="font-label font-semibold tracking-widest uppercase text-p-600 text-xs mb-2"
+            data-fr="Description"
+            data-en="Description"
+          >
+            Description
+          </h4>
+          <p
+            id="dm-desc"
+            class="text-p-600/80 text-sm leading-relaxed mb-5"
+          ></p>
+          <h4
+            class="font-label font-semibold tracking-widest uppercase text-p-600 text-xs mb-2"
+            data-fr="Modules clés"
+            data-en="Key modules"
+          >
+            Modules clés
+          </h4>
+          <div id="dm-modules" class="flex flex-wrap gap-2 mb-6"></div>
+          <a
+            href="#"
+            class="block w-full text-center font-label text-[.82rem] font-bold tracking-[.1em] uppercase py-3 bg-p-700 text-white rounded-lg hover:bg-p-800 transition-colors"
+            data-fr="Postuler pour cette filière"
+            data-en="Apply for this program"
+            >Postuler pour cette filière</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+       SCRIPTS
+  ══════════════════════════════════════════ -->
+    <script>
+      let currentLang = "fr";
+      let activeLevel = "all";
+      let activeDomain = "all";
+
+      // ── Language ──
+      function setLang(l) {
+        currentLang = l;
+        document
+          .querySelectorAll(".lang-btn")
+          .forEach((b) => b.classList.remove("active"));
+        document
+          .querySelector(`.lang-btn[onclick="setLang('${l}')"]`)
+          .classList.add("active");
+        document.querySelectorAll("[data-fr]").forEach((el) => {
+          const txt = el.getAttribute("data-" + l);
+          if (txt) el.textContent = txt;
+        });
+      }
+
+      // ── Filter ──
+      function filterCards(type, val) {
+        if (type === "level") activeLevel = val;
+        if (type === "domain") activeDomain = val;
+
+        // Update button states
+        document.querySelectorAll(`.filter-btn`).forEach((btn) => {
+          if (btn.dataset.filterType === type) {
+            btn.classList.toggle("active", btn.dataset.filterVal === val);
+          }
+        });
+
+        const cards = document.querySelectorAll(".prog-card");
+        let visible = 0;
+        cards.forEach((card) => {
+          const lvl = card.dataset.level || "";
+          const dom = card.dataset.domain || "";
+          const lvlOk = activeLevel === "all" || lvl.includes(activeLevel);
+          const domOk = activeDomain === "all" || dom === activeDomain;
+          const show = lvlOk && domOk;
+          card.style.display = show ? "" : "none";
+          if (show) visible++;
+        });
+
+        document.getElementById("countDisplay").textContent = visible;
+        document
+          .getElementById("emptyState")
+          .classList.toggle("hidden", visible > 0);
+      }
+
+      // ── Modals ──
+      function openModal(id) {
+        if (id === "modal-info") {
+          document.getElementById("modal-info").classList.add("open");
+          return;
+        }
+        const d = modalData[id];
+        if (!d) return;
+        const l = currentLang;
+
+        document.getElementById("dm-header").style.background = d.color;
+        document.getElementById("dm-icon").textContent = d.icon;
+        document.getElementById("dm-dept").textContent =
+          l === "fr" ? d.deptFr : d.deptEn;
+        document.getElementById("dm-name").textContent =
+          l === "fr" ? d.nameFr : d.nameEn;
+        document.getElementById("dm-desc").textContent =
+          l === "fr" ? d.descFr : d.descEn;
+
+        const statsHTML = d.stats
+          .map(
+            (v, i) => `
+        <div class="text-center bg-p-50 rounded-xl p-3">
+          <div class="font-heading font-bold text-p-700 text-xl">${v}</div>
+          <div class="font-label text-[.65rem] tracking-widest uppercase text-p-400">${l === "fr" ? d.statLblFr[i] : d.statLblEn[i]}</div>
+        </div>`,
+          )
+          .join("");
+        document.getElementById("dm-stats").innerHTML = statsHTML;
+
+        const modsHTML = d.modules
+          .map(
+            (m) =>
+              `<span class="font-label text-xs px-2.5 py-1 bg-p-100 text-p-700 rounded-full">${m}</span>`,
+          )
+          .join("");
+        document.getElementById("dm-modules").innerHTML = modsHTML;
+
+        document.getElementById("dynamicModal").classList.add("open");
+      }
+
+      function closeModal(id) {
+        document.getElementById(id).classList.remove("open");
+      }
+      function closeModalOutside(e, id) {
+        if (e.target === document.getElementById(id)) closeModal(id);
+      }
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          ["modal-info", "dynamicModal"].forEach((id) => closeModal(id));
+        }
+      });
+
+      // ── Scroll reveal ──
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("show");
+              obs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+      document.querySelectorAll(".reveal").forEach((el) => obs.observe(el));
+
+      // ── Sticky nav shadow ──
+      window.addEventListener("scroll", () => {
+        document.getElementById("navbar").style.boxShadow =
+          window.pageYOffset > 60 ? "0 4px 30px rgba(0,0,0,.4)" : "none";
+      });
+
+      function toggleMenu() {
+        document.getElementById("mobileMenu").classList.toggle("hidden");
+      }
+    </script>
+  </body>
+</html>

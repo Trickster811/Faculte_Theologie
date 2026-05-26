@@ -1,0 +1,2233 @@
+<!doctype html>
+<html lang="fr" data-lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UniPlaceholder — Bibliothèque Numérique</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              p: {
+                50: "#F7F4FF",
+                100: "#EDE6FF",
+                200: "#D4BEFA",
+                300: "#B89AF5",
+                400: "#9B72E8",
+                500: "#7040D4",
+                600: "#5520B8",
+                700: "#3E1490",
+                800: "#2D0A6E",
+                900: "#1E0845",
+              },
+              gold: { DEFAULT: "#BFA050", light: "#D4B866", dark: "#9A7C30" },
+            },
+            fontFamily: {
+              heading: ["Cormorant Garamond", "Georgia", "serif"],
+              body: ["DM Sans", "system-ui", "sans-serif"],
+              label: ["Barlow Condensed", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "DM Sans", system-ui, sans-serif;
+      }
+      .font-heading {
+        font-family: "Cormorant Garamond", Georgia, serif;
+      }
+      .font-label {
+        font-family: "Barlow Condensed", sans-serif;
+      }
+
+      .nav-link {
+        border-bottom: 2px solid transparent;
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+      }
+      .nav-link:hover {
+        color: #bfa050;
+        border-bottom-color: #bfa050;
+      }
+      .lang-btn {
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+      .lang-btn.active {
+        background: #bfa050;
+        color: #1e0845;
+      }
+
+      /* Reveal */
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition:
+          opacity 0.6s ease,
+          transform 0.6s ease;
+      }
+      .reveal.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .reveal-left {
+        opacity: 0;
+        transform: translateX(-26px);
+        transition:
+          opacity 0.65s ease,
+          transform 0.65s ease;
+      }
+      .reveal-left.show {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      /* Hero search glow */
+      .search-glow:focus-within {
+        box-shadow: 0 0 0 3px rgba(191, 160, 80, 0.35);
+      }
+
+      /* Category card hover */
+      .cat-card {
+        transition:
+          transform 0.3s cubic-bezier(0.22, 0.68, 0, 1.2),
+          box-shadow 0.3s,
+          border-color 0.3s;
+      }
+      .cat-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 36px rgba(30, 8, 69, 0.14);
+        border-color: #9b72e8;
+      }
+
+      /* Doc card */
+      .doc-card {
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s;
+      }
+      .doc-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 14px 32px rgba(30, 8, 69, 0.12);
+      }
+      .doc-card:hover .doc-thumb {
+        transform: scale(1.04);
+      }
+      .doc-thumb {
+        transition: transform 0.4s ease;
+      }
+
+      /* Filter tab */
+      .type-tab {
+        transition: all 0.22s;
+      }
+      .type-tab.active {
+        background: #3e1490;
+        color: #fff;
+        box-shadow: 0 4px 14px rgba(62, 20, 144, 0.3);
+      }
+
+      /* Slant */
+      .slant-bot {
+        clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+      }
+      .slant-top {
+        clip-path: polygon(0 6%, 100% 0, 100% 100%, 0 100%);
+      }
+
+      /* Modal */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(30, 8, 69, 0.6);
+        backdrop-filter: blur(5px);
+        z-index: 200;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+      }
+      .modal-overlay.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .modal-box {
+        background: #fff;
+        border-radius: 20px;
+        max-width: 560px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        transform: translateY(18px) scale(0.97);
+        transition: transform 0.3s;
+      }
+      .modal-overlay.open .modal-box {
+        transform: translateY(0) scale(1);
+      }
+
+      /* Counter */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .stat-reveal {
+        opacity: 0;
+      }
+      .stat-reveal.show {
+        animation: fadeUp 0.55s ease forwards;
+      }
+
+      /* Scrollbar for doc grid */
+      .doc-scroll::-webkit-scrollbar {
+        width: 5px;
+      }
+      .doc-scroll::-webkit-scrollbar-track {
+        background: #f7f4ff;
+        border-radius: 3px;
+      }
+      .doc-scroll::-webkit-scrollbar-thumb {
+        background: #d4befa;
+        border-radius: 3px;
+      }
+
+      /* Pulse on search button */
+      @keyframes pulse-gold {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(191, 160, 80, 0.5);
+        }
+        50% {
+          box-shadow: 0 0 0 8px rgba(191, 160, 80, 0);
+        }
+      }
+      .search-btn:focus {
+        animation: pulse-gold 1.5s infinite;
+      }
+
+      /* Access locked overlay */
+      .locked-overlay {
+        backdrop-filter: blur(3px);
+      }
+
+      @media (max-width: 1024px) {
+        .aside-panel {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-white text-p-900 overflow-x-hidden">
+    <!-- ══════════════════════════════════════
+       ANNOUNCE + NAV
+  ══════════════════════════════════════ -->
+    <div
+      class="bg-gold text-p-900 text-center py-2 px-4 font-label text-xs font-semibold tracking-widest z-50 relative"
+    >
+      <span
+        data-fr="🎓 Inscriptions ouvertes — Année académique 2024–2025"
+        data-en="🎓 Enrolments open — Academic year 2024–2025"
+      >
+        🎓 Inscriptions ouvertes — Année académique 2024–2025
+      </span>
+      <a
+        href="contact.html"
+        class="underline font-bold ml-2"
+        data-fr="Postuler →"
+        data-en="Apply now →"
+        >Postuler →</a
+      >
+    </div>
+
+    <nav
+      id="navbar"
+      class="sticky top-0 z-40 bg-p-900 border-b border-gold/20 px-6 h-[68px] flex items-center justify-between transition-shadow duration-300"
+    >
+      <a href="home.html" class="flex items-center gap-3 flex-shrink-0">
+        <div
+          class="w-10 h-10 rounded-full bg-gold flex items-center justify-center font-heading text-[18px] font-bold text-p-900"
+        >
+          U
+        </div>
+        <div class="leading-tight">
+          <div
+            class="font-heading text-[1.35rem] font-semibold text-white leading-none"
+          >
+            UniPlaceholder
+          </div>
+          <div
+            class="font-label text-[.6rem] tracking-[.2em] uppercase text-gold"
+            data-fr="Université d'Excellence"
+            data-en="University of Excellence"
+          >
+            Université d'Excellence
+          </div>
+        </div>
+      </a>
+      <ul class="hidden lg:flex items-center list-none gap-0 h-[68px]">
+        <li>
+          <a
+            href="home.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Accueil"
+            data-en="Home"
+            >Accueil</a
+          >
+        </li>
+        <li>
+          <a
+            href="about.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="À Propos"
+            data-en="About"
+            >À Propos</a
+          >
+        </li>
+        <li>
+          <a
+            href="programs.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Formations"
+            data-en="Programs"
+            >Formations</a
+          >
+        </li>
+        <li>
+          <a
+            href="library.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-gold px-3 h-[68px] flex items-center border-b-2 border-gold"
+            data-fr="Bibliothèque"
+            data-en="Library"
+            >Bibliothèque</a
+          >
+        </li>
+        <li>
+          <a
+            href="news.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Actualités"
+            data-en="News"
+            >Actualités</a
+          >
+        </li>
+        <li>
+          <a
+            href="team.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Équipe"
+            data-en="Team"
+            >Équipe</a
+          >
+        </li>
+        <li>
+          <a
+            href="events.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Événements"
+            data-en="Events"
+            >Événements</a
+          >
+        </li>
+        <li>
+          <a
+            href="contact.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Contact"
+            data-en="Contact"
+            >Contact</a
+          >
+        </li>
+      </ul>
+      <div class="flex items-center gap-2.5">
+        <div
+          class="flex rounded-full overflow-hidden border border-white/20 bg-white/10"
+        >
+          <button
+            onclick="setLang('fr')"
+            class="lang-btn active font-label text-[.7rem] font-bold tracking-[.05em] px-3 py-1 text-white/55 bg-transparent border-none cursor-pointer"
+          >
+            FR
+          </button>
+          <button
+            onclick="setLang('en')"
+            class="lang-btn font-label text-[.7rem] font-bold tracking-[.05em] px-3 py-1 text-white/55 bg-transparent border-none cursor-pointer"
+          >
+            EN
+          </button>
+        </div>
+        <a
+          href="login.html"
+          class="hidden sm:inline-block font-label text-[.78rem] font-semibold tracking-[.08em] uppercase px-4 py-2 border border-gold text-gold rounded hover:bg-gold hover:text-p-900 transition-colors duration-200"
+          data-fr="Se Connecter"
+          data-en="Login"
+          >Se Connecter</a
+        >
+        <button
+          onclick="toggleMenu()"
+          class="lg:hidden flex flex-col gap-[5px] p-1 bg-transparent border-none cursor-pointer"
+        >
+          <span class="block w-5 h-[2px] bg-white rounded"></span>
+          <span class="block w-5 h-[2px] bg-white rounded"></span>
+          <span class="block w-5 h-[2px] bg-white rounded"></span>
+        </button>
+      </div>
+    </nav>
+    <div
+      id="mobileMenu"
+      class="hidden lg:hidden bg-p-900 border-t border-white/10 z-30 relative"
+    >
+      <a
+        href="home.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Accueil"
+        data-en="Home"
+        >Accueil</a
+      >
+      <a
+        href="about.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="À Propos"
+        data-en="About"
+        >À Propos</a
+      >
+      <a
+        href="programs.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Formations"
+        data-en="Programs"
+        >Formations</a
+      >
+      <a
+        href="library.html"
+        class="block font-label text-sm tracking-widest uppercase text-gold px-6 py-3 border-b border-white/5"
+        data-fr="Bibliothèque"
+        data-en="Library"
+        >Bibliothèque</a
+      >
+      <a
+        href="news.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Actualités"
+        data-en="News"
+        >Actualités</a
+      >
+
+      <a
+        href="team.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Équipe"
+        data-en="Team"
+        >Équipe</a
+      >
+      <a
+        href="events.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Événements"
+        data-en="Events"
+        >Événements</a
+      >
+      <a
+        href="contact.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Contact"
+        data-en="Contact"
+        >Contact</a
+      >
+    </div>
+
+    <!-- ══════════════════════════════════════
+       HERO — DARK WITH BIG SEARCH
+  ══════════════════════════════════════ -->
+    <div
+      class="slant-bot relative overflow-hidden pt-20 pb-36 px-6"
+      style="
+        background: linear-gradient(
+          140deg,
+          #1e0845 0%,
+          #2d0a6e 50%,
+          #3e1490 100%
+        );
+      "
+    >
+      <!-- Grid overlay -->
+      <div
+        class="absolute inset-0 pointer-events-none"
+        style="
+          background-image:
+            linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+            linear-gradient(
+              90deg,
+              rgba(255, 255, 255, 0.025) 1px,
+              transparent 1px
+            );
+          background-size: 50px 50px;
+        "
+      ></div>
+      <!-- Orbs -->
+      <div
+        class="absolute -right-16 top-0 w-96 h-96 rounded-full pointer-events-none"
+        style="
+          background: radial-gradient(
+            circle,
+            rgba(155, 114, 232, 0.18) 0%,
+            transparent 70%
+          );
+        "
+      ></div>
+      <div
+        class="absolute bottom-0 left-1/3 w-64 h-64 rounded-full pointer-events-none"
+        style="
+          background: radial-gradient(
+            circle,
+            rgba(191, 160, 80, 0.08) 0%,
+            transparent 70%
+          );
+        "
+      ></div>
+      <!-- Floating book icons -->
+      <div
+        class="absolute top-16 right-48 text-5xl opacity-10 select-none hidden lg:block"
+      >
+        📚
+      </div>
+      <div
+        class="absolute bottom-24 left-24 text-4xl opacity-10 select-none hidden lg:block"
+      >
+        📖
+      </div>
+      <div
+        class="absolute top-32 left-1/3 text-3xl opacity-8 select-none hidden lg:block"
+      >
+        🔬
+      </div>
+
+      <div class="max-w-4xl mx-auto relative z-10 text-center">
+        <div class="flex items-center justify-center gap-2 mb-5">
+          <span class="block w-7 h-[2px] bg-gold"></span>
+          <span
+            class="font-label text-[.7rem] tracking-[.28em] uppercase text-gold"
+            data-fr="Ressources documentaires"
+            data-en="Documentary resources"
+            >Ressources documentaires</span
+          >
+          <span class="block w-7 h-[2px] bg-gold"></span>
+        </div>
+        <h1
+          class="font-heading font-semibold text-white leading-[1.08] mb-4"
+          style="font-size: clamp(2.6rem, 5vw, 4.2rem)"
+        >
+          <span data-fr="Bibliothèque" data-en="Digital">Bibliothèque</span>
+          <em class="text-gold italic" data-fr=" Numérique" data-en=" Library">
+            Numérique</em
+          >
+        </h1>
+        <p
+          class="text-white/60 max-w-2xl mx-auto leading-relaxed mb-10"
+          style="font-size: 0.95rem"
+          data-fr="Accédez à des milliers de ressources académiques : mémoires, thèses, articles de recherche, livres et revues scientifiques de notre communauté."
+          data-en="Access thousands of academic resources: dissertations, theses, research articles, books and scientific journals from our community."
+        >
+          Accédez à des milliers de ressources académiques : mémoires, thèses,
+          articles de recherche, livres et revues scientifiques de notre
+          communauté.
+        </p>
+
+        <!-- Main search bar -->
+        <div
+          class="search-glow max-w-2xl mx-auto bg-white rounded-xl overflow-hidden flex shadow-2xl mb-6"
+          id="heroSearch"
+        >
+          <!-- Type dropdown -->
+          <div class="relative border-r border-gray-100">
+            <select
+              id="searchType"
+              class="appearance-none h-full px-4 pr-8 text-p-700 font-label text-[.78rem] tracking-wider uppercase bg-transparent outline-none cursor-pointer"
+            >
+              <option value="all" data-fr="Tout" data-en="All">Tout</option>
+              <option
+                value="memoire"
+                data-fr="Mémoires"
+                data-en="Dissertations"
+              >
+                Mémoires
+              </option>
+              <option value="these" data-fr="Thèses" data-en="Theses">
+                Thèses
+              </option>
+              <option value="article" data-fr="Articles" data-en="Articles">
+                Articles
+              </option>
+              <option value="livre" data-fr="Livres" data-en="Books">
+                Livres
+              </option>
+            </select>
+            <span
+              class="absolute right-2 top-1/2 -translate-y-1/2 text-p-400 pointer-events-none text-xs"
+              >▾</span
+            >
+          </div>
+          <input
+            id="heroSearchInput"
+            type="text"
+            class="flex-1 px-5 py-4 text-p-900 font-body text-sm outline-none placeholder-p-300"
+            placeholder="Titre, auteur, mot-clé, département…"
+          />
+          <button
+            onclick="doSearch()"
+            class="search-btn px-6 bg-p-700 text-white font-label text-[.78rem] font-bold tracking-widest uppercase hover:bg-p-800 transition-colors outline-none"
+            data-fr="Chercher"
+            data-en="Search"
+          >
+            Chercher
+          </button>
+        </div>
+
+        <!-- Quick topic chips -->
+        <div class="flex flex-wrap justify-center gap-2">
+          <span
+            class="font-label text-[.68rem] tracking-widest uppercase text-white/40 self-center"
+            data-fr="Populaires :"
+            data-en="Popular:"
+            >Populaires :</span
+          >
+          <button
+            onclick="quickSearch('Intelligence Artificielle')"
+            class="font-label text-[.7rem] font-semibold px-3 py-1.5 rounded-full bg-white/10 text-white/75 hover:bg-white/20 hover:text-white transition-colors cursor-pointer border-none"
+          >
+            Intelligence Artificielle
+          </button>
+          <button
+            onclick="quickSearch('Droit OHADA')"
+            class="font-label text-[.7rem] font-semibold px-3 py-1.5 rounded-full bg-white/10 text-white/75 hover:bg-white/20 hover:text-white transition-colors cursor-pointer border-none"
+          >
+            Droit OHADA
+          </button>
+          <button
+            onclick="quickSearch('Finance PME')"
+            class="font-label text-[.7rem] font-semibold px-3 py-1.5 rounded-full bg-white/10 text-white/75 hover:bg-white/20 hover:text-white transition-colors cursor-pointer border-none"
+          >
+            Finance PME
+          </button>
+          <button
+            onclick="quickSearch('Génie Civil')"
+            class="font-label text-[.7rem] font-semibold px-3 py-1.5 rounded-full bg-white/10 text-white/75 hover:bg-white/20 hover:text-white transition-colors cursor-pointer border-none"
+          >
+            Génie Civil
+          </button>
+          <button
+            onclick="quickSearch('Sécurité alimentaire')"
+            class="font-label text-[.7rem] font-semibold px-3 py-1.5 rounded-full bg-white/10 text-white/75 hover:bg-white/20 hover:text-white transition-colors cursor-pointer border-none"
+          >
+            Sécurité alimentaire
+          </button>
+        </div>
+
+        <!-- Breadcrumb -->
+        <div
+          class="flex items-center justify-center gap-2 mt-8 font-label text-[.72rem] tracking-widest uppercase text-white/30"
+        >
+          <a
+            href="home.html"
+            class="hover:text-gold transition-colors"
+            data-fr="Accueil"
+            data-en="Home"
+            >Accueil</a
+          >
+          <span>/</span>
+          <span class="text-gold" data-fr="Bibliothèque" data-en="Library"
+            >Bibliothèque</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+       STATS BAR
+  ══════════════════════════════════════ -->
+    <div class="bg-p-900 py-8 px-6">
+      <div
+        class="max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-4 text-center"
+      >
+        <div class="stat-reveal px-4 lg:border-r border-gold/20">
+          <div
+            class="font-heading font-bold text-gold leading-none mb-1"
+            style="font-size: 2.6rem"
+          >
+            <span class="counter" data-target="320">0</span
+            ><span class="text-xl"></span>
+          </div>
+          <div
+            class="font-label text-[.68rem] tracking-[.14em] uppercase text-white/50"
+            data-fr="Mémoires de Licence"
+            data-en="Bachelor Dissertations"
+          >
+            Mémoires de Licence
+          </div>
+        </div>
+        <div class="stat-reveal px-4 lg:border-r border-gold/20">
+          <div
+            class="font-heading font-bold text-gold leading-none mb-1"
+            style="font-size: 2.6rem"
+          >
+            <span class="counter" data-target="185">0</span>
+          </div>
+          <div
+            class="font-label text-[.68rem] tracking-[.14em] uppercase text-white/50"
+            data-fr="Mémoires de Master"
+            data-en="Master Dissertations"
+          >
+            Mémoires de Master
+          </div>
+        </div>
+        <div class="stat-reveal px-4 lg:border-r border-gold/20">
+          <div
+            class="font-heading font-bold text-gold leading-none mb-1"
+            style="font-size: 2.6rem"
+          >
+            <span class="counter" data-target="145">0</span>
+          </div>
+          <div
+            class="font-label text-[.68rem] tracking-[.14em] uppercase text-white/50"
+            data-fr="Thèses & Articles"
+            data-en="Theses & Articles"
+          >
+            Thèses & Articles
+          </div>
+        </div>
+        <div class="stat-reveal px-4">
+          <div
+            class="font-heading font-bold text-gold leading-none mb-1"
+            style="font-size: 2.6rem"
+          >
+            1<span class="text-2xl">200</span><span class="text-2xl">+</span>
+          </div>
+          <div
+            class="font-label text-[.68rem] tracking-[.14em] uppercase text-white/50"
+            data-fr="Livres & Revues"
+            data-en="Books & Journals"
+          >
+            Livres & Revues
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+       SEARCH RESULTS PANEL (hidden by default)
+  ══════════════════════════════════════ -->
+    <div
+      id="searchResults"
+      class="hidden py-12 px-6 bg-p-50 border-b border-p-100"
+    >
+      <div class="max-w-6xl mx-auto">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <span
+              class="font-label text-[.7rem] tracking-widest uppercase text-p-500"
+              data-fr="Résultats pour : "
+              data-en="Results for: "
+              >Résultats pour :
+            </span>
+            <span
+              id="searchQueryLabel"
+              class="font-heading font-semibold text-p-900 text-lg ml-1"
+            ></span>
+          </div>
+          <button
+            onclick="clearSearch()"
+            class="font-label text-[.72rem] tracking-widest uppercase text-p-400 hover:text-p-700 transition-colors"
+            data-fr="✕ Effacer"
+            data-en="✕ Clear"
+          >
+            ✕ Effacer
+          </button>
+        </div>
+        <div
+          id="searchResultsGrid"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+        ></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+       BROWSE BY CATEGORY
+  ══════════════════════════════════════ -->
+    <section class="py-20 px-6 bg-white">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-12 reveal">
+          <div class="flex items-center justify-center gap-2 mb-3">
+            <span class="block w-7 h-[2px] bg-gold"></span>
+            <span
+              class="font-label text-[.7rem] tracking-[.28em] uppercase text-p-600"
+              data-fr="Parcourir par catégorie"
+              data-en="Browse by category"
+              >Parcourir par catégorie</span
+            >
+            <span class="block w-7 h-[2px] bg-gold"></span>
+          </div>
+          <h2
+            class="font-heading font-semibold text-p-900 leading-[1.15]"
+            style="font-size: clamp(2rem, 3.5vw, 2.8rem)"
+          >
+            <span data-fr="Que cherchez-vous" data-en="What are you looking for"
+              >Que cherchez-vous</span
+            >
+            <em
+              class="text-p-600 italic"
+              data-fr=" aujourd'hui ?"
+              data-en=" today?"
+            >
+              aujourd'hui ?</em
+            >
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <button
+            onclick="filterDocs('memoire')"
+            class="cat-card bg-p-50 rounded-2xl p-5 text-center border-2 border-transparent cursor-pointer reveal group"
+          >
+            <div
+              class="w-14 h-14 rounded-full mx-auto mb-3 flex items-center justify-center text-2xl"
+              style="background: linear-gradient(135deg, #3e1490, #9b72e8)"
+            >
+              📄
+            </div>
+            <div
+              class="font-heading font-semibold text-p-900 text-base mb-1 group-hover:text-p-700 transition-colors"
+              data-fr="Mémoires Licence"
+              data-en="Bachelor's"
+            >
+              Mémoires Licence
+            </div>
+            <div
+              class="font-label text-[.68rem] tracking-widest uppercase text-p-400"
+            >
+              320 <span data-fr="docs" data-en="docs">docs</span>
+            </div>
+          </button>
+
+          <button
+            onclick="filterDocs('master')"
+            class="cat-card bg-p-50 rounded-2xl p-5 text-center border-2 border-transparent cursor-pointer reveal group"
+            style="transition-delay: 0.06s"
+          >
+            <div
+              class="w-14 h-14 rounded-full mx-auto mb-3 flex items-center justify-center text-2xl"
+              style="background: linear-gradient(135deg, #5520b8, #b89af5)"
+            >
+              🎓
+            </div>
+            <div
+              class="font-heading font-semibold text-p-900 text-base mb-1 group-hover:text-p-700 transition-colors"
+              data-fr="Mémoires Master"
+              data-en="Master's"
+            >
+              Mémoires Master
+            </div>
+            <div
+              class="font-label text-[.68rem] tracking-widest uppercase text-p-400"
+            >
+              185 <span data-fr="docs" data-en="docs">docs</span>
+            </div>
+          </button>
+
+          <button
+            onclick="filterDocs('these')"
+            class="cat-card bg-p-50 rounded-2xl p-5 text-center border-2 border-transparent cursor-pointer reveal group"
+            style="transition-delay: 0.12s"
+          >
+            <div
+              class="w-14 h-14 rounded-full mx-auto mb-3 flex items-center justify-center text-2xl"
+              style="background: linear-gradient(135deg, #14507a, #4090d0)"
+            >
+              🔬
+            </div>
+            <div
+              class="font-heading font-semibold text-p-900 text-base mb-1 group-hover:text-p-700 transition-colors"
+              data-fr="Thèses de Doctorat"
+              data-en="PhD Theses"
+            >
+              Thèses de Doctorat
+            </div>
+            <div
+              class="font-label text-[.68rem] tracking-widest uppercase text-p-400"
+            >
+              145 <span data-fr="docs" data-en="docs">docs</span>
+            </div>
+          </button>
+
+          <button
+            onclick="filterDocs('article')"
+            class="cat-card bg-p-50 rounded-2xl p-5 text-center border-2 border-transparent cursor-pointer reveal group"
+            style="transition-delay: 0.18s"
+          >
+            <div
+              class="w-14 h-14 rounded-full mx-auto mb-3 flex items-center justify-center text-2xl"
+              style="background: linear-gradient(135deg, #7a1450, #d040a0)"
+            >
+              📰
+            </div>
+            <div
+              class="font-heading font-semibold text-p-900 text-base mb-1 group-hover:text-p-700 transition-colors"
+              data-fr="Articles de Revues"
+              data-en="Journal Articles"
+            >
+              Articles de Revues
+            </div>
+            <div
+              class="font-label text-[.68rem] tracking-widest uppercase text-p-400"
+            >
+              87 <span data-fr="revues" data-en="journals">revues</span>
+            </div>
+          </button>
+
+          <button
+            onclick="filterDocs('livre')"
+            class="cat-card bg-p-50 rounded-2xl p-5 text-center border-2 border-transparent cursor-pointer reveal group"
+            style="transition-delay: 0.24s"
+          >
+            <div
+              class="w-14 h-14 rounded-full mx-auto mb-3 flex items-center justify-center text-2xl"
+              style="background: linear-gradient(135deg, #7a6014, #c8a028)"
+            >
+              📚
+            </div>
+            <div
+              class="font-heading font-semibold text-p-900 text-base mb-1 group-hover:text-p-700 transition-colors"
+              data-fr="Livres & Manuels"
+              data-en="Books & Manuals"
+            >
+              Livres & Manuels
+            </div>
+            <div
+              class="font-label text-[.68rem] tracking-widest uppercase text-p-400"
+            >
+              650 <span data-fr="livres" data-en="books">livres</span>
+            </div>
+          </button>
+
+          <button
+            onclick="filterDocs('rapport')"
+            class="cat-card bg-p-50 rounded-2xl p-5 text-center border-2 border-transparent cursor-pointer reveal group"
+            style="transition-delay: 0.3s"
+          >
+            <div
+              class="w-14 h-14 rounded-full mx-auto mb-3 flex items-center justify-center text-2xl"
+              style="background: linear-gradient(135deg, #147a3c, #28c868)"
+            >
+              📊
+            </div>
+            <div
+              class="font-heading font-semibold text-p-900 text-base mb-1 group-hover:text-p-700 transition-colors"
+              data-fr="Rapports de Stage"
+              data-en="Internship Reports"
+            >
+              Rapports de Stage
+            </div>
+            <div
+              class="font-label text-[.68rem] tracking-widest uppercase text-p-400"
+            >
+              210 <span data-fr="docs" data-en="docs">docs</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+       MAIN CATALOGUE + SIDEBAR
+  ══════════════════════════════════════ -->
+    <section class="py-16 px-6 bg-p-50">
+      <div class="max-w-6xl mx-auto flex gap-8">
+        <!-- ── DOCUMENT GRID ── -->
+        <div class="flex-1 min-w-0">
+          <!-- Toolbar -->
+          <div
+            class="flex flex-wrap items-center justify-between gap-3 mb-6 reveal"
+          >
+            <div class="flex flex-wrap gap-2">
+              <button
+                onclick="setType('all')"
+                data-type="all"
+                class="type-tab active font-label text-[.7rem] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full border border-p-200 text-p-700 cursor-pointer"
+                data-fr="Tout"
+                data-en="All"
+              >
+                Tout
+              </button>
+              <button
+                onclick="setType('memoire')"
+                data-type="memoire"
+                class="type-tab font-label text-[.7rem] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full border border-p-200 text-p-700 cursor-pointer"
+                data-fr="Mémoires"
+                data-en="Dissertations"
+              >
+                Mémoires
+              </button>
+              <button
+                onclick="setType('these')"
+                data-type="these"
+                class="type-tab font-label text-[.7rem] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full border border-p-200 text-p-700 cursor-pointer"
+                data-fr="Thèses"
+                data-en="Theses"
+              >
+                Thèses
+              </button>
+              <button
+                onclick="setType('article')"
+                data-type="article"
+                class="type-tab font-label text-[.7rem] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full border border-p-200 text-p-700 cursor-pointer"
+                data-fr="Articles"
+                data-en="Articles"
+              >
+                Articles
+              </button>
+              <button
+                onclick="setType('livre')"
+                data-type="livre"
+                class="type-tab font-label text-[.7rem] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full border border-p-200 text-p-700 cursor-pointer"
+                data-fr="Livres"
+                data-en="Books"
+              >
+                Livres
+              </button>
+            </div>
+            <div class="flex items-center gap-3">
+              <span
+                class="font-label text-[.68rem] tracking-widest uppercase text-p-400"
+                data-fr="Trier par :"
+                data-en="Sort by:"
+                >Trier par :</span
+              >
+              <select
+                id="sortBy"
+                onchange="sortDocs()"
+                class="font-label text-[.72rem] tracking-wider uppercase bg-white border border-p-200 text-p-700 rounded-lg px-3 py-1.5 outline-none cursor-pointer"
+              >
+                <option
+                  value="recent"
+                  data-fr="Plus récents"
+                  data-en="Most recent"
+                >
+                  Plus récents
+                </option>
+                <option value="alpha" data-fr="A → Z" data-en="A → Z">
+                  A → Z
+                </option>
+                <option
+                  value="views"
+                  data-fr="Plus consultés"
+                  data-en="Most viewed"
+                >
+                  Plus consultés
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Document cards -->
+          <div id="docGrid" class="space-y-4">
+            <!-- Doc 1 -->
+            <div
+              class="doc-card bg-white rounded-xl overflow-hidden flex items-stretch shadow-sm border border-p-50 doc-item cursor-pointer"
+              data-type="memoire"
+              onclick="openDoc('d1')"
+            >
+              <div
+                class="doc-thumb w-20 flex-shrink-0 flex items-center justify-center text-3xl"
+                style="background: linear-gradient(135deg, #3e1490, #9b72e8)"
+              >
+                📄
+              </div>
+              <div class="flex-1 p-4 min-w-0">
+                <div class="flex items-start justify-between gap-2 mb-1">
+                  <div>
+                    <span
+                      class="inline-block font-label text-[.62rem] font-semibold tracking-widest uppercase px-2 py-0.5 rounded-full bg-p-100 text-p-600 mb-1.5"
+                      data-fr="Mémoire · Licence"
+                      data-en="Dissertation · Bachelor"
+                      >Mémoire · Licence</span
+                    >
+                    <h3
+                      class="font-heading font-semibold text-p-900 text-base leading-snug"
+                      data-fr="Conception d'un système de détection d'intrusion basé sur le Machine Learning"
+                      data-en="Design of an Intrusion Detection System Based on Machine Learning"
+                    >
+                      Conception d'un système de détection d'intrusion basé sur
+                      le Machine Learning
+                    </h3>
+                  </div>
+                  <span
+                    class="flex-shrink-0 w-8 h-8 rounded-full bg-p-100 flex items-center justify-center text-p-600 text-xs hover:bg-p-700 hover:text-white transition-colors"
+                    >↓</span
+                  >
+                </div>
+                <div class="flex flex-wrap items-center gap-3 text-p-400">
+                  <span
+                    class="font-label text-[.62rem] tracking-wider uppercase"
+                    >👤 Kouam Jean-Baptiste</span
+                  >
+                  <span
+                    class="font-label text-[.62rem] tracking-wider uppercase"
+                    >🏛 Informatique</span
+                  >
+                  <span
+                    class="font-label text-[.62rem] tracking-wider uppercase"
+                    >📅 2023</span
+                  >
+                  <span
+                    class="font-label text-[.62rem] tracking-wider uppercase"
+                    >👁 342
+                    <span data-fr="vues" data-en="views">vues</span></span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Doc 2 -->
+            <div
+              class="doc-card bg-white rounded-xl overflow-hidden flex items-stretch shadow-sm border border-p-50 doc-item cursor-pointer"
+              data-type="these"
+              onclick="openDoc('d2')"
+            >
+              <div
+                class="doc-thumb w-20 flex-shrink-0 flex items-center justify-center text-3xl"
+                style="background: linear-gradient(135deg, #14507a, #4090d0)"
+              >
+                🔬
+              </div>
+              <div class="flex-1 p-4 min-w-0">
+                <div class="flex items-start justify-between gap-2 mb-1">
+                  <div>
+                    <span
+                      class="inline-block font-label text-[.62rem] font-semibold tracking-widest uppercase px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 mb-1.5"
+                      data-fr="Thèse · Doctorat"
+                      data-en="Thesis · PhD"
+                      >Thèse · Doctorat</span
+                    >
+                    <h3
+                      class="font-heading font-semibold text-p-900 text-base leading-snug"
+                      data-fr="Modèles de financement participatif pour les PME d'Afrique centrale : analyse et perspectives"
+                      data-en="Crowdfunding Models for SMEs in Central Africa: Analysis and Prospects"
+                    >
+                      Modèles de financement participatif pour les PME d'Afrique
+                      centrale
+                    </h3>
+                  </div>
+                  <span
+                    class="flex-shrink-0 w-8 h-8 rounded-full bg-p-100 flex items-center justify-center text-p-600 text-xs hover:bg-p-700 hover:text-white transition-colors"
+                    >↓</span
+                  >
+                </div>
+                <div class="flex flex-wrap items-center gap-3 text-p-400">
+                  <span
+                    class="font-label text-[.62rem] tracking-wider uppercase"
+                    >👤 Dr. Mbarga Sylvie</span
+                  >
+                  <span
+                    class="font-label text-[.62rem] tracking-wider uppercase"
+                    >🏛 Finance</span
+                  >
+                  <span
+                    class="font-label text-[.62rem] tracking-wider uppercase"
+                    >📅 2022</span
+                  >
+                  <span
+                    class="font-label text-[.62rem] tracking-wider uppercase"
+                    >👁 528
+                    <span data-fr="vues" data-en="views">vues</span></span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Doc 3 -->
+            <div
+              class="doc-card bg-white rounded-xl overflow-hidden flex items-stretch shadow-sm border border-p-50 doc-item cursor-pointer"
+              data-type="article"
+              onclick="openDoc('d3')"
+            >
+              <div
+                class="doc-thumb w-20 flex-shrink-0 flex items-center justify-center text-3xl"
+                style="background: linear-gradient(135deg, #7a1450, #d040a0)"
+              >
+                📰
+              </div>
+              <div class="flex-1 p-4 min-w-0">
+                <div class="flex items-start justify-between gap-2 mb-1">
+                  <div>
+                    <span
+                      class="inline-block font-label text-[.62rem] font-semibold tracking-widest uppercase px-2 py-0.5 rounded-full bg-pink-100 text-pink-700 mb-1.5"
+                      data-fr="Article · Revue internationale"
+                      data-en="Article · International Journal"
+                      >Article · Revue internationale</span
+                    >
+                    <h3
+                      class="font-heading font-semibold text-p-900 text-base leading-snug"
+                      data-fr="Intelligence artificielle et gouvernance en Afrique : défis et opportunités"
+                      data-en="Artificial Intelligence and Governance in Africa: Challenges and Opportunities"
+                    >
+                      Intelligence artificielle et gouvernance en Afrique
+                    </h3>
+                  </div>
+                  <span
+                    class="flex-shrink-0 w-8 h-8 rounded-full bg-p-100 flex items-center justify-center text-p-600 text-xs hover:bg-p-700 hover:text-white transition-colors"
+                    >↓</span
+                  >
+                </div>
+                <div class="flex flex-wrap items-center gap-3 text-p-400">
+                  <span
+                    class="font-label text-[.62rem] tracking-wider uppercase"
+                    >👤 Prof. R. Placeholder</span
+                  >
+                  <span
+                    class="font-label text-[.62rem] tracking-wider uppercase"
+                    >🏛 Informatique</span
+                  >
+                  <span
+                    class="font-label text-[.62rem] tracking-wider uppercase"
+                    >📅 2024</span
+                  >
+                  <span
+                    class="font-label text-[.62rem] tracking-wider uppercase"
+                    >👁 714
+                    <span data-fr="vues" data-en="views">vues</span></span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Doc 4 -->
+            <div
+              class="doc-card bg-white rounded-xl overflow-hidden flex items-stretch shadow-sm border border-p-50 doc-item cursor-pointer"
+              data-type="memoire"
+              onclick="openDoc('d4')"
+            >
+              <div
+                class="doc-thumb w-20 flex-shrink-0 flex items-center justify-center text-3xl"
+                style="background: linear-gradient(135deg, #7a3014, #c86040)"
+              >
+                ⚙️
+              </div>
+              <div class="flex-1 p-4 min-w-0">
+                <div class="flex items-start justify-between gap-2 mb-1">
+                  <div>
+                    <span
+                      class="inline-block font-label text-[.62rem] font-semibold tracking-widest uppercase px-2 py-0.5 rounded-full bg-p-100 text-p-600 mb-1.5"
+                      data-fr="Mémoire · Master"
+                      data-en="Dissertation · Master"
+                      >Mémoire · Master</span
+                    >
+                    <h3
+                      class="font-heading font-semibold text-p-900 text-base leading-snug"
+                      data-fr="Optimisation de la gestion des déchets de chantier en milieu urbain camerounais"
+                      data-en="Optimisation of Construction Waste Management in Cameroonian Urban Areas"
+                    >
+                      Optimisation de la gestion des déchets de chantier en
+                      milieu urbain camerounais
+                    </h3>
+                  </div>
+                  <span
+                    class="flex-shrink-0 w-8 h-8 rounded-full bg-p-100 flex items-center justify-center text-p-600 text-xs hover:bg-p-700 hover:text-white transition-colors"
+                    >↓</span
+                  >
+                </div>
+                <div class="flex flex-wrap items-center gap-3 text-p-400">
+                  <span
+                    class="font-label text-[.62rem] tracking-wider uppercase"
+                    >👤 Essono Bertrand</span
+                  >
+                  <span
+                    class="font-label text-[.62rem] tracking-wider uppercase"
+                    >🏛 Génie Civil</span
+                  >
+                  <span
+                    class="font-label text-[.62rem] tracking-wider uppercase"
+                    >📅 2023</span
+                  >
+                  <span
+                    class="font-label text-[.62rem] tracking-wider uppercase"
+                    >👁 198
+                    <span data-fr="vues" data-en="views">vues</span></span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Doc 5 -->
+            <div
+              class="doc-card bg-white rounded-xl overflow-hidden flex items-stretch shadow-sm border border-p-50 doc-item cursor-pointer"
+              data-type="livre"
+              onclick="openDoc('d5')"
+            >
+              <div
+                class="doc-thumb w-20 flex-shrink-0 flex items-center justify-center text-3xl"
+                style="background: linear-gradient(135deg, #7a6014, #c8a028)"
+              >
+                📚
+              </div>
+              <div class="flex-1 p-4 min-w-0">
+                <div class="flex items-start justify-between gap-2 mb-1">
+                  <div>
+                    <span
+                      class="inline-block font-label text-[.62rem] font-semibold tracking-widest uppercase px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-800 mb-1.5"
+                      data-fr="Livre · Manuel pédagogique"
+                      data-en="Book · Textbook"
+                      >Livre · Manuel pédagogique</span
+                    >
+                    <h3
+                      class="font-heading font-semibold text-p-900 text-base leading-snug"
+                      data-fr="Droit des affaires en espace OHADA — Guide pratique 2024"
+                      data-en="Business Law in the OHADA Area — Practical Guide 2024"
+                    >
+                      Droit des affaires en espace OHADA — Guide pratique 2024
+                    </h3>
+                  </div>
+                  <span
+                    class="flex-shrink-0 w-8 h-8 rounded-full bg-p-100 flex items-center justify-center text-p-600 text-xs hover:bg-p-700 hover:text-white transition-colors"
+                    >↓</span
+                  >
+                </div>
+                <div class="flex flex-wrap items-center gap-3 text-p-400">
+                  <span
+                    class="font-label text-[.62rem] tracking-wider uppercase"
+                    >👤 Prof. É. Nguema</span
+                  >
+                  <span
+                    class="font-label text-[.62rem] tracking-wider uppercase"
+                    >🏛 Droit</span
+                  >
+                  <span
+                    class="font-label text-[.62rem] tracking-wider uppercase"
+                    >📅 2024</span
+                  >
+                  <span
+                    class="font-label text-[.62rem] tracking-wider uppercase"
+                    >👁 892
+                    <span data-fr="vues" data-en="views">vues</span></span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Doc 6 -->
+            <div
+              class="doc-card bg-white rounded-xl overflow-hidden flex items-stretch shadow-sm border border-p-50 doc-item cursor-pointer"
+              data-type="these"
+              onclick="openDoc('d6')"
+            >
+              <div
+                class="doc-thumb w-20 flex-shrink-0 flex items-center justify-center text-3xl"
+                style="background: linear-gradient(135deg, #147a3c, #28c868)"
+              >
+                🌿
+              </div>
+              <div class="flex-1 p-4 min-w-0">
+                <div class="flex items-start justify-between gap-2 mb-1">
+                  <div>
+                    <span
+                      class="inline-block font-label text-[.62rem] font-semibold tracking-widest uppercase px-2 py-0.5 rounded-full bg-green-100 text-green-700 mb-1.5"
+                      data-fr="Thèse · Doctorat"
+                      data-en="Thesis · PhD"
+                      >Thèse · Doctorat</span
+                    >
+                    <h3
+                      class="font-heading font-semibold text-p-900 text-base leading-snug"
+                      data-fr="Impact des pratiques agroécologiques sur la biodiversité en zone soudano-sahélienne"
+                      data-en="Impact of Agro-ecological Practices on Biodiversity in the Sudano-Sahelian Zone"
+                    >
+                      Impact des pratiques agroécologiques sur la biodiversité
+                      en zone soudano-sahélienne
+                    </h3>
+                  </div>
+                  <span
+                    class="flex-shrink-0 w-8 h-8 rounded-full bg-p-100 flex items-center justify-center text-p-600 text-xs hover:bg-p-700 hover:text-white transition-colors"
+                    >↓</span
+                  >
+                </div>
+                <div class="flex flex-wrap items-center gap-3 text-p-400">
+                  <span
+                    class="font-label text-[.62rem] tracking-wider uppercase"
+                    >👤 Dr. Ngo Isabelle</span
+                  >
+                  <span
+                    class="font-label text-[.62rem] tracking-wider uppercase"
+                    >🏛 Agro-alimentaire</span
+                  >
+                  <span
+                    class="font-label text-[.62rem] tracking-wider uppercase"
+                    >📅 2022</span
+                  >
+                  <span
+                    class="font-label text-[.62rem] tracking-wider uppercase"
+                    >👁 276
+                    <span data-fr="vues" data-en="views">vues</span></span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /docGrid -->
+
+          <!-- Load more -->
+          <div class="text-center mt-8 reveal">
+            <button
+              onclick="loadMore()"
+              class="font-label text-[.78rem] font-bold tracking-[.1em] uppercase px-10 py-3 border-2 border-p-600 text-p-600 rounded-lg hover:bg-p-600 hover:text-white transition-all duration-300"
+              data-fr="Charger plus de documents"
+              data-en="Load more documents"
+            >
+              Charger plus de documents
+            </button>
+          </div>
+        </div>
+
+        <!-- ── SIDEBAR ── -->
+        <aside class="aside-panel w-72 flex-shrink-0 space-y-5">
+          <!-- Login prompt -->
+          <div class="bg-p-900 rounded-2xl p-5 reveal">
+            <div class="text-3xl mb-3 text-center">🔐</div>
+            <h4
+              class="font-heading font-semibold text-white text-lg text-center mb-2"
+              data-fr="Accès complet"
+              data-en="Full access"
+            >
+              Accès complet
+            </h4>
+            <p
+              class="text-white/55 text-xs leading-relaxed text-center mb-4"
+              data-fr="Connectez-vous avec vos identifiants UniPlaceholder pour télécharger les documents et accéder aux ressources complètes."
+              data-en="Log in with your UniPlaceholder credentials to download documents and access full resources."
+            >
+              Connectez-vous avec vos identifiants UniPlaceholder pour
+              télécharger les documents et accéder aux ressources complètes.
+            </p>
+            <a
+              href="#"
+              class="block text-center font-label text-[.78rem] font-bold tracking-widest uppercase py-2.5 bg-gold text-p-900 rounded-lg hover:bg-gold-light transition-colors"
+              data-fr="Se connecter"
+              data-en="Log in"
+              >Se connecter</a
+            >
+            <a
+              href="#"
+              class="block text-center font-label text-[.72rem] tracking-widest uppercase py-2 text-white/40 hover:text-gold transition-colors mt-2"
+              data-fr="Créer un compte"
+              data-en="Create account"
+              >Créer un compte</a
+            >
+          </div>
+
+          <!-- Top downloads -->
+          <div class="bg-white rounded-2xl p-5 border border-p-100 reveal">
+            <div
+              class="font-label text-[.7rem] tracking-[.2em] uppercase text-p-600 mb-4"
+              data-fr="🔥 Plus consultés"
+              data-en="🔥 Most viewed"
+            >
+              🔥 Plus consultés
+            </div>
+            <div class="space-y-3">
+              <div
+                class="flex gap-2 cursor-pointer group"
+                onclick="openDoc('d5')"
+              >
+                <div
+                  class="w-8 h-8 rounded-lg flex-shrink-0 flex items-center justify-center text-sm"
+                  style="background: linear-gradient(135deg, #7a6014, #c8a028)"
+                >
+                  📚
+                </div>
+                <div>
+                  <p
+                    class="font-heading font-semibold text-p-900 text-sm leading-snug group-hover:text-p-600 transition-colors"
+                    data-fr="Droit OHADA 2024"
+                    data-en="OHADA Law 2024"
+                  >
+                    Droit OHADA 2024
+                  </p>
+                  <span
+                    class="font-label text-[.6rem] tracking-wider uppercase text-p-400"
+                    >892 vues</span
+                  >
+                </div>
+              </div>
+              <div
+                class="flex gap-2 cursor-pointer group"
+                onclick="openDoc('d3')"
+              >
+                <div
+                  class="w-8 h-8 rounded-lg flex-shrink-0 flex items-center justify-center text-sm"
+                  style="background: linear-gradient(135deg, #7a1450, #d040a0)"
+                >
+                  📰
+                </div>
+                <div>
+                  <p
+                    class="font-heading font-semibold text-p-900 text-sm leading-snug group-hover:text-p-600 transition-colors"
+                    data-fr="IA & Gouvernance Afrique"
+                    data-en="AI & Africa Governance"
+                  >
+                    IA & Gouvernance Afrique
+                  </p>
+                  <span
+                    class="font-label text-[.6rem] tracking-wider uppercase text-p-400"
+                    >714 vues</span
+                  >
+                </div>
+              </div>
+              <div
+                class="flex gap-2 cursor-pointer group"
+                onclick="openDoc('d2')"
+              >
+                <div
+                  class="w-8 h-8 rounded-lg flex-shrink-0 flex items-center justify-center text-sm"
+                  style="background: linear-gradient(135deg, #14507a, #4090d0)"
+                >
+                  🔬
+                </div>
+                <div>
+                  <p
+                    class="font-heading font-semibold text-p-900 text-sm leading-snug group-hover:text-p-600 transition-colors"
+                    data-fr="Financement PME Afrique"
+                    data-en="SME Financing Africa"
+                  >
+                    Financement PME Afrique
+                  </p>
+                  <span
+                    class="font-label text-[.6rem] tracking-wider uppercase text-p-400"
+                    >528 vues</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Departments filter -->
+          <div class="bg-white rounded-2xl p-5 border border-p-100 reveal">
+            <div
+              class="font-label text-[.7rem] tracking-[.2em] uppercase text-p-600 mb-4"
+              data-fr="Par département"
+              data-en="By department"
+            >
+              Par département
+            </div>
+            <div class="space-y-1.5">
+              <button
+                onclick="filterByDept('all')"
+                class="w-full text-left flex items-center justify-between px-3 py-2 rounded-lg hover:bg-p-50 transition-colors group"
+              >
+                <span
+                  class="font-label text-[.72rem] tracking-wider uppercase text-p-700 group-hover:text-p-900"
+                  data-fr="Tous les départements"
+                  data-en="All departments"
+                  >Tous les départements</span
+                >
+                <span class="font-label text-[.65rem] text-p-400">1850</span>
+              </button>
+              <button
+                onclick="filterByDept('info')"
+                class="w-full text-left flex items-center justify-between px-3 py-2 rounded-lg hover:bg-p-50 transition-colors group"
+              >
+                <span
+                  class="font-label text-[.72rem] tracking-wider uppercase text-p-700 group-hover:text-p-900"
+                  data-fr="Informatique"
+                  data-en="Computer Science"
+                  >💻 Informatique</span
+                >
+                <span class="font-label text-[.65rem] text-p-400">412</span>
+              </button>
+              <button
+                onclick="filterByDept('fin')"
+                class="w-full text-left flex items-center justify-between px-3 py-2 rounded-lg hover:bg-p-50 transition-colors group"
+              >
+                <span
+                  class="font-label text-[.72rem] tracking-wider uppercase text-p-700 group-hover:text-p-900"
+                  data-fr="Finance"
+                  data-en="Finance"
+                  >📊 Finance</span
+                >
+                <span class="font-label text-[.65rem] text-p-400">335</span>
+              </button>
+              <button
+                onclick="filterByDept('gc')"
+                class="w-full text-left flex items-center justify-between px-3 py-2 rounded-lg hover:bg-p-50 transition-colors group"
+              >
+                <span
+                  class="font-label text-[.72rem] tracking-wider uppercase text-p-700 group-hover:text-p-900"
+                  data-fr="Génie Civil"
+                  data-en="Civil Eng."
+                  >⚙️ Génie Civil</span
+                >
+                <span class="font-label text-[.65rem] text-p-400">298</span>
+              </button>
+              <button
+                onclick="filterByDept('droit')"
+                class="w-full text-left flex items-center justify-between px-3 py-2 rounded-lg hover:bg-p-50 transition-colors group"
+              >
+                <span
+                  class="font-label text-[.72rem] tracking-wider uppercase text-p-700 group-hover:text-p-900"
+                  data-fr="Droit"
+                  data-en="Law"
+                  >⚖️ Droit</span
+                >
+                <span class="font-label text-[.65rem] text-p-400">287</span>
+              </button>
+              <button
+                onclick="filterByDept('agro')"
+                class="w-full text-left flex items-center justify-between px-3 py-2 rounded-lg hover:bg-p-50 transition-colors group"
+              >
+                <span
+                  class="font-label text-[.72rem] tracking-wider uppercase text-p-700 group-hover:text-p-900"
+                  data-fr="Agro-alimentaire"
+                  data-en="Agri-food"
+                  >🌿 Agro-alimentaire</span
+                >
+                <span class="font-label text-[.65rem] text-p-400">318</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Recent additions -->
+          <div class="bg-p-50 rounded-2xl p-5 reveal">
+            <div
+              class="font-label text-[.7rem] tracking-[.2em] uppercase text-p-600 mb-3"
+              data-fr="✨ Ajouts récents"
+              data-en="✨ Recent additions"
+            >
+              ✨ Ajouts récents
+            </div>
+            <div class="space-y-2">
+              <div class="flex items-center gap-2">
+                <span
+                  class="w-1.5 h-1.5 rounded-full bg-gold flex-shrink-0"
+                ></span>
+                <span
+                  class="font-label text-[.68rem] tracking-wider text-p-600"
+                  data-fr="3 nouveaux mémoires ajoutés aujourd'hui"
+                  data-en="3 new dissertations added today"
+                  >3 nouveaux mémoires ajoutés aujourd'hui</span
+                >
+              </div>
+              <div class="flex items-center gap-2">
+                <span
+                  class="w-1.5 h-1.5 rounded-full bg-p-400 flex-shrink-0"
+                ></span>
+                <span
+                  class="font-label text-[.68rem] tracking-wider text-p-600"
+                  data-fr="1 thèse de doctorat — Finance"
+                  data-en="1 PhD thesis — Finance"
+                  >1 thèse de doctorat — Finance</span
+                >
+              </div>
+              <div class="flex items-center gap-2">
+                <span
+                  class="w-1.5 h-1.5 rounded-full bg-p-400 flex-shrink-0"
+                ></span>
+                <span
+                  class="font-label text-[.68rem] tracking-wider text-p-600"
+                  data-fr="5 articles de revue mis à jour"
+                  data-en="5 journal articles updated"
+                  >5 articles de revue mis à jour</span
+                >
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+       DEPOSIT YOUR WORK
+  ══════════════════════════════════════ -->
+    <section class="py-16 px-6 bg-white">
+      <div class="max-w-6xl mx-auto">
+        <div
+          class="bg-p-50 rounded-2xl p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-center reveal"
+        >
+          <div>
+            <div class="flex items-center gap-2 mb-3">
+              <span class="block w-7 h-[2px] bg-gold"></span>
+              <span
+                class="font-label text-[.7rem] tracking-[.28em] uppercase text-p-600"
+                data-fr="Déposez vos travaux"
+                data-en="Submit your work"
+                >Déposez vos travaux</span
+              >
+            </div>
+            <h2
+              class="font-heading font-semibold text-p-900 leading-[1.15] mb-4"
+              style="font-size: clamp(1.8rem, 3vw, 2.5rem)"
+            >
+              <span data-fr="Contribuez à la" data-en="Contribute to the"
+                >Contribuez à la</span
+              >
+              <em
+                class="text-p-600 italic"
+                data-fr=" base de connaissances"
+                data-en=" knowledge base"
+              >
+                base de connaissances</em
+              >
+            </h2>
+            <p
+              class="text-p-600/80 leading-[1.78] mb-6"
+              style="font-size: 0.92rem"
+              data-fr="Enseignants, chercheurs et étudiants — déposez vos mémoires, articles et travaux de recherche pour les rendre accessibles à toute la communauté académique."
+              data-en="Lecturers, researchers and students — submit your dissertations, articles and research work to make them accessible to the entire academic community."
+            >
+              Enseignants, chercheurs et étudiants — déposez vos mémoires,
+              articles et travaux de recherche pour les rendre accessibles à
+              toute la communauté académique.
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <a
+                href="#"
+                class="font-label text-[.78rem] font-bold tracking-[.1em] uppercase px-6 py-3 bg-p-700 text-white rounded-lg hover:bg-p-800 transition-colors"
+                data-fr="Déposer un document"
+                data-en="Submit a document"
+                >Déposer un document</a
+              >
+              <a
+                href="#"
+                class="font-label text-[.78rem] font-semibold tracking-[.1em] uppercase px-6 py-3 border border-p-300 text-p-700 rounded-lg hover:bg-p-100 transition-colors"
+                data-fr="Guide de dépôt"
+                data-en="Submission guide"
+                >Guide de dépôt</a
+              >
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div
+              class="bg-white rounded-xl p-4 text-center border border-p-100"
+            >
+              <div class="text-3xl mb-2">📤</div>
+              <div
+                class="font-label text-[.68rem] tracking-widest uppercase text-p-600"
+                data-fr="Dépôt simple"
+                data-en="Easy upload"
+              >
+                Dépôt simple
+              </div>
+            </div>
+            <div
+              class="bg-white rounded-xl p-4 text-center border border-p-100"
+            >
+              <div class="text-3xl mb-2">🔍</div>
+              <div
+                class="font-label text-[.68rem] tracking-widest uppercase text-p-600"
+                data-fr="Indexé & consultable"
+                data-en="Indexed & searchable"
+              >
+                Indexé & consultable
+              </div>
+            </div>
+            <div
+              class="bg-white rounded-xl p-4 text-center border border-p-100"
+            >
+              <div class="text-3xl mb-2">🔒</div>
+              <div
+                class="font-label text-[.68rem] tracking-widest uppercase text-p-600"
+                data-fr="Sécurisé"
+                data-en="Secure"
+              >
+                Sécurisé
+              </div>
+            </div>
+            <div
+              class="bg-white rounded-xl p-4 text-center border border-p-100"
+            >
+              <div class="text-3xl mb-2">🌐</div>
+              <div
+                class="font-label text-[.68rem] tracking-widest uppercase text-p-600"
+                data-fr="Accessible en ligne"
+                data-en="Online accessible"
+              >
+                Accessible en ligne
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+       DOCUMENT DETAIL MODAL
+  ══════════════════════════════════════ -->
+    <div id="docModal" class="modal-overlay" onclick="closeDocOutside(event)">
+      <div class="modal-box">
+        <div
+          id="dm-header"
+          class="h-32 relative flex items-end p-5"
+          style="background: linear-gradient(135deg, #3e1490, #7040d4)"
+        >
+          <button
+            onclick="closeDoc()"
+            class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/20 hover:bg-white/35 flex items-center justify-center text-white font-bold text-sm transition-colors"
+          >
+            ✕
+          </button>
+          <span
+            id="dm-icon"
+            class="absolute top-1/2 right-6 -translate-y-1/2 text-6xl opacity-20"
+          ></span>
+          <div class="relative z-10">
+            <span
+              id="dm-badge"
+              class="font-label text-[.62rem] tracking-widest uppercase text-white/60 mb-1 block"
+            ></span>
+            <h3
+              id="dm-title"
+              class="font-heading font-semibold text-white text-xl leading-snug"
+            ></h3>
+          </div>
+        </div>
+        <div class="p-6">
+          <!-- Meta grid -->
+          <div class="grid grid-cols-3 gap-3 mb-5" id="dm-meta"></div>
+          <!-- Abstract -->
+          <h4
+            class="font-label text-[.68rem] tracking-widest uppercase text-p-600 font-semibold mb-2"
+            data-fr="Résumé"
+            data-en="Abstract"
+          >
+            Résumé
+          </h4>
+          <p
+            class="text-p-600/80 text-sm leading-relaxed mb-5"
+            id="dm-abstract"
+          ></p>
+          <!-- Keywords -->
+          <h4
+            class="font-label text-[.68rem] tracking-widest uppercase text-p-600 font-semibold mb-2"
+            data-fr="Mots-clés"
+            data-en="Keywords"
+          >
+            Mots-clés
+          </h4>
+          <div class="flex flex-wrap gap-2 mb-5" id="dm-keywords"></div>
+          <!-- Actions -->
+          <div id="dm-locked" class="relative rounded-xl overflow-hidden">
+            <div class="blur-sm pointer-events-none p-4 flex gap-3">
+              <div
+                class="flex-1 py-3 bg-p-700 rounded-lg text-center text-white font-label text-xs"
+              >
+                Télécharger PDF
+              </div>
+              <div
+                class="flex-1 py-3 border-2 border-p-200 rounded-lg text-center text-p-700 font-label text-xs"
+              >
+                Citer ce document
+              </div>
+            </div>
+            <div
+              class="locked-overlay absolute inset-0 flex flex-col items-center justify-center bg-white/80 gap-2"
+            >
+              <span class="text-2xl">🔐</span>
+              <p
+                class="font-label text-[.72rem] tracking-wider uppercase text-p-700"
+                data-fr="Connexion requise pour télécharger"
+                data-en="Login required to download"
+              >
+                Connexion requise pour télécharger
+              </p>
+              <a
+                href="#"
+                class="font-label text-[.72rem] font-bold tracking-widest uppercase px-5 py-2 bg-p-700 text-white rounded-lg hover:bg-p-800 transition-colors"
+                data-fr="Se connecter"
+                data-en="Log in"
+                >Se connecter</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+       SCRIPTS
+  ══════════════════════════════════════ -->
+    <script>
+      let lang = "fr";
+
+      /* ── doc data ── */
+      const docs = {
+        d1: {
+          color: "linear-gradient(135deg,#3E1490,#9B72E8)",
+          icon: "📄",
+          badgeFr: "Mémoire · Licence",
+          badgeEn: "Dissertation · Bachelor",
+          titleFr:
+            "Conception d'un système de détection d'intrusion basé sur le Machine Learning",
+          titleEn:
+            "Design of an Intrusion Detection System Based on Machine Learning",
+          meta: [
+            { v: "2023", lFr: "Année", lEn: "Year" },
+            { v: "342", lFr: "Vues", lEn: "Views" },
+            { v: "87p.", lFr: "Pages", lEn: "Pages" },
+          ],
+          abstractFr:
+            "Ce mémoire présente la conception et l'implémentation d'un système de détection d'intrusion réseau utilisant des algorithmes de machine learning (Random Forest, SVM et LSTM). Le système atteint un taux de détection de 96,3% sur le dataset NSL-KDD et surpasse les systèmes basés sur des règles statiques en termes d'adaptabilité aux nouvelles menaces.",
+          abstractEn:
+            "This dissertation presents the design and implementation of a network intrusion detection system using machine learning algorithms (Random Forest, SVM and LSTM). The system achieves a detection rate of 96.3% on the NSL-KDD dataset and outperforms rule-based systems in terms of adaptability to new threats.",
+          keywords: [
+            "Machine Learning",
+            "Cybersécurité",
+            "IDS",
+            "Random Forest",
+            "Réseaux",
+          ],
+        },
+        d2: {
+          color: "linear-gradient(135deg,#14507A,#4090D0)",
+          icon: "🔬",
+          badgeFr: "Thèse · Doctorat",
+          badgeEn: "Thesis · PhD",
+          titleFr:
+            "Modèles de financement participatif pour les PME d'Afrique centrale",
+          titleEn: "Crowdfunding Models for SMEs in Central Africa",
+          meta: [
+            { v: "2022", lFr: "Année", lEn: "Year" },
+            { v: "528", lFr: "Vues", lEn: "Views" },
+            { v: "312p.", lFr: "Pages", lEn: "Pages" },
+          ],
+          abstractFr:
+            "Cette thèse analyse les modèles de financement alternatifs développés par les PME d'Afrique centrale face aux contraintes d'accès au crédit bancaire traditionnel. À partir d'une étude empirique menée auprès de 215 entreprises au Cameroun, au Congo et en RDC, elle propose un cadre conceptuel intégrant finance solidaire, numérique et communautaire.",
+          abstractEn:
+            "This thesis analyses alternative financing models developed by Central African SMEs facing constraints on access to traditional bank credit. Based on an empirical study of 215 companies in Cameroon, Congo and DRC, it proposes a conceptual framework integrating solidarity, digital and community finance.",
+          keywords: [
+            "Financement participatif",
+            "PME",
+            "Afrique centrale",
+            "Microfinance",
+            "CEMAC",
+          ],
+        },
+        d3: {
+          color: "linear-gradient(135deg,#7A1450,#D040A0)",
+          icon: "📰",
+          badgeFr: "Article · Revue internationale",
+          badgeEn: "Article · International Journal",
+          titleFr:
+            "Intelligence artificielle et gouvernance en Afrique : défis et opportunités",
+          titleEn:
+            "Artificial Intelligence and Governance in Africa: Challenges and Opportunities",
+          meta: [
+            { v: "2024", lFr: "Année", lEn: "Year" },
+            { v: "714", lFr: "Vues", lEn: "Views" },
+            { v: "24p.", lFr: "Pages", lEn: "Pages" },
+          ],
+          abstractFr:
+            "Cet article examine l'état actuel du déploiement de l'intelligence artificielle dans les systèmes de gouvernance africains. Il analyse les opportunités (e-gouvernement, justice prédictive, santé publique) et les défis (biais algorithmiques, gouvernance des données, fracture numérique) à partir d'études de cas dans 12 pays africains.",
+          abstractEn:
+            "This article examines the current state of AI deployment in African governance systems. It analyses opportunities (e-government, predictive justice, public health) and challenges (algorithmic bias, data governance, digital divide) through case studies in 12 African countries.",
+          keywords: [
+            "Intelligence Artificielle",
+            "Gouvernance",
+            "Afrique",
+            "E-gouvernement",
+            "Éthique",
+          ],
+        },
+        d4: {
+          color: "linear-gradient(135deg,#7A3014,#C86040)",
+          icon: "⚙️",
+          badgeFr: "Mémoire · Master",
+          badgeEn: "Dissertation · Master",
+          titleFr:
+            "Optimisation de la gestion des déchets de chantier en milieu urbain camerounais",
+          titleEn:
+            "Optimisation of Construction Waste Management in Cameroonian Urban Areas",
+          meta: [
+            { v: "2023", lFr: "Année", lEn: "Year" },
+            { v: "198", lFr: "Vues", lEn: "Views" },
+            { v: "124p.", lFr: "Pages", lEn: "Pages" },
+          ],
+          abstractFr:
+            "Ce mémoire propose une méthode d'optimisation de la gestion des déchets de construction dans les chantiers urbains de Douala et Yaoundé. Une enquête terrain auprès de 48 chantiers a permis d'identifier les dysfonctionnements et de proposer des protocoles adaptés aux réalités locales, réduisant les déchets non traités de 34%.",
+          abstractEn:
+            "This dissertation proposes a method for optimising construction waste management on urban building sites in Douala and Yaoundé. A field survey of 48 sites identified dysfunctions and proposed protocols adapted to local realities, reducing untreated waste by 34%.",
+          keywords: [
+            "Génie Civil",
+            "Déchets",
+            "BTP",
+            "Développement durable",
+            "Cameroun",
+          ],
+        },
+        d5: {
+          color: "linear-gradient(135deg,#7A6014,#C8A028)",
+          icon: "📚",
+          badgeFr: "Livre · Manuel pédagogique",
+          badgeEn: "Book · Textbook",
+          titleFr: "Droit des affaires en espace OHADA — Guide pratique 2024",
+          titleEn: "Business Law in the OHADA Area — Practical Guide 2024",
+          meta: [
+            { v: "2024", lFr: "Année", lEn: "Year" },
+            { v: "892", lFr: "Vues", lEn: "Views" },
+            { v: "480p.", lFr: "Pages", lEn: "Pages" },
+          ],
+          abstractFr:
+            "Ce guide pratique couvre l'ensemble du droit des affaires applicable dans l'espace OHADA (17 États membres). Il aborde le droit des sociétés, les contrats commerciaux, le droit du travail, la propriété intellectuelle et les procédures collectives, avec des exemples jurisprudentiels récents et des modèles d'actes.",
+          abstractEn:
+            "This practical guide covers all business law applicable in the OHADA area (17 member states). It covers company law, commercial contracts, labour law, intellectual property and collective proceedings, with recent case law examples and model deeds.",
+          keywords: [
+            "OHADA",
+            "Droit des affaires",
+            "Contrats",
+            "Propriété intellectuelle",
+            "Jurisprudence",
+          ],
+        },
+        d6: {
+          color: "linear-gradient(135deg,#147A3C,#28C868)",
+          icon: "🌿",
+          badgeFr: "Thèse · Doctorat",
+          badgeEn: "Thesis · PhD",
+          titleFr:
+            "Impact des pratiques agroécologiques sur la biodiversité en zone soudano-sahélienne",
+          titleEn:
+            "Impact of Agro-ecological Practices on Biodiversity in the Sudano-Sahelian Zone",
+          meta: [
+            { v: "2022", lFr: "Année", lEn: "Year" },
+            { v: "276", lFr: "Vues", lEn: "Views" },
+            { v: "268p.", lFr: "Pages", lEn: "Pages" },
+          ],
+          abstractFr:
+            "Cette thèse étudie l'impact de six pratiques agroécologiques (agroforesterie, compostage, rotation culturale, zaï, cordons pierreux, demi-lunes) sur la biodiversité floristique et faunistique dans la zone soudano-sahélienne du Cameroun. Les résultats montrent une augmentation de 28% de la diversité spécifique dans les parcelles pilotes sur 3 ans.",
+          abstractEn:
+            "This thesis studies the impact of six agroecological practices (agroforestry, composting, crop rotation, zaï, stone bunds, half-moons) on plant and animal biodiversity in the Sudano-Sahelian zone of Cameroon. Results show a 28% increase in species diversity in pilot plots over 3 years.",
+          keywords: [
+            "Agroécologie",
+            "Biodiversité",
+            "Zone soudano-sahélienne",
+            "Agriculture durable",
+            "Cameroun",
+          ],
+        },
+      };
+
+      function openDoc(id) {
+        const d = docs[id];
+        if (!d) return;
+        const l = lang;
+        document.getElementById("dm-header").style.background = d.color;
+        document.getElementById("dm-icon").textContent = d.icon;
+        document.getElementById("dm-badge").textContent =
+          l === "fr" ? d.badgeFr : d.badgeEn;
+        document.getElementById("dm-title").textContent =
+          l === "fr" ? d.titleFr : d.titleEn;
+        document.getElementById("dm-abstract").textContent =
+          l === "fr" ? d.abstractFr : d.abstractEn;
+        document.getElementById("dm-meta").innerHTML = d.meta
+          .map(
+            (m) => `
+        <div class="text-center bg-p-50 rounded-xl p-3">
+          <div class="font-heading font-bold text-p-700 text-xl">${m.v}</div>
+          <div class="font-label text-[.62rem] tracking-widest uppercase text-p-400">${l === "fr" ? m.lFr : m.lEn}</div>
+        </div>`,
+          )
+          .join("");
+        document.getElementById("dm-keywords").innerHTML = d.keywords
+          .map(
+            (k) => `
+        <span class="font-label text-xs px-2.5 py-1 bg-p-100 text-p-700 rounded-full">${k}</span>`,
+          )
+          .join("");
+        document.getElementById("docModal").classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+      function closeDoc() {
+        document.getElementById("docModal").classList.remove("open");
+        document.body.style.overflow = "";
+      }
+      function closeDocOutside(e) {
+        if (e.target === document.getElementById("docModal")) closeDoc();
+      }
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeDoc();
+      });
+
+      /* ── filters ── */
+      function setType(t) {
+        document
+          .querySelectorAll(".type-tab")
+          .forEach((b) => b.classList.toggle("active", b.dataset.type === t));
+        document.querySelectorAll(".doc-item").forEach((el) => {
+          el.style.display = t === "all" || el.dataset.type === t ? "" : "none";
+        });
+      }
+      function filterDocs(cat) {
+        /* same as setType mapping */ setType(cat);
+      }
+      function filterByDept(d) {
+        /* in production would filter; here just scrolls */ document
+          .getElementById("docGrid")
+          .scrollIntoView({ behavior: "smooth" });
+      }
+
+      /* ── search ── */
+      function doSearch() {
+        const q = document.getElementById("heroSearchInput").value.trim();
+        if (!q) return;
+        document.getElementById("searchQueryLabel").textContent = `"${q}"`;
+        // Simulate results from docs matching query
+        const res = Object.entries(docs).filter(([, d]) => {
+          const hay = (
+            d.titleFr +
+            d.titleEn +
+            d.keywords.join(" ")
+          ).toLowerCase();
+          return hay.includes(q.toLowerCase());
+        });
+        const grid = document.getElementById("searchResultsGrid");
+        if (res.length) {
+          grid.innerHTML = res
+            .map(
+              ([id, d]) => `
+          <div class="doc-card bg-white rounded-xl p-4 border border-p-100 cursor-pointer shadow-sm" onclick="openDoc('${id}')">
+            <div class="flex items-center gap-3 mb-2">
+              <div class="w-10 h-10 rounded-lg flex-shrink-0 flex items-center justify-center text-xl" style="background:${d.color}">${d.icon}</div>
+              <span class="font-label text-[.62rem] tracking-widest uppercase text-p-500">${lang === "fr" ? d.badgeFr : d.badgeEn}</span>
+            </div>
+            <h4 class="font-heading font-semibold text-p-900 text-base leading-snug mb-1">${lang === "fr" ? d.titleFr : d.titleEn}</h4>
+            <div class="flex flex-wrap gap-1 mt-2">${d.keywords
+              .slice(0, 3)
+              .map(
+                (k) =>
+                  `<span class="font-label text-[.6rem] px-2 py-0.5 bg-p-100 text-p-600 rounded-full">${k}</span>`,
+              )
+              .join("")}</div>
+          </div>`,
+            )
+            .join("");
+        } else {
+          grid.innerHTML = `<div class="col-span-3 text-center py-8 text-p-400 font-label text-sm tracking-wider">
+          <div class="text-3xl mb-3">🔍</div>
+          ${lang === "fr" ? "Aucun résultat pour cette recherche." : "No results for this search."}</div>`;
+        }
+        document.getElementById("searchResults").classList.remove("hidden");
+        document
+          .getElementById("searchResults")
+          .scrollIntoView({ behavior: "smooth" });
+      }
+      function quickSearch(q) {
+        document.getElementById("heroSearchInput").value = q;
+        doSearch();
+      }
+      function clearSearch() {
+        document.getElementById("searchResults").classList.add("hidden");
+        document.getElementById("heroSearchInput").value = "";
+      }
+      document
+        .getElementById("heroSearchInput")
+        .addEventListener("keydown", (e) => {
+          if (e.key === "Enter") doSearch();
+        });
+
+      /* ── sort ── */
+      function sortDocs() {
+        /* UI only — scrolls to grid */ document
+          .getElementById("docGrid")
+          .scrollIntoView({ behavior: "smooth" });
+      }
+
+      /* ── load more (simulate) ── */
+      function loadMore() {
+        const btn = event.currentTarget;
+        btn.textContent = lang === "fr" ? "Chargement…" : "Loading…";
+        setTimeout(() => {
+          btn.textContent = lang === "fr" ? "Tout chargé ✓" : "All loaded ✓";
+          btn.disabled = true;
+          btn.classList.add("opacity-50", "cursor-not-allowed");
+        }, 1200);
+      }
+
+      /* ── counters ── */
+      function runCounter(el) {
+        const t = +el.dataset.target,
+          d = 1800,
+          s = t / (d / 16);
+        let c = 0;
+        const ti = setInterval(() => {
+          c += s;
+          if (c >= t) {
+            c = t;
+            clearInterval(ti);
+          }
+          el.textContent = Math.floor(c).toLocaleString();
+        }, 16);
+      }
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("show");
+              e.target.querySelectorAll(".counter").forEach((c) => {
+                if (!c.dataset.done) {
+                  c.dataset.done = 1;
+                  runCounter(c);
+                }
+              });
+              obs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+      document
+        .querySelectorAll(".reveal,.reveal-left,.stat-reveal")
+        .forEach((el) => obs.observe(el));
+
+      /* ── language ── */
+      function setLang(l) {
+        lang = l;
+        document
+          .querySelectorAll(".lang-btn")
+          .forEach((b) => b.classList.remove("active"));
+        document
+          .querySelector(`.lang-btn[onclick="setLang('${l}')"]`)
+          .classList.add("active");
+        document.querySelectorAll("[data-fr]").forEach((el) => {
+          const txt = el.getAttribute("data-" + l);
+          if (txt) el.textContent = txt;
+        });
+        const hi = document.getElementById("heroSearchInput");
+        if (hi)
+          hi.placeholder =
+            l === "fr"
+              ? "Titre, auteur, mot-clé, département…"
+              : "Title, author, keyword, department…";
+      }
+
+      /* ── nav shadow ── */
+      window.addEventListener("scroll", () => {
+        document.getElementById("navbar").style.boxShadow =
+          window.pageYOffset > 60 ? "0 4px 30px rgba(0,0,0,.4)" : "none";
+      });
+      function toggleMenu() {
+        document.getElementById("mobileMenu").classList.toggle("hidden");
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1953 @@
+<!doctype html>
+<html lang="fr" data-lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UniPlaceholder — Actualités</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              p: {
+                50: "#F7F4FF",
+                100: "#EDE6FF",
+                200: "#D4BEFA",
+                300: "#B89AF5",
+                400: "#9B72E8",
+                500: "#7040D4",
+                600: "#5520B8",
+                700: "#3E1490",
+                800: "#2D0A6E",
+                900: "#1E0845",
+              },
+              gold: { DEFAULT: "#BFA050", light: "#D4B866", dark: "#9A7C30" },
+            },
+            fontFamily: {
+              heading: ["Cormorant Garamond", "Georgia", "serif"],
+              body: ["DM Sans", "system-ui", "sans-serif"],
+              label: ["Barlow Condensed", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "DM Sans", system-ui, sans-serif;
+      }
+      .font-heading {
+        font-family: "Cormorant Garamond", Georgia, serif;
+      }
+      .font-label {
+        font-family: "Barlow Condensed", sans-serif;
+      }
+
+      .nav-link {
+        border-bottom: 2px solid transparent;
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+      }
+      .nav-link:hover {
+        color: #bfa050;
+        border-bottom-color: #bfa050;
+      }
+      .lang-btn {
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+      .lang-btn.active {
+        background: #bfa050;
+        color: #1e0845;
+      }
+
+      /* Reveal */
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition:
+          opacity 0.6s ease,
+          transform 0.6s ease;
+      }
+      .reveal.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* News card hover */
+      .news-card {
+        transition:
+          transform 0.35s cubic-bezier(0.22, 0.68, 0, 1.2),
+          box-shadow 0.35s;
+      }
+      .news-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 22px 48px rgba(30, 8, 69, 0.13);
+      }
+      .news-card:hover .card-img-inner {
+        transform: scale(1.06);
+      }
+
+      /* Image zoom container */
+      .card-img {
+        overflow: hidden;
+      }
+      .card-img-inner {
+        transition: transform 0.5s ease;
+      }
+
+      /* Featured card */
+      .featured-card {
+        transition: box-shadow 0.3s;
+      }
+      .featured-card:hover {
+        box-shadow: 0 24px 56px rgba(30, 8, 69, 0.18);
+      }
+      .featured-card:hover .feat-img {
+        transform: scale(1.04);
+      }
+      .feat-img {
+        transition: transform 0.6s ease;
+      }
+
+      /* Category badge colours */
+      .cat-evenement {
+        background: #ede6ff;
+        color: #3e1490;
+      }
+      .cat-recherche {
+        background: #e0f0ff;
+        color: #1450a0;
+      }
+      .cat-campus {
+        background: #e0f8ec;
+        color: #146040;
+      }
+      .cat-partenariat {
+        background: #fff4e0;
+        color: #8a5010;
+      }
+      .cat-prix {
+        background: #ffe8f0;
+        color: #8a1040;
+      }
+      .cat-innovation {
+        background: #f0e8ff;
+        color: #5010a0;
+      }
+
+      /* Filter tab */
+      .cat-tab {
+        transition: all 0.25s;
+      }
+      .cat-tab.active {
+        background: #3e1490;
+        color: #fff;
+        box-shadow: 0 4px 14px rgba(62, 20, 144, 0.3);
+      }
+
+      /* Slant */
+      .slant-bot {
+        clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+      }
+      .slant-top {
+        clip-path: polygon(0 6%, 100% 0, 100% 100%, 0 100%);
+      }
+
+      /* Article modal */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(30, 8, 69, 0.6);
+        backdrop-filter: blur(5px);
+        z-index: 200;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 2rem 1.5rem;
+        overflow-y: auto;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+      }
+      .modal-overlay.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .modal-box {
+        background: #fff;
+        border-radius: 20px;
+        max-width: 700px;
+        width: 100%;
+        transform: translateY(20px) scale(0.97);
+        transition: transform 0.3s;
+        margin: auto;
+      }
+      .modal-overlay.open .modal-box {
+        transform: translateY(0) scale(1);
+      }
+
+      /* Newsletter input */
+      .nl-input::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      /* Pagination */
+      .page-btn {
+        transition: all 0.2s;
+      }
+      .page-btn.active {
+        background: #3e1490;
+        color: #fff;
+      }
+      .page-btn:hover:not(.active) {
+        background: #ede6ff;
+      }
+
+      /* Trending sidebar tag */
+      .trend-tag {
+        transition: all 0.2s;
+      }
+      .trend-tag:hover {
+        background: #ede6ff;
+        color: #3e1490;
+      }
+
+      @media (max-width: 1024px) {
+        .sidebar {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-white text-p-900 overflow-x-hidden">
+    <!-- ══════════════════════════════════════
+       ANNOUNCE + NAV  (same as all pages)
+  ══════════════════════════════════════ -->
+    <div
+      class="bg-gold text-p-900 text-center py-2 px-4 font-label text-xs font-semibold tracking-widest z-50 relative"
+    >
+      <span
+        data-fr="🎓 Inscriptions ouvertes — Année académique 2024–2025"
+        data-en="🎓 Enrolments open — Academic year 2024–2025"
+      >
+        🎓 Inscriptions ouvertes — Année académique 2024–2025
+      </span>
+      <a
+        href="#"
+        class="underline font-bold ml-2"
+        data-fr="Postuler →"
+        data-en="Apply now →"
+        >Postuler →</a
+      >
+    </div>
+
+    <nav
+      id="navbar"
+      class="sticky top-0 z-40 bg-p-900 border-b border-gold/20 px-6 h-[68px] flex items-center justify-between transition-shadow duration-300"
+    >
+      <a href="home.html" class="flex items-center gap-3 flex-shrink-0">
+        <div
+          class="w-10 h-10 rounded-full bg-gold flex items-center justify-center font-heading text-[18px] font-bold text-p-900"
+        >
+          U
+        </div>
+        <div class="leading-tight">
+          <div
+            class="font-heading text-[1.35rem] font-semibold text-white leading-none"
+          >
+            UniPlaceholder
+          </div>
+          <div
+            class="font-label text-[.6rem] tracking-[.2em] uppercase text-gold"
+            data-fr="Université d'Excellence"
+            data-en="University of Excellence"
+          >
+            Université d'Excellence
+          </div>
+        </div>
+      </a>
+      <ul class="hidden lg:flex items-center list-none gap-0 h-[68px]">
+        <li>
+          <a
+            href="home.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Accueil"
+            data-en="Home"
+            >Accueil</a
+          >
+        </li>
+        <li>
+          <a
+            href="about.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="À Propos"
+            data-en="About"
+            >À Propos</a
+          >
+        </li>
+        <li>
+          <a
+            href="programs.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Formations"
+            data-en="Programs"
+            >Formations</a
+          >
+        </li>
+        <li>
+          <a
+            href="library.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Bibliothèque"
+            data-en="Library"
+            >Bibliothèque</a
+          >
+        </li>
+        <li>
+          <a
+            href="news.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-gold px-3 h-[68px] flex items-center border-b-2 border-gold"
+            data-fr="Actualités"
+            data-en="News"
+            >Actualités</a
+          >
+        </li>
+        <li>
+          <a
+            href="team.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Équipe"
+            data-en="Team"
+            >Équipe</a
+          >
+        </li>
+        <li>
+          <a
+            href="events.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Événements"
+            data-en="Events"
+            >Événements</a
+          >
+        </li>
+        <li>
+          <a
+            href="contact.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Contact"
+            data-en="Contact"
+            >Contact</a
+          >
+        </li>
+      </ul>
+      <div class="flex items-center gap-2.5">
+        <div
+          class="flex rounded-full overflow-hidden border border-white/20 bg-white/10"
+        >
+          <button
+            onclick="setLang('fr')"
+            class="lang-btn active font-label text-[.7rem] font-bold tracking-[.05em] px-3 py-1 text-white/55 bg-transparent border-none cursor-pointer"
+          >
+            FR
+          </button>
+          <button
+            onclick="setLang('en')"
+            class="lang-btn font-label text-[.7rem] font-bold tracking-[.05em] px-3 py-1 text-white/55 bg-transparent border-none cursor-pointer"
+          >
+            EN
+          </button>
+        </div>
+        <a
+          href="#"
+          class="hidden sm:inline-block font-label text-[.78rem] font-semibold tracking-[.08em] uppercase px-4 py-2 border border-gold text-gold rounded hover:bg-gold hover:text-p-900 transition-colors duration-200"
+          data-fr="Se Connecter"
+          data-en="Login"
+          >Se Connecter</a
+        >
+        <button
+          onclick="toggleMenu()"
+          class="lg:hidden flex flex-col gap-[5px] p-1 bg-transparent border-none cursor-pointer"
+        >
+          <span class="block w-5 h-[2px] bg-white rounded"></span>
+          <span class="block w-5 h-[2px] bg-white rounded"></span>
+          <span class="block w-5 h-[2px] bg-white rounded"></span>
+        </button>
+      </div>
+    </nav>
+    <div
+      id="mobileMenu"
+      class="hidden lg:hidden bg-p-900 border-t border-white/10 z-30 relative"
+    >
+      <a
+        href="home.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Accueil"
+        data-en="Home"
+        >Accueil</a
+      >
+      <a
+        href="about.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="À Propos"
+        data-en="About"
+        >À Propos</a
+      >
+      <a
+        href="programs.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Formations"
+        data-en="Programs"
+        >Formations</a
+      >
+      <a
+        href="library.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Bibliothèque"
+        data-en="Library"
+        >Bibliothèque</a
+      >
+      <a
+        href="news.html"
+        class="block font-label text-sm tracking-widest uppercase text-gold px-6 py-3 border-b border-white/5"
+        data-fr="Actualités"
+        data-en="News"
+        >Actualités</a
+      >
+      <a
+        href="team.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Équipe"
+        data-en="Team"
+        >Équipe</a
+      >
+      <a
+        href="events.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Événements"
+        data-en="Events"
+        >Événements</a
+      >
+      <a
+        href="contact.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Contact"
+        data-en="Contact"
+        >Contact</a
+      >
+    </div>
+
+    <!-- ══════════════════════════════════════
+       PAGE HERO BANNER
+  ══════════════════════════════════════ -->
+    <div class="slant-bot bg-p-900 pt-20 pb-32 px-6 relative overflow-hidden">
+      <div
+        class="absolute inset-0 pointer-events-none"
+        style="
+          background-image:
+            linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+            linear-gradient(
+              90deg,
+              rgba(255, 255, 255, 0.025) 1px,
+              transparent 1px
+            );
+          background-size: 50px 50px;
+        "
+      ></div>
+      <div
+        class="absolute -right-20 top-0 w-96 h-96 rounded-full pointer-events-none"
+        style="
+          background: radial-gradient(
+            circle,
+            rgba(155, 114, 232, 0.15) 0%,
+            transparent 70%
+          );
+        "
+      ></div>
+      <div class="max-w-6xl mx-auto relative z-10">
+        <div class="flex items-center gap-2 mb-4">
+          <span class="block w-7 h-[2px] bg-gold"></span>
+          <span
+            class="font-label text-[.7rem] tracking-[.28em] uppercase text-gold"
+            data-fr="Restez informé"
+            data-en="Stay informed"
+            >Restez informé</span
+          >
+        </div>
+        <h1
+          class="font-heading font-semibold text-white leading-[1.1] mb-4"
+          style="font-size: clamp(2.4rem, 4.5vw, 4rem)"
+        >
+          <span data-fr="Actualités &" data-en="News &">Actualités &</span>
+          <em
+            class="text-gold italic"
+            data-fr=" Publications"
+            data-en=" Publications"
+          >
+            Publications</em
+          >
+        </h1>
+        <p
+          class="text-white/65 max-w-xl leading-relaxed mb-6"
+          style="font-size: 0.95rem"
+          data-fr="Événements, recherches, vie universitaire, partenariats — suivez toute l'actualité d'UniPlaceholder."
+          data-en="Events, research, campus life, partnerships — follow all of UniPlaceholder's latest news."
+        >
+          Événements, recherches, vie universitaire, partenariats — suivez toute
+          l'actualité d'UniPlaceholder.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <div
+            class="flex items-center gap-2 bg-white/10 rounded-full px-4 py-2"
+          >
+            <span class="text-gold font-label font-bold text-sm">48</span>
+            <span
+              class="font-label text-[.72rem] tracking-wider uppercase text-white/70"
+              data-fr="Articles"
+              data-en="Articles"
+              >Articles</span
+            >
+          </div>
+          <div
+            class="flex items-center gap-2 bg-white/10 rounded-full px-4 py-2"
+          >
+            <span class="text-gold font-label font-bold text-sm">6</span>
+            <span
+              class="font-label text-[.72rem] tracking-wider uppercase text-white/70"
+              data-fr="Catégories"
+              data-en="Categories"
+              >Catégories</span
+            >
+          </div>
+          <div
+            class="flex items-center gap-2 bg-white/10 rounded-full px-4 py-2"
+          >
+            <span class="text-gold font-label font-bold text-sm" id="heroDate"
+              >2024</span
+            >
+            <span
+              class="font-label text-[.72rem] tracking-wider uppercase text-white/70"
+              data-fr="Cette année"
+              data-en="This year"
+              >Cette année</span
+            >
+          </div>
+        </div>
+        <div
+          class="flex items-center gap-2 mt-6 font-label text-[.72rem] tracking-widest uppercase text-white/35"
+        >
+          <a
+            href="home.html"
+            class="hover:text-gold transition-colors"
+            data-fr="Accueil"
+            data-en="Home"
+            >Accueil</a
+          >
+          <span>/</span>
+          <span class="text-gold" data-fr="Actualités" data-en="News"
+            >Actualités</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+       FEATURED ARTICLE
+  ══════════════════════════════════════ -->
+    <section class="py-16 px-6 bg-white">
+      <div class="max-w-6xl mx-auto">
+        <div class="flex items-center gap-2 mb-8 reveal">
+          <span class="block w-7 h-[2px] bg-gold"></span>
+          <span
+            class="font-label text-[.7rem] tracking-[.28em] uppercase text-p-600"
+            data-fr="À la une"
+            data-en="Featured"
+            >À la une</span
+          >
+        </div>
+
+        <!-- Featured card -->
+        <div
+          class="featured-card rounded-2xl overflow-hidden shadow-md cursor-pointer reveal"
+          onclick="openArticle('feat')"
+        >
+          <div class="grid grid-cols-1 lg:grid-cols-2">
+            <!-- Image side -->
+            <div
+              class="relative h-64 lg:h-auto overflow-hidden"
+              style="
+                background: linear-gradient(140deg, #1e0845, #3e1490, #7040d4);
+              "
+            >
+              <div
+                class="feat-img absolute inset-0 flex items-center justify-center"
+                style="
+                  background: linear-gradient(
+                    140deg,
+                    #1e0845 0%,
+                    #5520b8 60%,
+                    #9b72e8 100%
+                  );
+                "
+              >
+                <div class="text-center p-8 relative z-10">
+                  <div class="text-7xl mb-4 opacity-80">🌍</div>
+                  <div
+                    class="font-label text-[.65rem] tracking-widest uppercase text-gold/80"
+                    data-fr="Conférence Internationale"
+                    data-en="International Conference"
+                  >
+                    Conférence Internationale
+                  </div>
+                </div>
+                <!-- Pattern -->
+                <div
+                  class="absolute inset-0 opacity-10"
+                  style="
+                    background-image: repeating-linear-gradient(
+                      45deg,
+                      transparent,
+                      transparent 14px,
+                      rgba(255, 255, 255, 0.3) 14px,
+                      rgba(255, 255, 255, 0.3) 28px
+                    );
+                  "
+                ></div>
+              </div>
+              <!-- Date badge -->
+              <div
+                class="absolute top-4 left-4 bg-gold text-p-900 rounded-lg px-3 py-2 text-center"
+              >
+                <div class="font-heading font-bold text-xl leading-none">
+                  15
+                </div>
+                <div
+                  class="font-label text-[.6rem] tracking-widest uppercase"
+                  data-fr="Sep"
+                  data-en="Sep"
+                >
+                  Sep
+                </div>
+              </div>
+            </div>
+            <!-- Content side -->
+            <div class="p-8 lg:p-10 flex flex-col justify-center bg-p-50">
+              <div class="flex items-center gap-2 mb-4">
+                <span
+                  class="cat-evenement font-label text-[.68rem] font-semibold tracking-widest uppercase px-3 py-1 rounded-full"
+                >
+                  <span data-fr="Événement" data-en="Event">Événement</span>
+                </span>
+                <span
+                  class="font-label text-[.68rem] tracking-widest uppercase text-p-400"
+                  data-fr="Lecture : 6 min"
+                  data-en="Read: 6 min"
+                  >Lecture : 6 min</span
+                >
+              </div>
+              <h2
+                class="font-heading font-semibold text-p-900 leading-snug mb-4"
+                style="font-size: clamp(1.6rem, 2.5vw, 2.2rem)"
+                data-fr="3ème Conférence Internationale sur l'Innovation Africaine — Octobre 2024"
+                data-en="3rd International Conference on African Innovation — October 2024"
+              >
+                3ème Conférence Internationale sur l'Innovation Africaine —
+                Octobre 2024
+              </h2>
+              <p
+                class="text-p-600/80 leading-[1.78] mb-6"
+                style="font-size: 0.92rem"
+                data-fr="UniPlaceholder accueillera en octobre 2024 une conférence réunissant plus de 200 chercheurs, entrepreneurs et décideurs venus de 15 pays pour explorer les opportunités d'innovation technologique sur le continent africain."
+                data-en="UniPlaceholder will host in October 2024 a conference bringing together over 200 researchers, entrepreneurs and decision-makers from 15 countries to explore technology innovation opportunities across the African continent."
+              >
+                UniPlaceholder accueillera en octobre 2024 une conférence
+                réunissant plus de 200 chercheurs, entrepreneurs et décideurs
+                venus de 15 pays pour explorer les opportunités d'innovation
+                technologique sur le continent africain.
+              </p>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <div
+                    class="w-8 h-8 rounded-full bg-gradient-to-br from-p-700 to-p-400 flex items-center justify-center font-heading italic text-white/50 text-sm"
+                  >
+                    J
+                  </div>
+                  <div>
+                    <div class="font-heading font-semibold text-p-900 text-sm">
+                      Dr. Jean-Paul Modèle
+                    </div>
+                    <div
+                      class="font-label text-[.62rem] tracking-wider uppercase text-p-400"
+                      data-fr="15 Septembre 2024"
+                      data-en="September 15, 2024"
+                    >
+                      15 Septembre 2024
+                    </div>
+                  </div>
+                </div>
+                <span
+                  class="font-label text-[.75rem] font-bold tracking-widest uppercase text-p-600 hover:text-gold transition-colors flex items-center gap-1"
+                  data-fr="Lire l'article →"
+                  data-en="Read article →"
+                  >Lire l'article →</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+       MAIN CONTENT + SIDEBAR
+  ══════════════════════════════════════ -->
+    <section class="pb-20 px-6 bg-white">
+      <div class="max-w-6xl mx-auto">
+        <!-- Category filter tabs -->
+        <div class="flex flex-wrap items-center gap-2 mb-8 reveal">
+          <button
+            onclick="filterNews('all')"
+            data-cat="all"
+            class="cat-tab active font-label text-[.72rem] font-semibold tracking-wider uppercase px-4 py-2 rounded-full border border-p-200 text-p-700 cursor-pointer"
+            data-fr="Toutes"
+            data-en="All"
+          >
+            Toutes
+          </button>
+          <button
+            onclick="filterNews('evenement')"
+            data-cat="evenement"
+            class="cat-tab font-label text-[.72rem] font-semibold tracking-wider uppercase px-4 py-2 rounded-full border border-p-200 text-p-700 cursor-pointer"
+            data-fr="Événements"
+            data-en="Events"
+          >
+            Événements
+          </button>
+          <button
+            onclick="filterNews('recherche')"
+            data-cat="recherche"
+            class="cat-tab font-label text-[.72rem] font-semibold tracking-wider uppercase px-4 py-2 rounded-full border border-p-200 text-p-700 cursor-pointer"
+            data-fr="Recherche"
+            data-en="Research"
+          >
+            Recherche
+          </button>
+          <button
+            onclick="filterNews('campus')"
+            data-cat="campus"
+            class="cat-tab font-label text-[.72rem] font-semibold tracking-wider uppercase px-4 py-2 rounded-full border border-p-200 text-p-700 cursor-pointer"
+            data-fr="Vie Universitaire"
+            data-en="Campus Life"
+          >
+            Vie Universitaire
+          </button>
+          <button
+            onclick="filterNews('partenariat')"
+            data-cat="partenariat"
+            class="cat-tab font-label text-[.72rem] font-semibold tracking-wider uppercase px-4 py-2 rounded-full border border-p-200 text-p-700 cursor-pointer"
+            data-fr="Partenariats"
+            data-en="Partnerships"
+          >
+            Partenariats
+          </button>
+          <button
+            onclick="filterNews('prix')"
+            data-cat="prix"
+            class="cat-tab font-label text-[.72rem] font-semibold tracking-wider uppercase px-4 py-2 rounded-full border border-p-200 text-p-700 cursor-pointer"
+            data-fr="Prix & Distinctions"
+            data-en="Awards"
+          >
+            Prix & Distinctions
+          </button>
+        </div>
+
+        <div class="flex gap-8">
+          <!-- ── ARTICLES GRID ── -->
+          <div class="flex-1 min-w-0">
+            <div id="newsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Article 1 -->
+              <div
+                class="news-card bg-white rounded-2xl overflow-hidden border border-p-50 shadow-sm article-item cursor-pointer reveal"
+                data-cat="recherche"
+                onclick="openArticle('a1')"
+              >
+                <div
+                  class="card-img h-44 relative"
+                  style="background: linear-gradient(135deg, #1e0845, #5520b8)"
+                >
+                  <div
+                    class="card-img-inner absolute inset-0 flex items-center justify-content-center justify-center"
+                  >
+                    <span class="text-5xl opacity-70">🔬</span>
+                  </div>
+                  <div
+                    class="absolute inset-0 opacity-10"
+                    style="
+                      background-image: repeating-linear-gradient(
+                        45deg,
+                        transparent,
+                        transparent 12px,
+                        rgba(255, 255, 255, 0.3) 12px,
+                        rgba(255, 255, 255, 0.3) 24px
+                      );
+                    "
+                  ></div>
+                  <div class="absolute top-3 left-3">
+                    <span
+                      class="cat-recherche font-label text-[.65rem] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full"
+                      data-fr="Recherche"
+                      data-en="Research"
+                      >Recherche</span
+                    >
+                  </div>
+                </div>
+                <div class="p-5">
+                  <h3
+                    class="font-heading font-semibold text-p-900 text-xl leading-snug mb-2"
+                    data-fr="Étude pionnière sur la sécurité alimentaire en Afrique centrale"
+                    data-en="Pioneering study on food security in Central Africa"
+                  >
+                    Étude pionnière sur la sécurité alimentaire en Afrique
+                    centrale
+                  </h3>
+                  <p
+                    class="text-p-600/75 text-sm leading-relaxed mb-4"
+                    data-fr="Notre équipe de recherche publie une étude analysant les défis de sécurité alimentaire dans 6 pays d'Afrique centrale, avec des recommandations politiques concrètes."
+                    data-en="Our research team publishes a study analysing food security challenges in 6 Central African countries, with concrete policy recommendations."
+                  >
+                    Notre équipe de recherche publie une étude analysant les
+                    défis de sécurité alimentaire dans 6 pays d'Afrique
+                    centrale, avec des recommandations politiques concrètes.
+                  </p>
+                  <div
+                    class="flex items-center justify-between pt-3 border-t border-p-50"
+                  >
+                    <span
+                      class="font-label text-[.65rem] tracking-wider uppercase text-p-400"
+                      data-fr="28 Août 2024 · 8 min"
+                      data-en="August 28, 2024 · 8 min"
+                      >28 Août 2024 · 8 min</span
+                    >
+                    <span
+                      class="font-label text-[.7rem] font-bold text-p-600 hover:text-gold transition-colors"
+                      data-fr="Lire →"
+                      data-en="Read →"
+                      >Lire →</span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <!-- Article 2 -->
+              <div
+                class="news-card bg-white rounded-2xl overflow-hidden border border-p-50 shadow-sm article-item cursor-pointer reveal"
+                data-cat="prix"
+                onclick="openArticle('a2')"
+                style="transition-delay: 0.08s"
+              >
+                <div
+                  class="card-img h-44 relative"
+                  style="background: linear-gradient(135deg, #7a6014, #c8a028)"
+                >
+                  <div
+                    class="card-img-inner absolute inset-0 flex items-center justify-center"
+                  >
+                    <span class="text-5xl opacity-70">🏅</span>
+                  </div>
+                  <div
+                    class="absolute inset-0 opacity-10"
+                    style="
+                      background-image: repeating-linear-gradient(
+                        45deg,
+                        transparent,
+                        transparent 12px,
+                        rgba(255, 255, 255, 0.3) 12px,
+                        rgba(255, 255, 255, 0.3) 24px
+                      );
+                    "
+                  ></div>
+                  <div class="absolute top-3 left-3">
+                    <span
+                      class="cat-prix font-label text-[.65rem] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full"
+                      data-fr="Prix & Distinctions"
+                      data-en="Award"
+                      >Prix & Distinctions</span
+                    >
+                  </div>
+                </div>
+                <div class="p-5">
+                  <h3
+                    class="font-heading font-semibold text-p-900 text-xl leading-snug mb-2"
+                    data-fr="Lauréats du Prix National d'Innovation Technologique 2024"
+                    data-en="Winners of the 2024 National Technology Innovation Prize"
+                  >
+                    Lauréats du Prix National d'Innovation Technologique 2024
+                  </h3>
+                  <p
+                    class="text-p-600/75 text-sm leading-relaxed mb-4"
+                    data-fr="L'équipe d'étudiants en informatique remporte le premier prix pour leur solution de détection précoce des maladies agricoles par IA."
+                    data-en="The computer science student team wins first prize for their AI-based early detection solution for agricultural diseases."
+                  >
+                    L'équipe d'étudiants en informatique remporte le premier
+                    prix pour leur solution de détection précoce des maladies
+                    agricoles par IA.
+                  </p>
+                  <div
+                    class="flex items-center justify-between pt-3 border-t border-p-50"
+                  >
+                    <span
+                      class="font-label text-[.65rem] tracking-wider uppercase text-p-400"
+                      data-fr="10 Août 2024 · 4 min"
+                      data-en="August 10, 2024 · 4 min"
+                      >10 Août 2024 · 4 min</span
+                    >
+                    <span
+                      class="font-label text-[.7rem] font-bold text-p-600 hover:text-gold transition-colors"
+                      data-fr="Lire →"
+                      data-en="Read →"
+                      >Lire →</span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <!-- Article 3 -->
+              <div
+                class="news-card bg-white rounded-2xl overflow-hidden border border-p-50 shadow-sm article-item cursor-pointer reveal"
+                data-cat="partenariat"
+                onclick="openArticle('a3')"
+                style="transition-delay: 0.16s"
+              >
+                <div
+                  class="card-img h-44 relative"
+                  style="background: linear-gradient(135deg, #14507a, #2888c8)"
+                >
+                  <div
+                    class="card-img-inner absolute inset-0 flex items-center justify-center"
+                  >
+                    <span class="text-5xl opacity-70">🤝</span>
+                  </div>
+                  <div
+                    class="absolute inset-0 opacity-10"
+                    style="
+                      background-image: repeating-linear-gradient(
+                        45deg,
+                        transparent,
+                        transparent 12px,
+                        rgba(255, 255, 255, 0.3) 12px,
+                        rgba(255, 255, 255, 0.3) 24px
+                      );
+                    "
+                  ></div>
+                  <div class="absolute top-3 left-3">
+                    <span
+                      class="cat-partenariat font-label text-[.65rem] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full"
+                      data-fr="Partenariat"
+                      data-en="Partnership"
+                      >Partenariat</span
+                    >
+                  </div>
+                </div>
+                <div class="p-5">
+                  <h3
+                    class="font-heading font-semibold text-p-900 text-xl leading-snug mb-2"
+                    data-fr="Accord de coopération avec l'Université de Bordeaux"
+                    data-en="Cooperation agreement with the University of Bordeaux"
+                  >
+                    Accord de coopération avec l'Université de Bordeaux
+                  </h3>
+                  <p
+                    class="text-p-600/75 text-sm leading-relaxed mb-4"
+                    data-fr="Signature d'un accord de double diplôme et d'échange d'étudiants avec l'Université de Bordeaux, ouvrant de nouvelles perspectives à nos étudiants."
+                    data-en="Signing of a double degree and student exchange agreement with the University of Bordeaux, opening new horizons for our students."
+                  >
+                    Signature d'un accord de double diplôme et d'échange
+                    d'étudiants avec l'Université de Bordeaux, ouvrant de
+                    nouvelles perspectives à nos étudiants.
+                  </p>
+                  <div
+                    class="flex items-center justify-between pt-3 border-t border-p-50"
+                  >
+                    <span
+                      class="font-label text-[.65rem] tracking-wider uppercase text-p-400"
+                      data-fr="5 Juillet 2024 · 3 min"
+                      data-en="July 5, 2024 · 3 min"
+                      >5 Juillet 2024 · 3 min</span
+                    >
+                    <span
+                      class="font-label text-[.7rem] font-bold text-p-600 hover:text-gold transition-colors"
+                      data-fr="Lire →"
+                      data-en="Read →"
+                      >Lire →</span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <!-- Article 4 -->
+              <div
+                class="news-card bg-white rounded-2xl overflow-hidden border border-p-50 shadow-sm article-item cursor-pointer reveal"
+                data-cat="campus"
+                onclick="openArticle('a4')"
+                style="transition-delay: 0.24s"
+              >
+                <div
+                  class="card-img h-44 relative"
+                  style="background: linear-gradient(135deg, #147a3c, #28c868)"
+                >
+                  <div
+                    class="card-img-inner absolute inset-0 flex items-center justify-center"
+                  >
+                    <span class="text-5xl opacity-70">🎭</span>
+                  </div>
+                  <div
+                    class="absolute inset-0 opacity-10"
+                    style="
+                      background-image: repeating-linear-gradient(
+                        45deg,
+                        transparent,
+                        transparent 12px,
+                        rgba(255, 255, 255, 0.3) 12px,
+                        rgba(255, 255, 255, 0.3) 24px
+                      );
+                    "
+                  ></div>
+                  <div class="absolute top-3 left-3">
+                    <span
+                      class="cat-campus font-label text-[.65rem] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full"
+                      data-fr="Vie Universitaire"
+                      data-en="Campus Life"
+                      >Vie Universitaire</span
+                    >
+                  </div>
+                </div>
+                <div class="p-5">
+                  <h3
+                    class="font-heading font-semibold text-p-900 text-xl leading-snug mb-2"
+                    data-fr="Retour sur la Semaine Culturelle 2024"
+                    data-en="Highlights from Cultural Week 2024"
+                  >
+                    Retour sur la Semaine Culturelle 2024
+                  </h3>
+                  <p
+                    class="text-p-600/75 text-sm leading-relaxed mb-4"
+                    data-fr="Trois jours de fêtes, expositions artistiques, concours d'éloquence et rencontres interculturelles qui ont animé notre campus au mois de juin."
+                    data-en="Three days of festivities, art exhibitions, eloquence contests and intercultural meetings that enlivened our campus in June."
+                  >
+                    Trois jours de fêtes, expositions artistiques, concours
+                    d'éloquence et rencontres interculturelles qui ont animé
+                    notre campus au mois de juin.
+                  </p>
+                  <div
+                    class="flex items-center justify-between pt-3 border-t border-p-50"
+                  >
+                    <span
+                      class="font-label text-[.65rem] tracking-wider uppercase text-p-400"
+                      data-fr="20 Juin 2024 · 5 min"
+                      data-en="June 20, 2024 · 5 min"
+                      >20 Juin 2024 · 5 min</span
+                    >
+                    <span
+                      class="font-label text-[.7rem] font-bold text-p-600 hover:text-gold transition-colors"
+                      data-fr="Lire →"
+                      data-en="Read →"
+                      >Lire →</span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <!-- Article 5 -->
+              <div
+                class="news-card bg-white rounded-2xl overflow-hidden border border-p-50 shadow-sm article-item cursor-pointer reveal"
+                data-cat="recherche"
+                onclick="openArticle('a5')"
+                style="transition-delay: 0.08s"
+              >
+                <div
+                  class="card-img h-44 relative"
+                  style="background: linear-gradient(135deg, #7a1450, #c82888)"
+                >
+                  <div
+                    class="card-img-inner absolute inset-0 flex items-center justify-center"
+                  >
+                    <span class="text-5xl opacity-70">📄</span>
+                  </div>
+                  <div
+                    class="absolute inset-0 opacity-10"
+                    style="
+                      background-image: repeating-linear-gradient(
+                        45deg,
+                        transparent,
+                        transparent 12px,
+                        rgba(255, 255, 255, 0.3) 12px,
+                        rgba(255, 255, 255, 0.3) 24px
+                      );
+                    "
+                  ></div>
+                  <div class="absolute top-3 left-3">
+                    <span
+                      class="cat-recherche font-label text-[.65rem] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full"
+                      data-fr="Recherche"
+                      data-en="Research"
+                      >Recherche</span
+                    >
+                  </div>
+                </div>
+                <div class="p-5">
+                  <h3
+                    class="font-heading font-semibold text-p-900 text-xl leading-snug mb-2"
+                    data-fr="Nouvelle publication dans le Journal of African Development"
+                    data-en="New publication in the Journal of African Development"
+                  >
+                    Nouvelle publication dans le Journal of African Development
+                  </h3>
+                  <p
+                    class="text-p-600/75 text-sm leading-relaxed mb-4"
+                    data-fr="Le Prof. René Placeholder publie un article sur les modèles de financement des PME africaines dans une revue internationale à comité de lecture."
+                    data-en="Prof. René Placeholder publishes an article on African SME financing models in an international peer-reviewed journal."
+                  >
+                    Le Prof. René Placeholder publie un article sur les modèles
+                    de financement des PME africaines dans une revue
+                    internationale à comité de lecture.
+                  </p>
+                  <div
+                    class="flex items-center justify-between pt-3 border-t border-p-50"
+                  >
+                    <span
+                      class="font-label text-[.65rem] tracking-wider uppercase text-p-400"
+                      data-fr="14 Juin 2024 · 6 min"
+                      data-en="June 14, 2024 · 6 min"
+                      >14 Juin 2024 · 6 min</span
+                    >
+                    <span
+                      class="font-label text-[.7rem] font-bold text-p-600 hover:text-gold transition-colors"
+                      data-fr="Lire →"
+                      data-en="Read →"
+                      >Lire →</span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <!-- Article 6 -->
+              <div
+                class="news-card bg-white rounded-2xl overflow-hidden border border-p-50 shadow-sm article-item cursor-pointer reveal"
+                data-cat="evenement"
+                onclick="openArticle('a6')"
+                style="transition-delay: 0.16s"
+              >
+                <div
+                  class="card-img h-44 relative"
+                  style="background: linear-gradient(135deg, #1e0845, #7040d4)"
+                >
+                  <div
+                    class="card-img-inner absolute inset-0 flex items-center justify-center"
+                  >
+                    <span class="text-5xl opacity-70">🎓</span>
+                  </div>
+                  <div
+                    class="absolute inset-0 opacity-10"
+                    style="
+                      background-image: repeating-linear-gradient(
+                        45deg,
+                        transparent,
+                        transparent 12px,
+                        rgba(255, 255, 255, 0.3) 12px,
+                        rgba(255, 255, 255, 0.3) 24px
+                      );
+                    "
+                  ></div>
+                  <div class="absolute top-3 left-3">
+                    <span
+                      class="cat-evenement font-label text-[.65rem] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full"
+                      data-fr="Événement"
+                      data-en="Event"
+                      >Événement</span
+                    >
+                  </div>
+                </div>
+                <div class="p-5">
+                  <h3
+                    class="font-heading font-semibold text-p-900 text-xl leading-snug mb-2"
+                    data-fr="Cérémonie de remise des diplômes — Promotion 2024"
+                    data-en="Graduation Ceremony — Class of 2024"
+                  >
+                    Cérémonie de remise des diplômes — Promotion 2024
+                  </h3>
+                  <p
+                    class="text-p-600/75 text-sm leading-relaxed mb-4"
+                    data-fr="La Promotion 2024 a été officiellement diplômée lors d'une cérémonie solennelle réunissant familles, enseignants et partenaires institutionnels."
+                    data-en="The Class of 2024 was officially graduated at a solemn ceremony bringing together families, faculty and institutional partners."
+                  >
+                    La Promotion 2024 a été officiellement diplômée lors d'une
+                    cérémonie solennelle réunissant familles, enseignants et
+                    partenaires institutionnels.
+                  </p>
+                  <div
+                    class="flex items-center justify-between pt-3 border-t border-p-50"
+                  >
+                    <span
+                      class="font-label text-[.65rem] tracking-wider uppercase text-p-400"
+                      data-fr="1 Juin 2024 · 5 min"
+                      data-en="June 1, 2024 · 5 min"
+                      >1 Juin 2024 · 5 min</span
+                    >
+                    <span
+                      class="font-label text-[.7rem] font-bold text-p-600 hover:text-gold transition-colors"
+                      data-fr="Lire →"
+                      data-en="Read →"
+                      >Lire →</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /newsGrid -->
+
+            <!-- Empty state -->
+            <div id="emptyState" class="hidden text-center py-20">
+              <div class="text-5xl mb-4">📭</div>
+              <h3
+                class="font-heading text-2xl text-p-700 mb-2"
+                data-fr="Aucun article dans cette catégorie"
+                data-en="No articles in this category"
+              >
+                Aucun article dans cette catégorie
+              </h3>
+              <p
+                class="text-p-400 text-sm"
+                data-fr="Revenez bientôt !"
+                data-en="Check back soon!"
+              >
+                Revenez bientôt !
+              </p>
+            </div>
+
+            <!-- Pagination -->
+            <div class="flex items-center justify-center gap-2 mt-10 reveal">
+              <button
+                class="page-btn active w-9 h-9 rounded-lg font-label text-sm font-semibold border border-p-200 text-p-700"
+              >
+                1
+              </button>
+              <button
+                class="page-btn w-9 h-9 rounded-lg font-label text-sm font-semibold border border-p-200 text-p-700"
+              >
+                2
+              </button>
+              <button
+                class="page-btn w-9 h-9 rounded-lg font-label text-sm font-semibold border border-p-200 text-p-700"
+              >
+                3
+              </button>
+              <span class="text-p-300 font-label text-sm px-1">…</span>
+              <button
+                class="page-btn w-9 h-9 rounded-lg font-label text-sm font-semibold border border-p-200 text-p-700"
+              >
+                8
+              </button>
+              <button
+                class="page-btn w-20 h-9 rounded-lg font-label text-[.7rem] font-semibold border border-p-200 text-p-700"
+                data-fr="Suiv. →"
+                data-en="Next →"
+              >
+                Suiv. →
+              </button>
+            </div>
+          </div>
+
+          <!-- ── SIDEBAR ── -->
+          <aside class="sidebar w-72 flex-shrink-0 space-y-6">
+            <!-- Search -->
+            <div class="bg-p-50 rounded-2xl p-5 reveal">
+              <div
+                class="font-label text-[.7rem] tracking-[.2em] uppercase text-p-600 mb-3"
+                data-fr="Rechercher"
+                data-en="Search"
+              >
+                Rechercher
+              </div>
+              <div class="flex overflow-hidden rounded-lg border border-p-200">
+                <input
+                  type="text"
+                  class="flex-1 px-3 py-2 text-sm bg-white outline-none font-body text-p-900 placeholder-p-300"
+                  id="searchInput"
+                  placeholder="Mot-clé..."
+                />
+                <button
+                  class="px-3 bg-p-700 text-white font-label text-xs hover:bg-p-800 transition-colors"
+                >
+                  🔍
+                </button>
+              </div>
+            </div>
+
+            <!-- Popular topics -->
+            <div class="bg-p-50 rounded-2xl p-5 reveal">
+              <div
+                class="font-label text-[.7rem] tracking-[.2em] uppercase text-p-600 mb-4"
+                data-fr="Sujets populaires"
+                data-en="Popular topics"
+              >
+                Sujets populaires
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="trend-tag font-label text-xs font-semibold px-2.5 py-1 bg-white border border-p-200 text-p-600 rounded-full cursor-pointer"
+                  >Intelligence Artificielle</span
+                >
+                <span
+                  class="trend-tag font-label text-xs font-semibold px-2.5 py-1 bg-white border border-p-200 text-p-600 rounded-full cursor-pointer"
+                  >Recherche</span
+                >
+                <span
+                  class="trend-tag font-label text-xs font-semibold px-2.5 py-1 bg-white border border-p-200 text-p-600 rounded-full cursor-pointer"
+                  >Innovation</span
+                >
+                <span
+                  class="trend-tag font-label text-xs font-semibold px-2.5 py-1 bg-white border border-p-200 text-p-600 rounded-full cursor-pointer"
+                  >Partenariats</span
+                >
+                <span
+                  class="trend-tag font-label text-xs font-semibold px-2.5 py-1 bg-white border border-p-200 text-p-600 rounded-full cursor-pointer"
+                  >Diplômés</span
+                >
+                <span
+                  class="trend-tag font-label text-xs font-semibold px-2.5 py-1 bg-white border border-p-200 text-p-600 rounded-full cursor-pointer"
+                  >Concours</span
+                >
+                <span
+                  class="trend-tag font-label text-xs font-semibold px-2.5 py-1 bg-white border border-p-200 text-p-600 rounded-full cursor-pointer"
+                  >Afrique centrale</span
+                >
+                <span
+                  class="trend-tag font-label text-xs font-semibold px-2.5 py-1 bg-white border border-p-200 text-p-600 rounded-full cursor-pointer"
+                  >BTP</span
+                >
+              </div>
+            </div>
+
+            <!-- Recent articles mini-list -->
+            <div class="bg-p-50 rounded-2xl p-5 reveal">
+              <div
+                class="font-label text-[.7rem] tracking-[.2em] uppercase text-p-600 mb-4"
+                data-fr="Articles récents"
+                data-en="Recent articles"
+              >
+                Articles récents
+              </div>
+              <div class="space-y-3">
+                <div
+                  class="flex gap-3 cursor-pointer group"
+                  onclick="openArticle('a1')"
+                >
+                  <div
+                    class="w-12 h-12 rounded-lg flex-shrink-0 flex items-center justify-center text-xl"
+                    style="
+                      background: linear-gradient(135deg, #1e0845, #5520b8);
+                    "
+                  >
+                    🔬
+                  </div>
+                  <div>
+                    <p
+                      class="font-heading font-semibold text-p-900 text-sm leading-snug group-hover:text-p-600 transition-colors"
+                      data-fr="Sécurité alimentaire en Afrique centrale"
+                      data-en="Food security in Central Africa"
+                    >
+                      Sécurité alimentaire en Afrique centrale
+                    </p>
+                    <span
+                      class="font-label text-[.62rem] tracking-wider uppercase text-p-400"
+                      data-fr="28 Août 2024"
+                      data-en="Aug 28, 2024"
+                      >28 Août 2024</span
+                    >
+                  </div>
+                </div>
+                <div
+                  class="flex gap-3 cursor-pointer group"
+                  onclick="openArticle('a2')"
+                >
+                  <div
+                    class="w-12 h-12 rounded-lg flex-shrink-0 flex items-center justify-center text-xl"
+                    style="
+                      background: linear-gradient(135deg, #7a6014, #c8a028);
+                    "
+                  >
+                    🏅
+                  </div>
+                  <div>
+                    <p
+                      class="font-heading font-semibold text-p-900 text-sm leading-snug group-hover:text-p-600 transition-colors"
+                      data-fr="Prix National d'Innovation 2024"
+                      data-en="National Innovation Prize 2024"
+                    >
+                      Prix National d'Innovation 2024
+                    </p>
+                    <span
+                      class="font-label text-[.62rem] tracking-wider uppercase text-p-400"
+                      data-fr="10 Août 2024"
+                      data-en="Aug 10, 2024"
+                      >10 Août 2024</span
+                    >
+                  </div>
+                </div>
+                <div
+                  class="flex gap-3 cursor-pointer group"
+                  onclick="openArticle('a3')"
+                >
+                  <div
+                    class="w-12 h-12 rounded-lg flex-shrink-0 flex items-center justify-center text-xl"
+                    style="
+                      background: linear-gradient(135deg, #14507a, #2888c8);
+                    "
+                  >
+                    🤝
+                  </div>
+                  <div>
+                    <p
+                      class="font-heading font-semibold text-p-900 text-sm leading-snug group-hover:text-p-600 transition-colors"
+                      data-fr="Accord avec Bordeaux"
+                      data-en="Agreement with Bordeaux"
+                    >
+                      Accord avec Bordeaux
+                    </p>
+                    <span
+                      class="font-label text-[.62rem] tracking-wider uppercase text-p-400"
+                      data-fr="5 Juil 2024"
+                      data-en="Jul 5, 2024"
+                      >5 Juil 2024</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Social follow -->
+            <div class="bg-p-900 rounded-2xl p-5 reveal">
+              <div
+                class="font-label text-[.7rem] tracking-[.2em] uppercase text-gold mb-4"
+                data-fr="Suivez-nous"
+                data-en="Follow us"
+              >
+                Suivez-nous
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <a
+                  href="#"
+                  class="flex items-center gap-2 bg-white/8 hover:bg-white/15 rounded-xl p-2.5 transition-colors"
+                >
+                  <span
+                    class="font-label font-bold text-white text-sm w-6 text-center"
+                    >f</span
+                  >
+                  <span
+                    class="font-label text-[.65rem] tracking-wider uppercase text-white/60"
+                    >Facebook</span
+                  >
+                </a>
+                <a
+                  href="#"
+                  class="flex items-center gap-2 bg-white/8 hover:bg-white/15 rounded-xl p-2.5 transition-colors"
+                >
+                  <span
+                    class="font-label font-bold text-white text-sm w-6 text-center"
+                    >in</span
+                  >
+                  <span
+                    class="font-label text-[.65rem] tracking-wider uppercase text-white/60"
+                    >LinkedIn</span
+                  >
+                </a>
+                <a
+                  href="#"
+                  class="flex items-center gap-2 bg-white/8 hover:bg-white/15 rounded-xl p-2.5 transition-colors"
+                >
+                  <span
+                    class="font-label font-bold text-white text-sm w-6 text-center"
+                    >𝕏</span
+                  >
+                  <span
+                    class="font-label text-[.65rem] tracking-wider uppercase text-white/60"
+                    >Twitter/X</span
+                  >
+                </a>
+                <a
+                  href="#"
+                  class="flex items-center gap-2 bg-white/8 hover:bg-white/15 rounded-xl p-2.5 transition-colors"
+                >
+                  <span
+                    class="font-label font-bold text-white text-sm w-6 text-center"
+                    >▶</span
+                  >
+                  <span
+                    class="font-label text-[.65rem] tracking-wider uppercase text-white/60"
+                    >YouTube</span
+                  >
+                </a>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+       NEWSLETTER SECTION
+  ══════════════════════════════════════ -->
+    <section
+      class="py-16 px-6"
+      style="background: linear-gradient(140deg, #3e1490, #5520b8)"
+    >
+      <div class="max-w-3xl mx-auto text-center reveal">
+        <div class="text-4xl mb-4">📬</div>
+        <div
+          class="font-label text-[.72rem] tracking-[.28em] uppercase text-gold mb-3"
+          data-fr="Restez connecté"
+          data-en="Stay connected"
+        >
+          Restez connecté
+        </div>
+        <h2
+          class="font-heading font-semibold text-white leading-[1.15] mb-3"
+          style="font-size: clamp(1.8rem, 3vw, 2.6rem)"
+        >
+          <span data-fr="Abonnez-vous à notre" data-en="Subscribe to our"
+            >Abonnez-vous à notre</span
+          >
+          <em
+            class="text-gold italic"
+            data-fr=" newsletter"
+            data-en=" newsletter"
+          >
+            newsletter</em
+          >
+        </h2>
+        <p
+          class="text-white/60 leading-relaxed mb-8 max-w-lg mx-auto"
+          style="font-size: 0.92rem"
+          data-fr="Recevez chaque mois les dernières actualités d'UniPlaceholder : événements, publications, offres de stage et annonces importantes."
+          data-en="Receive UniPlaceholder's latest news every month: events, publications, internship offers and important announcements."
+        >
+          Recevez chaque mois les dernières actualités d'UniPlaceholder :
+          événements, publications, offres de stage et annonces importantes.
+        </p>
+        <div
+          class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+          id="nlForm"
+        >
+          <input
+            type="email"
+            id="nlEmail"
+            class="nl-input flex-1 px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white text-sm font-body outline-none focus:border-gold transition-colors"
+            data-placeholder-fr="Votre adresse e-mail"
+            data-placeholder-en="Your email address"
+            placeholder="Votre adresse e-mail"
+          />
+          <button
+            onclick="subscribeNL()"
+            class="font-label text-[.78rem] font-bold tracking-[.1em] uppercase px-6 py-3 bg-gold text-p-900 rounded-lg hover:bg-gold-light transition-colors whitespace-nowrap"
+            data-fr="S'abonner"
+            data-en="Subscribe"
+          >
+            S'abonner
+          </button>
+        </div>
+        <div
+          id="nlSuccess"
+          class="hidden mt-4 font-label text-sm tracking-wider text-gold"
+          data-fr="✓ Merci ! Vous êtes abonné(e)."
+          data-en="✓ Thank you! You are subscribed."
+        >
+          ✓ Merci ! Vous êtes abonné(e).
+        </div>
+        <p
+          class="text-white/35 text-xs mt-4 font-label tracking-wider"
+          data-fr="Aucun spam. Désabonnement possible à tout moment."
+          data-en="No spam. Unsubscribe at any time."
+        >
+          Aucun spam. Désabonnement possible à tout moment.
+        </p>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+       ARTICLE MODAL
+  ══════════════════════════════════════ -->
+    <div
+      id="articleModal"
+      class="modal-overlay"
+      onclick="closeArticleOutside(event)"
+    >
+      <div class="modal-box">
+        <div
+          id="am-header"
+          class="h-48 relative flex items-end p-6"
+          style="background: linear-gradient(140deg, #1e0845, #5520b8)"
+        >
+          <button
+            onclick="closeArticle()"
+            class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/20 hover:bg-white/35 flex items-center justify-center text-white font-bold transition-colors"
+          >
+            ✕
+          </button>
+          <div class="relative z-10">
+            <div
+              id="am-cat"
+              class="font-label text-[.65rem] tracking-widest uppercase text-white/60 mb-1"
+            ></div>
+            <h2
+              id="am-title"
+              class="font-heading font-semibold text-white text-2xl leading-snug"
+            ></h2>
+          </div>
+          <div
+            id="am-icon"
+            class="absolute top-1/2 right-8 -translate-y-1/2 text-7xl opacity-25"
+          ></div>
+        </div>
+        <div class="p-6">
+          <div class="flex items-center gap-3 mb-5 pb-4 border-b border-p-50">
+            <div
+              class="w-8 h-8 rounded-full bg-gradient-to-br from-p-700 to-p-400 flex items-center justify-center font-heading italic text-white/50 text-sm flex-shrink-0"
+              id="am-av"
+            ></div>
+            <div>
+              <div
+                class="font-heading font-semibold text-p-900 text-sm"
+                id="am-author"
+              ></div>
+              <div
+                class="font-label text-[.62rem] tracking-wider uppercase text-p-400"
+                id="am-date"
+              ></div>
+            </div>
+            <div
+              class="ml-auto font-label text-[.65rem] tracking-wider uppercase text-p-400"
+              id="am-read"
+            ></div>
+          </div>
+          <p class="text-p-600/85 leading-[1.85] mb-5 text-sm" id="am-body"></p>
+          <div class="flex flex-wrap gap-2 mb-6" id="am-tags"></div>
+          <div class="flex gap-3">
+            <button
+              onclick="closeArticle()"
+              class="flex-1 font-label text-[.78rem] font-bold tracking-widest uppercase py-3 bg-p-700 text-white rounded-lg hover:bg-p-800 transition-colors"
+              data-fr="Fermer"
+              data-en="Close"
+            >
+              Fermer
+            </button>
+            <button
+              class="flex-1 font-label text-[.78rem] font-bold tracking-widest uppercase py-3 border-2 border-p-200 text-p-700 rounded-lg hover:bg-p-100 transition-colors"
+              data-fr="Partager"
+              data-en="Share"
+            >
+              Partager
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+       SCRIPTS
+  ══════════════════════════════════════ -->
+    <script>
+      let lang = "fr";
+
+      const articles = {
+        feat: {
+          color: "linear-gradient(140deg,#1E0845,#5520B8)",
+          icon: "🌍",
+          av: "J",
+          catFr: "Événement · Conférence",
+          catEn: "Event · Conference",
+          titleFr: "3ème Conférence Internationale sur l'Innovation Africaine",
+          titleEn: "3rd International Conference on African Innovation",
+          author: "Dr. Jean-Paul Modèle",
+          dateFr: "15 Septembre 2024",
+          dateEn: "September 15, 2024",
+          readFr: "6 min de lecture",
+          readEn: "6 min read",
+          bodyFr:
+            "UniPlaceholder accueillera du 2 au 4 octobre 2024 la 3ème édition de la Conférence Internationale sur l'Innovation Africaine. Plus de 200 participants venus de 15 pays sont attendus pour trois journées intenses d'échanges, de présentations de recherches et d'ateliers pratiques. Les thèmes principaux incluront l'intelligence artificielle pour le développement, les énergies renouvelables en Afrique et les modèles d'entrepreneuriat adaptés au contexte africain. La conférence se tiendra dans l'Amphithéâtre Central d'UniPlaceholder à Douala.",
+          bodyEn:
+            "UniPlaceholder will host from October 2 to 4, 2024, the 3rd edition of the International Conference on African Innovation. Over 200 participants from 15 countries are expected for three intensive days of exchanges, research presentations and practical workshops. Main themes will include AI for development, renewable energy in Africa and entrepreneurship models adapted to the African context. The conference will be held in UniPlaceholder's Central Auditorium in Douala.",
+          tags: [
+            "Innovation",
+            "Intelligence Artificielle",
+            "Conférence",
+            "Afrique",
+            "Entrepreneuriat",
+          ],
+        },
+        a1: {
+          color: "linear-gradient(135deg,#1E0845,#5520B8)",
+          icon: "🔬",
+          av: "M",
+          catFr: "Recherche",
+          catEn: "Research",
+          titleFr:
+            "Étude pionnière sur la sécurité alimentaire en Afrique centrale",
+          titleEn: "Pioneering study on food security in Central Africa",
+          author: "Dr. Marie Exemple",
+          dateFr: "28 Août 2024",
+          dateEn: "August 28, 2024",
+          readFr: "8 min de lecture",
+          readEn: "8 min read",
+          bodyFr:
+            "L'équipe du Département Agro-alimentaire & Nutrition vient de publier une étude de grande envergure portant sur la sécurité alimentaire dans six pays d'Afrique centrale (Cameroun, RDC, Congo, Gabon, Centrafrique et Guinée équatoriale). L'étude, conduite sur deux ans, propose des solutions innovantes combinant agriculture durable, transformation locale des aliments et systèmes de distribution améliorés. Les résultats ont été présentés lors d'un atelier avec des représentants de la FAO et de l'Union Africaine.",
+          bodyEn:
+            "The Department of Agri-food & Nutrition team has just published a large-scale study on food security in six Central African countries. The study, conducted over two years, proposes innovative solutions combining sustainable agriculture, local food processing and improved distribution systems. The results were presented at a workshop with representatives from the FAO and the African Union.",
+          tags: [
+            "Sécurité alimentaire",
+            "Afrique centrale",
+            "FAO",
+            "Recherche",
+            "Agriculture",
+          ],
+        },
+        a2: {
+          color: "linear-gradient(135deg,#7A6014,#C8A028)",
+          icon: "🏅",
+          av: "S",
+          catFr: "Prix & Distinctions",
+          catEn: "Award",
+          titleFr: "Lauréats du Prix National d'Innovation Technologique 2024",
+          titleEn: "Winners of the 2024 National Technology Innovation Prize",
+          author: "Sarah Nkemelu",
+          dateFr: "10 Août 2024",
+          dateEn: "August 10, 2024",
+          readFr: "4 min de lecture",
+          readEn: "4 min read",
+          bodyFr:
+            "L'équipe AgroTech composée de cinq étudiants en 3ème année d'informatique a remporté le premier prix du concours national d'innovation technologique organisé à Yaoundé. Leur solution — une application mobile intégrant un modèle de deep learning pour détecter précocement les maladies du cacao — a été saluée par le jury pour son originalité et son impact potentiel. Le projet sera incubé au sein du Centre d'Innovation d'UniPlaceholder avec un financement de départ de 5 millions de FCFA.",
+          bodyEn:
+            "The AgroTech team, made up of five third-year computer science students, won first prize at the national technology innovation competition held in Yaoundé. Their solution — a mobile app integrating a deep learning model for early detection of cocoa diseases — was praised by the jury for its originality and potential impact. The project will be incubated at UniPlaceholder's Innovation Centre with seed funding of 5 million FCFA.",
+          tags: [
+            "Innovation",
+            "Intelligence Artificielle",
+            "Agriculture",
+            "Prix",
+            "Start-up",
+          ],
+        },
+        a3: {
+          color: "linear-gradient(135deg,#14507A,#2888C8)",
+          icon: "🤝",
+          av: "R",
+          catFr: "Partenariat",
+          catEn: "Partnership",
+          titleFr: "Accord de coopération avec l'Université de Bordeaux",
+          titleEn: "Cooperation agreement with the University of Bordeaux",
+          author: "Prof. René Placeholder",
+          dateFr: "5 Juillet 2024",
+          dateEn: "July 5, 2024",
+          readFr: "3 min de lecture",
+          readEn: "3 min read",
+          bodyFr:
+            "UniPlaceholder et l'Université de Bordeaux (France) ont signé un accord de coopération académique portant sur l'échange d'étudiants, la co-direction de thèses et la mise en place d'un programme de double diplôme en Droit des Affaires. Dès la rentrée 2025, les étudiants en Master Droit des Affaires d'UniPlaceholder pourront effectuer leur deuxième année à Bordeaux et obtenir un diplôme des deux universités. Cette collaboration s'inscrit dans la stratégie d'internationalisation d'UniPlaceholder.",
+          bodyEn:
+            "UniPlaceholder and the University of Bordeaux (France) have signed an academic cooperation agreement covering student exchange, co-supervision of theses and the establishment of a double degree program in Business Law. From the 2025 academic year, UniPlaceholder's Master Business Law students will be able to complete their second year in Bordeaux and obtain a degree from both universities.",
+          tags: [
+            "Partenariat",
+            "France",
+            "Double diplôme",
+            "Droit",
+            "International",
+          ],
+        },
+        a4: {
+          color: "linear-gradient(135deg,#147A3C,#28C868)",
+          icon: "🎭",
+          av: "A",
+          catFr: "Vie Universitaire",
+          catEn: "Campus Life",
+          titleFr: "Retour sur la Semaine Culturelle 2024",
+          titleEn: "Highlights from Cultural Week 2024",
+          author: "Mme Alice Fictif",
+          dateFr: "20 Juin 2024",
+          dateEn: "June 20, 2024",
+          readFr: "5 min de lecture",
+          readEn: "5 min read",
+          bodyFr:
+            "Du 10 au 12 juin, le campus d'UniPlaceholder a vibré au rythme de la Semaine Culturelle 2024. Au programme : une exposition d'arts plastiques réunissant 30 étudiants, un concours d'éloquence bilingue remporté par Armelle Tsague (L2 Finance), des performances musicales, une simulation de Nations Unies et une soirée gastronomique célébrant les cuisines d'Afrique centrale. Plus de 600 personnes ont participé à cet événement devenu un rendez-vous incontournable de la vie universitaire.",
+          bodyEn:
+            "From June 10 to 12, UniPlaceholder's campus came alive for Cultural Week 2024. The program featured a visual arts exhibition showcasing 30 students, a bilingual eloquence competition won by Armelle Tsague (L2 Finance), musical performances, a Model United Nations simulation and a gastronomic evening celebrating Central African cuisines. Over 600 people participated in this event, which has become a highlight of campus life.",
+          tags: [
+            "Culture",
+            "Vie universitaire",
+            "Arts",
+            "Éloquence",
+            "Gastronomie",
+          ],
+        },
+        a5: {
+          color: "linear-gradient(135deg,#7A1450,#C82888)",
+          icon: "📄",
+          av: "R",
+          catFr: "Recherche",
+          catEn: "Research",
+          titleFr:
+            "Nouvelle publication dans le Journal of African Development",
+          titleEn: "New publication in the Journal of African Development",
+          author: "Prof. René Placeholder",
+          dateFr: "14 Juin 2024",
+          dateEn: "June 14, 2024",
+          readFr: "6 min de lecture",
+          readEn: "6 min read",
+          bodyFr:
+            "L'article intitulé \"Modèles de financement des PME en Afrique subsaharienne : entre contraintes formelles et solutions informelles\" vient d'être publié dans le Journal of African Development, une revue à comité de lecture classée A. Le Prof. Placeholder y analyse les mécanismes alternatifs de financement développés par les PME africaines face aux difficultés d'accès au crédit bancaire traditionnel, et propose un nouveau cadre conceptuel applicable dans plusieurs pays de la CEMAC.",
+          bodyEn:
+            'The article titled "SME Financing Models in Sub-Saharan Africa: Between Formal Constraints and Informal Solutions" has just been published in the Journal of African Development, an A-ranked peer-reviewed journal. Prof. Placeholder analyses alternative financing mechanisms developed by African SMEs facing difficulties accessing traditional bank credit, and proposes a new conceptual framework applicable in several CEMAC countries.',
+          tags: ["Finance", "PME", "Publication", "CEMAC", "Recherche"],
+        },
+        a6: {
+          color: "linear-gradient(135deg,#1E0845,#7040D4)",
+          icon: "🎓",
+          av: "M",
+          catFr: "Événement",
+          catEn: "Event",
+          titleFr: "Cérémonie de remise des diplômes — Promotion 2024",
+          titleEn: "Graduation Ceremony — Class of 2024",
+          author: "Dr. Marie Exemple",
+          dateFr: "1 Juin 2024",
+          dateEn: "June 1, 2024",
+          readFr: "5 min de lecture",
+          readEn: "5 min read",
+          bodyFr:
+            "C'est sous les applaudissements de familles et d'amis que la Promotion 2024 d'UniPlaceholder a officiellement reçu ses diplômes lors d'une cérémonie solennelle présidée par le Recteur. 187 étudiants issus de 6 filières ont été diplômés cette année, dont 23 avec mention très honorable. Le Recteur a rappelé dans son discours la vocation de l'université à former des acteurs du changement pour l'Afrique. Deux étudiants lauréats ont pris la parole au nom de leur promotion.",
+          bodyEn:
+            "To the applause of families and friends, UniPlaceholder's Class of 2024 officially received their diplomas at a solemn ceremony chaired by the Vice-Chancellor. 187 students from 6 programs graduated this year, including 23 with highest honours. The Vice-Chancellor highlighted the university's vocation to train agents of change for Africa. Two award-winning students spoke on behalf of their graduating class.",
+          tags: [
+            "Remise de diplômes",
+            "Promotion 2024",
+            "Cérémonie",
+            "Réussite",
+          ],
+        },
+      };
+
+      function openArticle(id) {
+        const a = articles[id];
+        if (!a) return;
+        const l = lang;
+        document.getElementById("am-header").style.background = a.color;
+        document.getElementById("am-icon").textContent = a.icon;
+        document.getElementById("am-av").textContent = a.av;
+        document.getElementById("am-cat").textContent =
+          l === "fr" ? a.catFr : a.catEn;
+        document.getElementById("am-title").textContent =
+          l === "fr" ? a.titleFr : a.titleEn;
+        document.getElementById("am-author").textContent = a.author;
+        document.getElementById("am-date").textContent =
+          l === "fr" ? a.dateFr : a.dateEn;
+        document.getElementById("am-read").textContent =
+          l === "fr" ? a.readFr : a.readEn;
+        document.getElementById("am-body").textContent =
+          l === "fr" ? a.bodyFr : a.bodyEn;
+        document.getElementById("am-tags").innerHTML = a.tags
+          .map(
+            (t) =>
+              `<span class="font-label text-xs px-2.5 py-1 bg-p-100 text-p-700 rounded-full">${t}</span>`,
+          )
+          .join("");
+        document.getElementById("articleModal").classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+      function closeArticle() {
+        document.getElementById("articleModal").classList.remove("open");
+        document.body.style.overflow = "";
+      }
+      function closeArticleOutside(e) {
+        if (e.target === document.getElementById("articleModal"))
+          closeArticle();
+      }
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeArticle();
+      });
+
+      // Category filter
+      function filterNews(cat) {
+        document
+          .querySelectorAll(".cat-tab")
+          .forEach((t) => t.classList.toggle("active", t.dataset.cat === cat));
+        const items = document.querySelectorAll(".article-item");
+        let visible = 0;
+        items.forEach((el) => {
+          const show = cat === "all" || el.dataset.cat === cat;
+          el.style.display = show ? "" : "none";
+          if (show) visible++;
+        });
+        document
+          .getElementById("emptyState")
+          .classList.toggle("hidden", visible > 0);
+      }
+
+      // Newsletter
+      function subscribeNL() {
+        const v = document.getElementById("nlEmail").value;
+        if (!v || !v.includes("@")) return;
+        document.getElementById("nlForm").classList.add("hidden");
+        document.getElementById("nlSuccess").classList.remove("hidden");
+      }
+
+      // Language
+      function setLang(l) {
+        lang = l;
+        document
+          .querySelectorAll(".lang-btn")
+          .forEach((b) => b.classList.remove("active"));
+        document
+          .querySelector(`.lang-btn[onclick="setLang('${l}')"]`)
+          .classList.add("active");
+        document.querySelectorAll("[data-fr]").forEach((el) => {
+          const txt = el.getAttribute("data-" + l);
+          if (txt) el.textContent = txt;
+        });
+        // placeholders
+        const nlEl = document.getElementById("nlEmail");
+        if (nlEl)
+          nlEl.placeholder =
+            l === "fr" ? "Votre adresse e-mail" : "Your email address";
+        const srEl = document.getElementById("searchInput");
+        if (srEl) srEl.placeholder = l === "fr" ? "Mot-clé..." : "Keyword...";
+      }
+
+      // Scroll reveal
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("show");
+              obs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.08 },
+      );
+      document.querySelectorAll(".reveal").forEach((el) => obs.observe(el));
+
+      // Nav shadow
+      window.addEventListener("scroll", () => {
+        document.getElementById("navbar").style.boxShadow =
+          window.pageYOffset > 60 ? "0 4px 30px rgba(0,0,0,.4)" : "none";
+      });
+
+      function toggleMenu() {
+        document.getElementById("mobileMenu").classList.toggle("hidden");
+      }
+    </script>
+  </body>
+</html>

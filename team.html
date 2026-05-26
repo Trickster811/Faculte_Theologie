@@ -1,0 +1,1790 @@
+<!doctype html>
+<html lang="fr" data-lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UniPlaceholder — Équipe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              p: {
+                50: "#F7F4FF",
+                100: "#EDE6FF",
+                200: "#D4BEFA",
+                300: "#B89AF5",
+                400: "#9B72E8",
+                500: "#7040D4",
+                600: "#5520B8",
+                700: "#3E1490",
+                800: "#2D0A6E",
+                900: "#1E0845",
+              },
+              gold: { DEFAULT: "#BFA050", light: "#D4B866", dark: "#9A7C30" },
+            },
+            fontFamily: {
+              heading: ["Cormorant Garamond", "Georgia", "serif"],
+              body: ["DM Sans", "system-ui", "sans-serif"],
+              label: ["Barlow Condensed", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "DM Sans", system-ui, sans-serif;
+      }
+      .font-heading {
+        font-family: "Cormorant Garamond", Georgia, serif;
+      }
+      .font-label {
+        font-family: "Barlow Condensed", sans-serif;
+      }
+
+      .nav-link {
+        border-bottom: 2px solid transparent;
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+      }
+      .nav-link:hover {
+        color: #bfa050;
+        border-bottom-color: #bfa050;
+      }
+      .lang-btn {
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+      .lang-btn.active {
+        background: #bfa050;
+        color: #1e0845;
+      }
+
+      /* Reveal */
+      .reveal {
+        opacity: 0;
+        transform: translateY(26px);
+        transition:
+          opacity 0.6s ease,
+          transform 0.6s ease;
+      }
+      .reveal.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .reveal-left {
+        opacity: 0;
+        transform: translateX(-28px);
+        transition:
+          opacity 0.65s ease,
+          transform 0.65s ease;
+      }
+      .reveal-left.show {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .reveal-right {
+        opacity: 0;
+        transform: translateX(28px);
+        transition:
+          opacity 0.65s ease,
+          transform 0.65s ease;
+      }
+      .reveal-right.show {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      /* Leader card */
+      .leader-card {
+        transition:
+          transform 0.35s cubic-bezier(0.22, 0.68, 0, 1.2),
+          box-shadow 0.35s;
+      }
+      .leader-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 22px 48px rgba(30, 8, 69, 0.15);
+      }
+      .leader-card:hover .leader-img {
+        border-color: #bfa050;
+      }
+      .leader-card:hover .social-links {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Staff card */
+      .staff-card {
+        transition: all 0.3s;
+      }
+      .staff-card:hover {
+        background: #ede6ff;
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(30, 8, 69, 0.1);
+      }
+      .staff-card:hover .staff-avatar {
+        border-color: #bfa050;
+      }
+
+      /* Social links slide */
+      .social-links {
+        opacity: 0;
+        transform: translateY(6px);
+        transition:
+          opacity 0.3s,
+          transform 0.3s;
+      }
+
+      /* Avatar gradient variants */
+      .av1 {
+        background: linear-gradient(135deg, #3e1490, #9b72e8);
+      }
+      .av2 {
+        background: linear-gradient(135deg, #14507a, #4090d0);
+      }
+      .av3 {
+        background: linear-gradient(135deg, #7a1450, #d040a0);
+      }
+      .av4 {
+        background: linear-gradient(135deg, #147a40, #40c070);
+      }
+      .av5 {
+        background: linear-gradient(135deg, #7a6014, #c8a028);
+      }
+      .av6 {
+        background: linear-gradient(135deg, #5520b8, #9b72e8);
+      }
+      .av7 {
+        background: linear-gradient(135deg, #7a3014, #c86040);
+      }
+      .av8 {
+        background: linear-gradient(135deg, #1e0845, #5520b8);
+      }
+      .av9 {
+        background: linear-gradient(135deg, #147a6a, #28c8a8);
+      }
+      .av10 {
+        background: linear-gradient(135deg, #7a1428, #c82850);
+      }
+
+      /* Tab filter */
+      .dept-tab {
+        transition: all 0.25s;
+      }
+      .dept-tab.active {
+        background: #3e1490;
+        color: #fff;
+        box-shadow: 0 4px 14px rgba(62, 20, 144, 0.3);
+      }
+
+      /* Slants */
+      .slant-bot {
+        clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+      }
+      .slant-top {
+        clip-path: polygon(0 6%, 100% 0, 100% 100%, 0 100%);
+      }
+
+      /* Modal */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(30, 8, 69, 0.55);
+        backdrop-filter: blur(4px);
+        z-index: 200;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+      }
+      .modal-overlay.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .modal-box {
+        background: #fff;
+        border-radius: 20px;
+        max-width: 520px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        transform: translateY(18px) scale(0.97);
+        transition: transform 0.3s;
+      }
+      .modal-overlay.open .modal-box {
+        transform: translateY(0) scale(1);
+      }
+    </style>
+  </head>
+  <body class="bg-white text-p-900 overflow-x-hidden">
+    <!-- ═══════════════════════════════════════
+       ANNOUNCEMENT BAR
+  ═══════════════════════════════════════ -->
+    <div
+      class="bg-gold text-p-900 text-center py-2 px-4 font-label text-xs font-semibold tracking-widest z-50 relative"
+    >
+      <span
+        data-fr="🎓 Inscriptions ouvertes — Année académique 2024–2025"
+        data-en="🎓 Enrolments open — Academic year 2024–2025"
+      >
+        🎓 Inscriptions ouvertes — Année académique 2024–2025
+      </span>
+      <a
+        href="#"
+        class="underline font-bold ml-2"
+        data-fr="Postuler →"
+        data-en="Apply now →"
+        >Postuler →</a
+      >
+    </div>
+
+    <!-- ═══════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════ -->
+    <nav
+      id="navbar"
+      class="sticky top-0 z-40 bg-p-900 border-b border-gold/20 px-6 h-[68px] flex items-center justify-between transition-shadow duration-300"
+    >
+      <a href="home.html" class="flex items-center gap-3 flex-shrink-0">
+        <div
+          class="w-10 h-10 rounded-full bg-gold flex items-center justify-center font-heading text-[18px] font-bold text-p-900"
+        >
+          U
+        </div>
+        <div class="leading-tight">
+          <div
+            class="font-heading text-[1.35rem] font-semibold text-white leading-none"
+          >
+            UniPlaceholder
+          </div>
+          <div
+            class="font-label text-[.6rem] tracking-[.2em] uppercase text-gold"
+            data-fr="Université d'Excellence"
+            data-en="University of Excellence"
+          >
+            Université d'Excellence
+          </div>
+        </div>
+      </a>
+      <ul class="hidden lg:flex items-center list-none gap-0 h-[68px]">
+        <li>
+          <a
+            href="home.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Accueil"
+            data-en="Home"
+            >Accueil</a
+          >
+        </li>
+        <li>
+          <a
+            href="about.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="À Propos"
+            data-en="About"
+            >À Propos</a
+          >
+        </li>
+        <li>
+          <a
+            href="page3-programs.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Formations"
+            data-en="Programs"
+            >Formations</a
+          >
+        </li>
+        <li>
+          <a
+            href="library.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Bibliothèque"
+            data-en="Library"
+            >Bibliothèque</a
+          >
+        </li>
+        <li>
+          <a
+            href="news.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Actualités"
+            data-en="News"
+            >Actualités</a
+          >
+        </li>
+        <li>
+          <a
+            href="team.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-gold px-3 h-[68px] flex items-center border-b-2 border-gold"
+            data-fr="Équipe"
+            data-en="Team"
+            >Équipe</a
+          >
+        </li>
+        <li>
+          <a
+            href="events.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Événements"
+            data-en="Events"
+            >Événements</a
+          >
+        </li>
+        <li>
+          <a
+            href="contact.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Contact"
+            data-en="Contact"
+            >Contact</a
+          >
+        </li>
+      </ul>
+      <div class="flex items-center gap-2.5">
+        <div
+          class="flex rounded-full overflow-hidden border border-white/20 bg-white/10"
+        >
+          <button
+            onclick="setLang('fr')"
+            class="lang-btn active font-label text-[.7rem] font-bold tracking-[.05em] px-3 py-1 text-white/55 bg-transparent border-none cursor-pointer"
+          >
+            FR
+          </button>
+          <button
+            onclick="setLang('en')"
+            class="lang-btn font-label text-[.7rem] font-bold tracking-[.05em] px-3 py-1 text-white/55 bg-transparent border-none cursor-pointer"
+          >
+            EN
+          </button>
+        </div>
+        <a
+          href="#"
+          class="hidden sm:inline-block font-label text-[.78rem] font-semibold tracking-[.08em] uppercase px-4 py-2 border border-gold text-gold rounded hover:bg-gold hover:text-p-900 transition-colors duration-200"
+          data-fr="Se Connecter"
+          data-en="Login"
+          >Se Connecter</a
+        >
+        <button
+          onclick="toggleMenu()"
+          class="lg:hidden flex flex-col gap-[5px] p-1 bg-transparent border-none cursor-pointer"
+        >
+          <span class="block w-5 h-[2px] bg-white rounded"></span>
+          <span class="block w-5 h-[2px] bg-white rounded"></span>
+          <span class="block w-5 h-[2px] bg-white rounded"></span>
+        </button>
+      </div>
+    </nav>
+    <div
+      id="mobileMenu"
+      class="hidden lg:hidden bg-p-900 border-t border-white/10 z-30 relative"
+    >
+      <a
+        href="home.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Accueil"
+        data-en="Home"
+        >Accueil</a
+      >
+      <a
+        href="about.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="À Propos"
+        data-en="About"
+        >À Propos</a
+      >
+      <a
+        href="programs.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Formations"
+        data-en="Programs"
+        >Formations</a
+      >
+
+      <a
+        href="library.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Bibliothèque"
+        data-en="Library"
+        >Bibliothèque</a
+      >
+      <a
+        href="news.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Actualités"
+        data-en="News"
+        >Actualités</a
+      >
+      <a
+        href="team.html"
+        class="block font-label text-sm tracking-widest uppercase text-gold px-6 py-3 border-b border-white/5"
+        data-fr="Équipe"
+        data-en="Team"
+        >Équipe</a
+      >
+      <a
+        href="events.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Événements"
+        data-en="Events"
+        >Événements</a
+      >
+      <a
+        href="contact.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Contact"
+        data-en="Contact"
+        >Contact</a
+      >
+    </div>
+
+    <!-- ═══════════════════════════════════════
+       PAGE HERO BANNER
+  ═══════════════════════════════════════ -->
+    <div class="slant-bot bg-p-900 pt-20 pb-32 px-6 relative overflow-hidden">
+      <div
+        class="absolute inset-0 pointer-events-none"
+        style="
+          background-image:
+            linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+            linear-gradient(
+              90deg,
+              rgba(255, 255, 255, 0.025) 1px,
+              transparent 1px
+            );
+          background-size: 50px 50px;
+        "
+      ></div>
+      <div
+        class="absolute -right-20 top-0 w-96 h-96 rounded-full pointer-events-none"
+        style="
+          background: radial-gradient(
+            circle,
+            rgba(155, 114, 232, 0.15) 0%,
+            transparent 70%
+          );
+        "
+      ></div>
+      <!-- Floating avatars decoration -->
+      <div class="absolute right-10 bottom-10 hidden lg:flex gap-3 opacity-30">
+        <div class="w-12 h-12 rounded-full av1"></div>
+        <div class="w-16 h-16 rounded-full av3 self-end"></div>
+        <div class="w-10 h-10 rounded-full av5"></div>
+        <div class="w-14 h-14 rounded-full av4 self-end"></div>
+      </div>
+      <div class="max-w-6xl mx-auto relative z-10">
+        <div class="flex items-center gap-2 mb-4">
+          <span class="block w-7 h-[2px] bg-gold"></span>
+          <span
+            class="font-label text-[.7rem] tracking-[.28em] uppercase text-gold"
+            data-fr="Les visages de l'excellence"
+            data-en="The faces of excellence"
+            >Les visages de l'excellence</span
+          >
+        </div>
+        <h1
+          class="font-heading font-semibold text-white leading-[1.1] mb-4"
+          style="font-size: clamp(2.4rem, 4.5vw, 4rem)"
+        >
+          <span data-fr="Notre" data-en="Our">Notre</span>
+          <em class="text-gold italic" data-fr=" Équipe" data-en=" Team">
+            Équipe</em
+          >
+        </h1>
+        <p
+          class="text-white/65 max-w-xl leading-relaxed mb-6"
+          style="font-size: 0.95rem"
+          data-fr="Des enseignants passionnés, des administrateurs dévoués et des chercheurs engagés — ensemble, ils font vivre l'excellence au quotidien."
+          data-en="Passionate lecturers, dedicated administrators and committed researchers — together they bring excellence to life every day."
+        >
+          Des enseignants passionnés, des administrateurs dévoués et des
+          chercheurs engagés — ensemble, ils font vivre l'excellence au
+          quotidien.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <div
+            class="flex items-center gap-2 bg-white/10 rounded-full px-4 py-2"
+          >
+            <span class="text-gold font-label font-bold text-sm">45+</span>
+            <span
+              class="font-label text-[.72rem] tracking-wider uppercase text-white/70"
+              data-fr="Enseignants"
+              data-en="Lecturers"
+              >Enseignants</span
+            >
+          </div>
+          <div
+            class="flex items-center gap-2 bg-white/10 rounded-full px-4 py-2"
+          >
+            <span class="text-gold font-label font-bold text-sm">12</span>
+            <span
+              class="font-label text-[.72rem] tracking-wider uppercase text-white/70"
+              data-fr="Docteurs"
+              data-en="PhDs"
+              >Docteurs</span
+            >
+          </div>
+          <div
+            class="flex items-center gap-2 bg-white/10 rounded-full px-4 py-2"
+          >
+            <span class="text-gold font-label font-bold text-sm">7</span>
+            <span
+              class="font-label text-[.72rem] tracking-wider uppercase text-white/70"
+              data-fr="Nationalités"
+              data-en="Nationalities"
+              >Nationalités</span
+            >
+          </div>
+        </div>
+        <div
+          class="flex items-center gap-2 mt-6 font-label text-[.72rem] tracking-widest uppercase text-white/35"
+        >
+          <a
+            href="home.html"
+            class="hover:text-gold transition-colors"
+            data-fr="Accueil"
+            data-en="Home"
+            >Accueil</a
+          >
+          <span>/</span>
+          <span class="text-gold" data-fr="Équipe" data-en="Team">Équipe</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+       SECTION 1 — LEADERSHIP
+  ═══════════════════════════════════════ -->
+    <section class="py-24 px-6 bg-white">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-14 reveal">
+          <div class="flex items-center justify-center gap-2 mb-3">
+            <span class="block w-7 h-[2px] bg-gold"></span>
+            <span
+              class="font-label text-[.7rem] tracking-[.28em] uppercase text-p-600"
+              data-fr="Direction Générale"
+              data-en="Executive Leadership"
+              >Direction Générale</span
+            >
+            <span class="block w-7 h-[2px] bg-gold"></span>
+          </div>
+          <h2
+            class="font-heading font-semibold text-p-900 leading-[1.15]"
+            style="font-size: clamp(2rem, 3.5vw, 2.9rem)"
+          >
+            <span data-fr="L'équipe" data-en="The">L'équipe</span>
+            <em
+              class="text-p-600 italic"
+              data-fr=" dirigeante"
+              data-en=" leadership team"
+            >
+              dirigeante</em
+            >
+          </h2>
+        </div>
+
+        <!-- Top 3 leaders — large cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          <!-- Rector -->
+          <div
+            class="leader-card bg-p-50 rounded-2xl p-8 text-center reveal cursor-pointer"
+            onclick="openProfile('rector')"
+          >
+            <div class="relative w-28 h-28 mx-auto mb-5">
+              <div
+                class="leader-img w-28 h-28 rounded-full av1 flex items-center justify-center font-heading text-4xl italic text-white/40 border-4 border-p-200 transition-colors duration-300"
+              >
+                R
+              </div>
+              <div
+                class="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-gold border-2 border-white flex items-center justify-center text-xs"
+              >
+                👑
+              </div>
+            </div>
+            <div
+              class="font-label text-[.68rem] tracking-[.18em] uppercase text-p-500 mb-1"
+              data-fr="Recteur"
+              data-en="Vice-Chancellor"
+            >
+              Recteur
+            </div>
+            <h3 class="font-heading font-semibold text-p-900 text-xl mb-1">
+              Prof. René Placeholder
+            </h3>
+            <p
+              class="text-p-400 text-xs font-label tracking-wider uppercase mb-4"
+              data-fr="PhD Économie · Paris 1 Panthéon"
+              data-en="PhD Economics · Paris 1 Panthéon"
+            >
+              PhD Économie · Paris 1 Panthéon
+            </p>
+            <p
+              class="text-p-600/75 text-sm leading-relaxed mb-5"
+              data-fr="Économiste de renom, auteur de 3 ouvrages sur le développement africain. 20 ans d'expérience dans l'enseignement supérieur."
+              data-en="Renowned economist, author of 3 books on African development. 20 years of experience in higher education."
+            >
+              Économiste de renom, auteur de 3 ouvrages sur le développement
+              africain. 20 ans d'expérience dans l'enseignement supérieur.
+            </p>
+            <div class="social-links flex justify-center gap-2">
+              <a
+                href="#"
+                class="w-8 h-8 rounded-full bg-p-100 hover:bg-p-600 hover:text-white flex items-center justify-center text-p-600 text-xs font-bold font-label transition-colors"
+                >in</a
+              >
+              <a
+                href="#"
+                class="w-8 h-8 rounded-full bg-p-100 hover:bg-p-600 hover:text-white flex items-center justify-center text-p-600 text-xs font-bold font-label transition-colors"
+                >✉</a
+              >
+              <a
+                href="#"
+                class="w-8 h-8 rounded-full bg-p-100 hover:bg-p-600 hover:text-white flex items-center justify-center text-p-600 text-xs font-bold font-label transition-colors"
+                >𝕏</a
+              >
+            </div>
+          </div>
+
+          <!-- Academic Dean -->
+          <div
+            class="leader-card bg-p-900 rounded-2xl p-8 text-center reveal cursor-pointer"
+            onclick="openProfile('dean')"
+            style="transition-delay: 0.1s"
+          >
+            <div class="relative w-28 h-28 mx-auto mb-5">
+              <div
+                class="leader-img w-28 h-28 rounded-full av3 flex items-center justify-center font-heading text-4xl italic text-white/40 border-4 border-p-700 transition-colors duration-300"
+              >
+                M
+              </div>
+              <div
+                class="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-gold border-2 border-p-900 flex items-center justify-center text-xs"
+              >
+                🏛️
+              </div>
+            </div>
+            <div
+              class="font-label text-[.68rem] tracking-[.18em] uppercase text-p-300 mb-1"
+              data-fr="Doyenne Académique"
+              data-en="Academic Dean"
+            >
+              Doyenne Académique
+            </div>
+            <h3 class="font-heading font-semibold text-white text-xl mb-1">
+              Dr. Marie Exemple
+            </h3>
+            <p
+              class="text-white/40 text-xs font-label tracking-wider uppercase mb-4"
+              data-fr="PhD Éducation · Université de Yaoundé"
+              data-en="PhD Education · University of Yaoundé"
+            >
+              PhD Éducation · Université de Yaoundé
+            </p>
+            <p
+              class="text-white/60 text-sm leading-relaxed mb-5"
+              data-fr="Spécialiste en ingénierie pédagogique et en évaluation des apprentissages. Coordinatrice des réformes curriculaires depuis 2018."
+              data-en="Specialist in instructional design and learning assessment. Coordinator of curricular reforms since 2018."
+            >
+              Spécialiste en ingénierie pédagogique et en évaluation des
+              apprentissages. Coordinatrice des réformes curriculaires depuis
+              2018.
+            </p>
+            <div class="social-links flex justify-center gap-2">
+              <a
+                href="#"
+                class="w-8 h-8 rounded-full bg-white/10 hover:bg-gold hover:text-p-900 flex items-center justify-center text-white/60 text-xs font-bold font-label transition-colors"
+                >in</a
+              >
+              <a
+                href="#"
+                class="w-8 h-8 rounded-full bg-white/10 hover:bg-gold hover:text-p-900 flex items-center justify-center text-white/60 text-xs font-bold font-label transition-colors"
+                >✉</a
+              >
+              <a
+                href="#"
+                class="w-8 h-8 rounded-full bg-white/10 hover:bg-gold hover:text-p-900 flex items-center justify-center text-white/60 text-xs font-bold font-label transition-colors"
+                >𝕏</a
+              >
+            </div>
+          </div>
+
+          <!-- Research Director -->
+          <div
+            class="leader-card bg-p-50 rounded-2xl p-8 text-center reveal cursor-pointer"
+            onclick="openProfile('research')"
+            style="transition-delay: 0.2s"
+          >
+            <div class="relative w-28 h-28 mx-auto mb-5">
+              <div
+                class="leader-img w-28 h-28 rounded-full av2 flex items-center justify-center font-heading text-4xl italic text-white/40 border-4 border-p-200 transition-colors duration-300"
+              >
+                J
+              </div>
+              <div
+                class="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-gold border-2 border-white flex items-center justify-center text-xs"
+              >
+                🔬
+              </div>
+            </div>
+            <div
+              class="font-label text-[.68rem] tracking-[.18em] uppercase text-p-500 mb-1"
+              data-fr="Directeur de la Recherche"
+              data-en="Director of Research"
+            >
+              Directeur de la Recherche
+            </div>
+            <h3 class="font-heading font-semibold text-p-900 text-xl mb-1">
+              Dr. Jean-Paul Modèle
+            </h3>
+            <p
+              class="text-p-400 text-xs font-label tracking-wider uppercase mb-4"
+              data-fr="PhD Informatique · UCL Belgique"
+              data-en="PhD Computer Science · UCL Belgium"
+            >
+              PhD Informatique · UCL Belgique
+            </p>
+            <p
+              class="text-p-600/75 text-sm leading-relaxed mb-5"
+              data-fr="Expert en IA appliquée et en systèmes distribués. Auteur de 22 articles dans des revues à comité de lecture international."
+              data-en="Expert in applied AI and distributed systems. Author of 22 articles in international peer-reviewed journals."
+            >
+              Expert en IA appliquée et en systèmes distribués. Auteur de 22
+              articles dans des revues à comité de lecture international.
+            </p>
+            <div class="social-links flex justify-center gap-2">
+              <a
+                href="#"
+                class="w-8 h-8 rounded-full bg-p-100 hover:bg-p-600 hover:text-white flex items-center justify-center text-p-600 text-xs font-bold font-label transition-colors"
+                >in</a
+              >
+              <a
+                href="#"
+                class="w-8 h-8 rounded-full bg-p-100 hover:bg-p-600 hover:text-white flex items-center justify-center text-p-600 text-xs font-bold font-label transition-colors"
+                >✉</a
+              >
+              <a
+                href="#"
+                class="w-8 h-8 rounded-full bg-p-100 hover:bg-p-600 hover:text-white flex items-center justify-center text-p-600 text-xs font-bold font-label transition-colors"
+                >🔗</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Administration row -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div
+            class="staff-card bg-p-50 rounded-xl p-5 flex items-center gap-4 reveal cursor-pointer"
+            onclick="openProfile('admin')"
+          >
+            <div
+              class="w-14 h-14 rounded-full av5 flex items-center justify-center font-heading text-xl italic text-white/50 flex-shrink-0 border-2 border-p-200 staff-avatar transition-colors duration-300"
+            >
+              A
+            </div>
+            <div>
+              <div
+                class="font-label text-[.65rem] tracking-widest uppercase text-p-500 mb-0.5"
+                data-fr="Dir. Administrative"
+                data-en="Administrative Director"
+              >
+                Dir. Administrative
+              </div>
+              <div
+                class="font-heading font-semibold text-p-900 text-base leading-snug"
+              >
+                Mme Alice Fictif
+              </div>
+              <div
+                class="font-label text-[.62rem] tracking-wider text-p-400 uppercase mt-0.5"
+                data-fr="MBA · HEC Paris"
+                data-en="MBA · HEC Paris"
+              >
+                MBA · HEC Paris
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="staff-card bg-p-50 rounded-xl p-5 flex items-center gap-4 reveal cursor-pointer"
+            onclick="openProfile('finance-dir')"
+            style="transition-delay: 0.07s"
+          >
+            <div
+              class="w-14 h-14 rounded-full av6 flex items-center justify-center font-heading text-xl italic text-white/50 flex-shrink-0 border-2 border-p-200 staff-avatar transition-colors duration-300"
+            >
+              P
+            </div>
+            <div>
+              <div
+                class="font-label text-[.65rem] tracking-widest uppercase text-p-500 mb-0.5"
+                data-fr="Directeur Financier"
+                data-en="Finance Director"
+              >
+                Directeur Financier
+              </div>
+              <div
+                class="font-heading font-semibold text-p-900 text-base leading-snug"
+              >
+                M. Paul Dupont
+              </div>
+              <div
+                class="font-label text-[.62rem] tracking-wider text-p-400 uppercase mt-0.5"
+                data-fr="DESCF · Expert Comptable"
+                data-en="DESCF · Chartered Accountant"
+              >
+                DESCF · Expert Comptable
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="staff-card bg-p-50 rounded-xl p-5 flex items-center gap-4 reveal cursor-pointer"
+            onclick="openProfile('it-head')"
+            style="transition-delay: 0.14s"
+          >
+            <div
+              class="w-14 h-14 rounded-full av7 flex items-center justify-center font-heading text-xl italic text-white/50 flex-shrink-0 border-2 border-p-200 staff-avatar transition-colors duration-300"
+            >
+              T
+            </div>
+            <div>
+              <div
+                class="font-label text-[.65rem] tracking-widest uppercase text-p-500 mb-0.5"
+                data-fr="Chef Département IT"
+                data-en="Head of IT Dept."
+              >
+                Chef Département IT
+              </div>
+              <div
+                class="font-heading font-semibold text-p-900 text-base leading-snug"
+              >
+                Dr. Thomas Sample
+              </div>
+              <div
+                class="font-label text-[.62rem] tracking-wider text-p-400 uppercase mt-0.5"
+                data-fr="PhD Informatique"
+                data-en="PhD Computer Science"
+              >
+                PhD Informatique
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="staff-card bg-p-50 rounded-xl p-5 flex items-center gap-4 reveal cursor-pointer"
+            onclick="openProfile('lib-head')"
+            style="transition-delay: 0.21s"
+          >
+            <div
+              class="w-14 h-14 rounded-full av9 flex items-center justify-center font-heading text-xl italic text-white/50 flex-shrink-0 border-2 border-p-200 staff-avatar transition-colors duration-300"
+            >
+              C
+            </div>
+            <div>
+              <div
+                class="font-label text-[.65rem] tracking-widest uppercase text-p-500 mb-0.5"
+                data-fr="Responsable Bibliothèque"
+                data-en="Library Manager"
+              >
+                Responsable Bibliothèque
+              </div>
+              <div
+                class="font-heading font-semibold text-p-900 text-base leading-snug"
+              >
+                Mme Claire Bisson
+              </div>
+              <div
+                class="font-label text-[.62rem] tracking-wider text-p-400 uppercase mt-0.5"
+                data-fr="Master Bibliothéconomie"
+                data-en="Master Library Science"
+              >
+                Master Bibliothéconomie
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+       SECTION 2 — FACULTY / DEPT FILTER
+  ═══════════════════════════════════════ -->
+    <section class="py-24 px-6 bg-p-50">
+      <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div
+          class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 reveal"
+        >
+          <div>
+            <div class="flex items-center gap-2 mb-3">
+              <span class="block w-7 h-[2px] bg-gold"></span>
+              <span
+                class="font-label text-[.7rem] tracking-[.28em] uppercase text-p-600"
+                data-fr="Corps enseignant"
+                data-en="Teaching faculty"
+                >Corps enseignant</span
+              >
+            </div>
+            <h2
+              class="font-heading font-semibold text-p-900 leading-[1.15]"
+              style="font-size: clamp(2rem, 3.5vw, 2.9rem)"
+            >
+              <span data-fr="Nos" data-en="Our">Nos</span>
+              <em
+                class="text-p-600 italic"
+                data-fr=" enseignants"
+                data-en=" faculty"
+              >
+                enseignants</em
+              >
+            </h2>
+          </div>
+          <!-- Dept tabs -->
+          <div class="flex flex-wrap gap-2">
+            <button
+              onclick="filterFaculty('all')"
+              data-dept="all"
+              class="dept-tab active font-label text-[.72rem] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full border border-p-200 text-p-700 cursor-pointer"
+              data-fr="Tous"
+              data-en="All"
+            >
+              Tous
+            </button>
+            <button
+              onclick="filterFaculty('tech')"
+              data-dept="tech"
+              class="dept-tab font-label text-[.72rem] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full border border-p-200 text-p-700 cursor-pointer"
+              data-fr="Tech"
+              data-en="Tech"
+            >
+              Tech
+            </button>
+            <button
+              onclick="filterFaculty('business')"
+              data-dept="business"
+              class="dept-tab font-label text-[.72rem] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full border border-p-200 text-p-700 cursor-pointer"
+              data-fr="Commerce"
+              data-en="Business"
+            >
+              Commerce
+            </button>
+            <button
+              onclick="filterFaculty('law')"
+              data-dept="law"
+              class="dept-tab font-label text-[.72rem] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full border border-p-200 text-p-700 cursor-pointer"
+              data-fr="Droit"
+              data-en="Law"
+            >
+              Droit
+            </button>
+            <button
+              onclick="filterFaculty('eng')"
+              data-dept="eng"
+              class="dept-tab font-label text-[.72rem] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full border border-p-200 text-p-700 cursor-pointer"
+              data-fr="Ingénierie"
+              data-en="Engineering"
+            >
+              Ingénierie
+            </button>
+            <button
+              onclick="filterFaculty('media')"
+              data-dept="media"
+              class="dept-tab font-label text-[.72rem] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full border border-p-200 text-p-700 cursor-pointer"
+              data-fr="Médias"
+              data-en="Media"
+            >
+              Médias
+            </button>
+          </div>
+        </div>
+
+        <!-- Faculty grid -->
+        <div
+          id="facultyGrid"
+          class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5"
+        >
+          <!-- Faculty cards: data-dept for filter -->
+          <div class="faculty-member text-center reveal" data-dept="tech">
+            <div
+              class="w-20 h-20 rounded-full av1 flex items-center justify-center font-heading text-2xl italic text-white/40 mx-auto mb-3 border-3 border-p-200 hover:border-gold transition-colors duration-300 cursor-pointer"
+              onclick="openProfile('f1')"
+            >
+              S
+            </div>
+            <div
+              class="font-heading font-semibold text-p-900 text-base leading-snug"
+            >
+              Dr. Samuel Kotto
+            </div>
+            <div
+              class="font-label text-[.62rem] tracking-widest uppercase text-p-500 mt-0.5"
+              data-fr="Intelligence Artificielle"
+              data-en="Artificial Intelligence"
+            >
+              Intelligence Artificielle
+            </div>
+          </div>
+
+          <div
+            class="faculty-member text-center reveal"
+            data-dept="tech"
+            style="transition-delay: 0.06s"
+          >
+            <div
+              class="w-20 h-20 rounded-full av6 flex items-center justify-center font-heading text-2xl italic text-white/40 mx-auto mb-3 hover:border-gold transition-colors duration-300 cursor-pointer border-3 border-p-200"
+            >
+              N
+            </div>
+            <div
+              class="font-heading font-semibold text-p-900 text-base leading-snug"
+            >
+              Prof. Nadège Fouda
+            </div>
+            <div
+              class="font-label text-[.62rem] tracking-widest uppercase text-p-500 mt-0.5"
+              data-fr="Réseaux & Sécurité"
+              data-en="Networks & Security"
+            >
+              Réseaux & Sécurité
+            </div>
+          </div>
+
+          <div
+            class="faculty-member text-center reveal"
+            data-dept="business"
+            style="transition-delay: 0.12s"
+          >
+            <div
+              class="w-20 h-20 rounded-full av5 flex items-center justify-center font-heading text-2xl italic text-white/40 mx-auto mb-3 hover:border-gold transition-colors duration-300 cursor-pointer border-3 border-p-200"
+            >
+              L
+            </div>
+            <div
+              class="font-heading font-semibold text-p-900 text-base leading-snug"
+            >
+              M. Lucien Abomo
+            </div>
+            <div
+              class="font-label text-[.62rem] tracking-widest uppercase text-p-500 mt-0.5"
+              data-fr="Finance d'entreprise"
+              data-en="Corporate Finance"
+            >
+              Finance d'entreprise
+            </div>
+          </div>
+
+          <div
+            class="faculty-member text-center reveal"
+            data-dept="business"
+            style="transition-delay: 0.18s"
+          >
+            <div
+              class="w-20 h-20 rounded-full av3 flex items-center justify-center font-heading text-2xl italic text-white/40 mx-auto mb-3 hover:border-gold transition-colors duration-300 cursor-pointer border-3 border-p-200"
+            >
+              F
+            </div>
+            <div
+              class="font-heading font-semibold text-p-900 text-base leading-snug"
+            >
+              Dr. Françoise Mbarga
+            </div>
+            <div
+              class="font-label text-[.62rem] tracking-widest uppercase text-p-500 mt-0.5"
+              data-fr="Comptabilité & Audit"
+              data-en="Accounting & Audit"
+            >
+              Comptabilité & Audit
+            </div>
+          </div>
+
+          <div
+            class="faculty-member text-center reveal"
+            data-dept="law"
+            style="transition-delay: 0.24s"
+          >
+            <div
+              class="w-20 h-20 rounded-full av10 flex items-center justify-center font-heading text-2xl italic text-white/40 mx-auto mb-3 hover:border-gold transition-colors duration-300 cursor-pointer border-3 border-p-200"
+            >
+              E
+            </div>
+            <div
+              class="font-heading font-semibold text-p-900 text-base leading-snug"
+            >
+              Prof. Éric Nguema
+            </div>
+            <div
+              class="font-label text-[.62rem] tracking-widest uppercase text-p-500 mt-0.5"
+              data-fr="Droit OHADA"
+              data-en="OHADA Law"
+            >
+              Droit OHADA
+            </div>
+          </div>
+
+          <div
+            class="faculty-member text-center reveal"
+            data-dept="eng"
+            style="transition-delay: 0.06s"
+          >
+            <div
+              class="w-20 h-20 rounded-full av7 flex items-center justify-center font-heading text-2xl italic text-white/40 mx-auto mb-3 hover:border-gold transition-colors duration-300 cursor-pointer border-3 border-p-200"
+            >
+              B
+            </div>
+            <div
+              class="font-heading font-semibold text-p-900 text-base leading-snug"
+            >
+              Dr. Bertrand Essono
+            </div>
+            <div
+              class="font-label text-[.62rem] tracking-widest uppercase text-p-500 mt-0.5"
+              data-fr="Béton & Structures"
+              data-en="Concrete & Structures"
+            >
+              Béton & Structures
+            </div>
+          </div>
+
+          <div
+            class="faculty-member text-center reveal"
+            data-dept="eng"
+            style="transition-delay: 0.12s"
+          >
+            <div
+              class="w-20 h-20 rounded-full av4 flex items-center justify-center font-heading text-2xl italic text-white/40 mx-auto mb-3 hover:border-gold transition-colors duration-300 cursor-pointer border-3 border-p-200"
+            >
+              I
+            </div>
+            <div
+              class="font-heading font-semibold text-p-900 text-base leading-snug"
+            >
+              Mme Isabelle Ngo
+            </div>
+            <div
+              class="font-label text-[.62rem] tracking-widest uppercase text-p-500 mt-0.5"
+              data-fr="Hydraulique & BTP"
+              data-en="Hydraulics & Construction"
+            >
+              Hydraulique & BTP
+            </div>
+          </div>
+
+          <div
+            class="faculty-member text-center reveal"
+            data-dept="media"
+            style="transition-delay: 0.18s"
+          >
+            <div
+              class="w-20 h-20 rounded-full av8 flex items-center justify-center font-heading text-2xl italic text-white/40 mx-auto mb-3 hover:border-gold transition-colors duration-300 cursor-pointer border-3 border-p-200"
+            >
+              O
+            </div>
+            <div
+              class="font-heading font-semibold text-p-900 text-base leading-snug"
+            >
+              M. Olivier Beti
+            </div>
+            <div
+              class="font-label text-[.62rem] tracking-widest uppercase text-p-500 mt-0.5"
+              data-fr="Journalisme TV"
+              data-en="TV Journalism"
+            >
+              Journalisme TV
+            </div>
+          </div>
+
+          <div
+            class="faculty-member text-center reveal"
+            data-dept="tech"
+            style="transition-delay: 0.24s"
+          >
+            <div
+              class="w-20 h-20 rounded-full av2 flex items-center justify-center font-heading text-2xl italic text-white/40 mx-auto mb-3 hover:border-gold transition-colors duration-300 cursor-pointer border-3 border-p-200"
+            >
+              H
+            </div>
+            <div
+              class="font-heading font-semibold text-p-900 text-base leading-snug"
+            >
+              Dr. Henri Amougou
+            </div>
+            <div
+              class="font-label text-[.62rem] tracking-widest uppercase text-p-500 mt-0.5"
+              data-fr="Développement Web"
+              data-en="Web Development"
+            >
+              Développement Web
+            </div>
+          </div>
+
+          <div
+            class="faculty-member text-center reveal"
+            data-dept="law"
+            style="transition-delay: 0.3s"
+          >
+            <div
+              class="w-20 h-20 rounded-full av9 flex items-center justify-center font-heading text-2xl italic text-white/40 mx-auto mb-3 hover:border-gold transition-colors duration-300 cursor-pointer border-3 border-p-200"
+            >
+              V
+            </div>
+            <div
+              class="font-heading font-semibold text-p-900 text-base leading-snug"
+            >
+              Dr. Viviane Owona
+            </div>
+            <div
+              class="font-label text-[.62rem] tracking-widest uppercase text-p-500 mt-0.5"
+              data-fr="Droit Commercial"
+              data-en="Commercial Law"
+            >
+              Droit Commercial
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-10 reveal">
+          <a
+            href="#"
+            class="font-label text-[.78rem] font-bold tracking-[.1em] uppercase px-8 py-3 border-2 border-p-700 text-p-700 rounded hover:bg-p-700 hover:text-white transition-all duration-300"
+            data-fr="Voir tous les enseignants"
+            data-en="View all faculty"
+            >Voir tous les enseignants</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+       SECTION 3 — NUMBERS / CULTURE
+  ═══════════════════════════════════════ -->
+    <section class="py-20 px-6 bg-white">
+      <div
+        class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center"
+      >
+        <div class="reveal-left">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="block w-7 h-[2px] bg-gold"></span>
+            <span
+              class="font-label text-[.7rem] tracking-[.28em] uppercase text-p-600"
+              data-fr="Notre culture"
+              data-en="Our culture"
+              >Notre culture</span
+            >
+          </div>
+          <h2
+            class="font-heading font-semibold text-p-900 leading-[1.15] mb-5"
+            style="font-size: clamp(2rem, 3.5vw, 2.8rem)"
+          >
+            <span data-fr="Un environnement où" data-en="An environment where"
+              >Un environnement où</span
+            >
+            <em
+              class="text-p-600 italic"
+              data-fr=" chacun excelle"
+              data-en=" everyone excels"
+            >
+              chacun excelle</em
+            >
+          </h2>
+          <p
+            class="text-p-600/80 leading-[1.82] mb-6"
+            style="font-size: 0.94rem"
+            data-fr="Chez UniPlaceholder, nous cultivons une culture d'excellence et de bienveillance. Nos enseignants sont des praticiens actifs dans leurs domaines, apportant une expertise de terrain directement en salle de cours."
+            data-en="At UniPlaceholder, we cultivate a culture of excellence and care. Our lecturers are active practitioners in their fields, bringing hands-on expertise directly into the classroom."
+          >
+            Chez UniPlaceholder, nous cultivons une culture d'excellence et de
+            bienveillance. Nos enseignants sont des praticiens actifs dans leurs
+            domaines, apportant une expertise de terrain directement en salle de
+            cours.
+          </p>
+          <div class="space-y-3">
+            <div class="flex items-start gap-3">
+              <div
+                class="w-6 h-6 rounded-full bg-gold flex items-center justify-center flex-shrink-0 mt-0.5 text-xs text-p-900 font-bold"
+              >
+                ✓
+              </div>
+              <p
+                class="text-p-600/80 text-sm leading-relaxed"
+                data-fr="Formation continue obligatoire pour tous les enseignants (40h/an)"
+                data-en="Mandatory continuing education for all faculty (40h/year)"
+              >
+                Formation continue obligatoire pour tous les enseignants
+                (40h/an)
+              </p>
+            </div>
+            <div class="flex items-start gap-3">
+              <div
+                class="w-6 h-6 rounded-full bg-gold flex items-center justify-center flex-shrink-0 mt-0.5 text-xs text-p-900 font-bold"
+              >
+                ✓
+              </div>
+              <p
+                class="text-p-600/80 text-sm leading-relaxed"
+                data-fr="80% des enseignants ont une expérience professionnelle active en dehors de l'université"
+                data-en="80% of faculty have active professional experience outside the university"
+              >
+                80% des enseignants ont une expérience professionnelle active en
+                dehors de l'université
+              </p>
+            </div>
+            <div class="flex items-start gap-3">
+              <div
+                class="w-6 h-6 rounded-full bg-gold flex items-center justify-center flex-shrink-0 mt-0.5 text-xs text-p-900 font-bold"
+              >
+                ✓
+              </div>
+              <p
+                class="text-p-600/80 text-sm leading-relaxed"
+                data-fr="Programme de mentorat actif : chaque étudiant est suivi par un enseignant référent"
+                data-en="Active mentoring program: every student is accompanied by a dedicated faculty mentor"
+              >
+                Programme de mentorat actif : chaque étudiant est suivi par un
+                enseignant référent
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats mosaic -->
+        <div class="reveal-right grid grid-cols-2 gap-4">
+          <div class="bg-p-900 rounded-2xl p-6 text-center">
+            <div
+              class="font-heading font-bold text-gold leading-none mb-2"
+              style="font-size: 3rem"
+            >
+              45<span class="text-xl">+</span>
+            </div>
+            <div
+              class="font-label text-[.7rem] tracking-[.15em] uppercase text-white/55"
+              data-fr="Enseignants & Chercheurs"
+              data-en="Lecturers & Researchers"
+            >
+              Enseignants & Chercheurs
+            </div>
+          </div>
+          <div class="bg-gold rounded-2xl p-6 text-center">
+            <div
+              class="font-heading font-bold text-p-900 leading-none mb-2"
+              style="font-size: 3rem"
+            >
+              12<span class="text-xl"></span>
+            </div>
+            <div
+              class="font-label text-[.7rem] tracking-[.15em] uppercase text-p-900/60"
+              data-fr="Docteurs (PhD)"
+              data-en="PhDs"
+            >
+              Docteurs (PhD)
+            </div>
+          </div>
+          <div class="bg-p-100 rounded-2xl p-6 text-center">
+            <div
+              class="font-heading font-bold text-p-700 leading-none mb-2"
+              style="font-size: 3rem"
+            >
+              7
+            </div>
+            <div
+              class="font-label text-[.7rem] tracking-[.15em] uppercase text-p-500"
+              data-fr="Nationalités représentées"
+              data-en="Nationalities represented"
+            >
+              Nationalités représentées
+            </div>
+          </div>
+          <div class="bg-p-700 rounded-2xl p-6 text-center">
+            <div
+              class="font-heading font-bold text-white leading-none mb-2"
+              style="font-size: 3rem"
+            >
+              80<span class="text-xl">%</span>
+            </div>
+            <div
+              class="font-label text-[.7rem] tracking-[.15em] uppercase text-white/55"
+              data-fr="Praticiens actifs"
+              data-en="Active practitioners"
+            >
+              Praticiens actifs
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+       JOIN US BANNER
+  ═══════════════════════════════════════ -->
+    <section
+      class="slant-top py-28 px-6 relative overflow-hidden"
+      style="background: linear-gradient(140deg, #3e1490, #5520b8)"
+    >
+      <div
+        class="absolute inset-0 pointer-events-none"
+        style="
+          background-image:
+            linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+            linear-gradient(
+              90deg,
+              rgba(255, 255, 255, 0.025) 1px,
+              transparent 1px
+            );
+          background-size: 50px 50px;
+        "
+      ></div>
+      <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
+        <div
+          class="font-label text-[.74rem] tracking-[.28em] uppercase text-gold mb-3"
+          data-fr="Rejoignez notre équipe"
+          data-en="Join our team"
+        >
+          Rejoignez notre équipe
+        </div>
+        <h2
+          class="font-heading font-semibold text-white leading-[1.15] mb-4"
+          style="font-size: clamp(2rem, 3.5vw, 3rem)"
+        >
+          <span
+            data-fr="Vous êtes enseignant ou"
+            data-en="Are you a lecturer or"
+            >Vous êtes enseignant ou</span
+          >
+          <em
+            class="text-gold italic"
+            data-fr=" chercheur ?"
+            data-en=" researcher?"
+          >
+            chercheur ?</em
+          >
+        </h2>
+        <p
+          class="text-white/65 leading-relaxed mb-8 max-w-lg mx-auto"
+          style="font-size: 0.94rem"
+          data-fr="UniPlaceholder recrute régulièrement des enseignants passionnés et des chercheurs engagés. Rejoignez une communauté académique dynamique et contribuez à former les leaders de demain."
+          data-en="UniPlaceholder regularly recruits passionate lecturers and committed researchers. Join a dynamic academic community and help shape tomorrow's leaders."
+        >
+          UniPlaceholder recrute régulièrement des enseignants passionnés et des
+          chercheurs engagés. Rejoignez une communauté académique dynamique et
+          contribuez à former les leaders de demain.
+        </p>
+        <div class="flex gap-3 justify-center flex-wrap">
+          <a
+            href="#"
+            class="font-label text-[.82rem] font-bold tracking-[.1em] uppercase px-8 py-3 bg-gold text-p-900 rounded hover:bg-gold-light transition-all duration-300"
+            data-fr="Voir les postes ouverts"
+            data-en="View open positions"
+            >Voir les postes ouverts</a
+          >
+          <a
+            href="#"
+            class="font-label text-[.82rem] font-semibold tracking-[.1em] uppercase px-8 py-3 border border-white/40 text-white rounded hover:bg-white/10 transition-all duration-300"
+            data-fr="Envoyer une candidature"
+            data-en="Send an application"
+            >Envoyer une candidature</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+       PROFILE MODAL
+  ═══════════════════════════════════════ -->
+    <div
+      id="profileModal"
+      class="modal-overlay"
+      onclick="closeModalOutside(event)"
+    >
+      <div class="modal-box">
+        <!-- Modal header with gradient -->
+        <div
+          id="pm-header"
+          class="h-28 relative"
+          style="background: linear-gradient(135deg, #3e1490, #7040d4)"
+        >
+          <button
+            onclick="closeProfile()"
+            class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white hover:bg-white/30 transition font-bold text-sm"
+          >
+            ✕
+          </button>
+        </div>
+        <!-- Avatar overlap -->
+        <div class="relative px-6 pb-6">
+          <div
+            id="pm-avatar"
+            class="w-20 h-20 rounded-full border-4 border-white -mt-10 mb-4 flex items-center justify-center font-heading text-3xl italic text-white/50 av1"
+          ></div>
+          <div
+            class="font-label text-[.65rem] tracking-widest uppercase text-p-500 mb-0.5"
+            id="pm-role"
+          ></div>
+          <h3
+            class="font-heading font-semibold text-p-900 text-2xl mb-0.5"
+            id="pm-name"
+          ></h3>
+          <p
+            class="font-label text-[.7rem] tracking-wider uppercase text-p-400 mb-4"
+            id="pm-credentials"
+          ></p>
+
+          <div class="grid grid-cols-3 gap-3 mb-5" id="pm-stats"></div>
+
+          <h4
+            class="font-label text-[.68rem] tracking-widest uppercase text-p-600 font-semibold mb-2"
+            data-fr="Biographie"
+            data-en="Biography"
+          >
+            Biographie
+          </h4>
+          <p class="text-p-600/80 text-sm leading-relaxed mb-5" id="pm-bio"></p>
+
+          <h4
+            class="font-label text-[.68rem] tracking-widest uppercase text-p-600 font-semibold mb-2"
+            data-fr="Spécialités"
+            data-en="Specialties"
+          >
+            Spécialités
+          </h4>
+          <div class="flex flex-wrap gap-2 mb-5" id="pm-tags"></div>
+
+          <div class="flex gap-2">
+            <a
+              href="#"
+              class="flex-1 text-center font-label text-[.78rem] font-bold tracking-widest uppercase py-2.5 bg-p-700 text-white rounded-lg hover:bg-p-800 transition-colors"
+              data-fr="Contacter"
+              data-en="Contact"
+              >Contacter</a
+            >
+            <a
+              href="#"
+              class="flex-1 text-center font-label text-[.78rem] font-bold tracking-widest uppercase py-2.5 border-2 border-p-200 text-p-700 rounded-lg hover:bg-p-100 transition-colors"
+              data-fr="LinkedIn"
+              data-en="LinkedIn"
+              >LinkedIn</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+       SCRIPTS
+  ═══════════════════════════════════════ -->
+    <script>
+      let lang = "fr";
+
+      const profiles = {
+        rector: {
+          av: "av1",
+          letter: "R",
+          roleFr: "Recteur",
+          roleEn: "Vice-Chancellor",
+          name: "Prof. René Placeholder",
+          credFr: "PhD Économie · Université Paris 1 Panthéon-Sorbonne",
+          credEn: "PhD Economics · Paris 1 Panthéon-Sorbonne University",
+          stats: [
+            { v: "20+", lFr: "années exp.", lEn: "years exp." },
+            { v: "3", lFr: "ouvrages", lEn: "books" },
+            { v: "15+", lFr: "conférences", lEn: "conferences" },
+          ],
+          bioFr:
+            "Économiste de renom spécialisé dans le développement économique africain, Prof. Placeholder a occupé des postes de direction dans plusieurs universités africaines et européennes avant de fonder UniPlaceholder. Auteur de 3 ouvrages de référence sur la transformation économique en Afrique subsaharienne.",
+          bioEn:
+            "Renowned economist specializing in African economic development, Prof. Placeholder has held leadership positions in several African and European universities before founding UniPlaceholder. Author of 3 reference books on economic transformation in sub-Saharan Africa.",
+          tags: [
+            "Économie du développement",
+            "Politique publique",
+            "Leadership académique",
+            "Transformation africaine",
+          ],
+        },
+        dean: {
+          av: "av3",
+          letter: "M",
+          roleFr: "Doyenne Académique",
+          roleEn: "Academic Dean",
+          name: "Dr. Marie Exemple",
+          credFr: "PhD Sciences de l'Éducation · Université de Yaoundé I",
+          credEn: "PhD Education Sciences · University of Yaoundé I",
+          stats: [
+            { v: "15", lFr: "années exp.", lEn: "years exp." },
+            { v: "8", lFr: "publications", lEn: "publications" },
+            { v: "2018", lFr: "à UniPH", lEn: "at UniPH" },
+          ],
+          bioFr:
+            "Spécialiste reconnue en ingénierie pédagogique, Dr. Exemple a piloté la refonte complète des curricula d'UniPlaceholder en 2018 et introduit une approche par compétences dans tous les départements. Elle supervise également les évaluations institutionnelles.",
+          bioEn:
+            "Recognized specialist in instructional design, Dr. Exemple led the complete overhaul of UniPlaceholder's curricula in 2018 and introduced a competency-based approach across all departments. She also oversees institutional evaluations.",
+          tags: [
+            "Ingénierie pédagogique",
+            "Évaluation",
+            "Approche par compétences",
+            "Réforme curriculaire",
+          ],
+        },
+        research: {
+          av: "av2",
+          letter: "J",
+          roleFr: "Directeur de la Recherche",
+          roleEn: "Director of Research",
+          name: "Dr. Jean-Paul Modèle",
+          credFr:
+            "PhD Informatique · Université Catholique de Louvain (Belgique)",
+          credEn: "PhD Computer Science · UCLouvain (Belgium)",
+          stats: [
+            { v: "22", lFr: "publications", lEn: "publications" },
+            { v: "5", lFr: "brevets", lEn: "patents" },
+            { v: "3", lFr: "projets actifs", lEn: "active projects" },
+          ],
+          bioFr:
+            "Expert en intelligence artificielle et systèmes distribués, Dr. Modèle dirige le laboratoire de recherche d'UniPlaceholder. Il coordonne 3 projets financés par l'Union Européenne et l'Union Africaine dans le domaine de l'IA pour le développement.",
+          bioEn:
+            "Expert in AI and distributed systems, Dr. Modèle leads UniPlaceholder's research laboratory. He coordinates 3 projects funded by the European Union and the African Union in the field of AI for development.",
+          tags: [
+            "Intelligence Artificielle",
+            "Systèmes distribués",
+            "Big Data",
+            "IA pour le développement",
+          ],
+        },
+        admin: {
+          av: "av5",
+          letter: "A",
+          roleFr: "Directrice Administrative",
+          roleEn: "Administrative Director",
+          name: "Mme Alice Fictif",
+          credFr: "MBA Management · HEC Paris",
+          credEn: "MBA Management · HEC Paris",
+          stats: [
+            { v: "10", lFr: "années exp.", lEn: "years exp." },
+            { v: "2015", lFr: "à UniPH", lEn: "at UniPH" },
+            { v: "50+", lFr: "staff gérés", lEn: "staff managed" },
+          ],
+          bioFr:
+            "Forte d'une expérience dans plusieurs multinationales, Mme Fictif supervise l'ensemble des opérations administratives et logistiques d'UniPlaceholder. Elle a modernisé les processus internes en introduisant des outils de gestion numérique.",
+          bioEn:
+            "With experience in several multinationals, Mme Fictif oversees all administrative and logistical operations at UniPlaceholder. She modernized internal processes by introducing digital management tools.",
+          tags: [
+            "Management",
+            "Administration",
+            "Gestion de projets",
+            "Transformation digitale",
+          ],
+        },
+      };
+
+      function openProfile(id) {
+        const p = profiles[id];
+        if (!p) return;
+        const l = lang;
+        document.getElementById("pm-avatar").className =
+          `w-20 h-20 rounded-full border-4 border-white -mt-10 mb-4 flex items-center justify-center font-heading text-3xl italic text-white/50 ${p.av}`;
+        document.getElementById("pm-avatar").textContent = p.letter;
+        document.getElementById("pm-role").textContent =
+          l === "fr" ? p.roleFr : p.roleEn;
+        document.getElementById("pm-name").textContent = p.name;
+        document.getElementById("pm-credentials").textContent =
+          l === "fr" ? p.credFr : p.credEn;
+        document.getElementById("pm-bio").textContent =
+          l === "fr" ? p.bioFr : p.bioEn;
+
+        document.getElementById("pm-stats").innerHTML = p.stats
+          .map(
+            (s) => `
+        <div class="text-center bg-p-50 rounded-xl p-3">
+          <div class="font-heading font-bold text-p-700 text-xl">${s.v}</div>
+          <div class="font-label text-[.62rem] tracking-widest uppercase text-p-400">${l === "fr" ? s.lFr : s.lEn}</div>
+        </div>`,
+          )
+          .join("");
+
+        document.getElementById("pm-tags").innerHTML = p.tags
+          .map(
+            (t) =>
+              `<span class="font-label text-xs px-2.5 py-1 bg-p-100 text-p-700 rounded-full">${t}</span>`,
+          )
+          .join("");
+
+        document.getElementById("profileModal").classList.add("open");
+      }
+
+      function closeProfile() {
+        document.getElementById("profileModal").classList.remove("open");
+      }
+      function closeModalOutside(e) {
+        if (e.target === document.getElementById("profileModal"))
+          closeProfile();
+      }
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeProfile();
+      });
+
+      // Faculty filter
+      function filterFaculty(dept) {
+        document
+          .querySelectorAll(".dept-tab")
+          .forEach((t) =>
+            t.classList.toggle("active", t.dataset.dept === dept),
+          );
+        document.querySelectorAll(".faculty-member").forEach((card) => {
+          card.style.display =
+            dept === "all" || card.dataset.dept === dept ? "" : "none";
+        });
+      }
+
+      // Language
+      function setLang(l) {
+        lang = l;
+        document
+          .querySelectorAll(".lang-btn")
+          .forEach((b) => b.classList.remove("active"));
+        document
+          .querySelector(`.lang-btn[onclick="setLang('${l}')"]`)
+          .classList.add("active");
+        document.querySelectorAll("[data-fr]").forEach((el) => {
+          const txt = el.getAttribute("data-" + l);
+          if (txt) el.textContent = txt;
+        });
+      }
+
+      // Scroll reveal
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("show");
+              obs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+      document
+        .querySelectorAll(".reveal,.reveal-left,.reveal-right")
+        .forEach((el) => obs.observe(el));
+
+      // Nav shadow
+      window.addEventListener("scroll", () => {
+        document.getElementById("navbar").style.boxShadow =
+          window.pageYOffset > 60 ? "0 4px 30px rgba(0,0,0,.4)" : "none";
+      });
+
+      function toggleMenu() {
+        document.getElementById("mobileMenu").classList.toggle("hidden");
+      }
+    </script>
+  </body>
+</html>

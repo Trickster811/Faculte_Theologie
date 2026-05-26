@@ -1,0 +1,2615 @@
+<!doctype html>
+<html lang="fr" data-lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UniPlaceholder — Événements & Témoignages</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              p: {
+                50: "#F7F4FF",
+                100: "#EDE6FF",
+                200: "#D4BEFA",
+                300: "#B89AF5",
+                400: "#9B72E8",
+                500: "#7040D4",
+                600: "#5520B8",
+                700: "#3E1490",
+                800: "#2D0A6E",
+                900: "#1E0845",
+              },
+              gold: { DEFAULT: "#BFA050", light: "#D4B866", dark: "#9A7C30" },
+            },
+            fontFamily: {
+              heading: ["Cormorant Garamond", "Georgia", "serif"],
+              body: ["DM Sans", "system-ui", "sans-serif"],
+              label: ["Barlow Condensed", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "DM Sans", system-ui, sans-serif;
+      }
+      .font-heading {
+        font-family: "Cormorant Garamond", Georgia, serif;
+      }
+      .font-label {
+        font-family: "Barlow Condensed", sans-serif;
+      }
+
+      .nav-link {
+        border-bottom: 2px solid transparent;
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+      }
+      .nav-link:hover {
+        color: #bfa050;
+        border-bottom-color: #bfa050;
+      }
+      .lang-btn {
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+      .lang-btn.active {
+        background: #bfa050;
+        color: #1e0845;
+      }
+
+      /* Reveals */
+      .reveal {
+        opacity: 0;
+        transform: translateY(26px);
+        transition:
+          opacity 0.6s ease,
+          transform 0.6s ease;
+      }
+      .reveal.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .reveal-l {
+        opacity: 0;
+        transform: translateX(-28px);
+        transition:
+          opacity 0.65s ease,
+          transform 0.65s ease;
+      }
+      .reveal-l.show {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .reveal-r {
+        opacity: 0;
+        transform: translateX(28px);
+        transition:
+          opacity 0.65s ease,
+          transform 0.65s ease;
+      }
+      .reveal-r.show {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      /* Event cards */
+      .ev-card {
+        transition:
+          transform 0.35s cubic-bezier(0.22, 0.68, 0, 1.2),
+          box-shadow 0.35s;
+      }
+      .ev-card:hover {
+        transform: translateY(-7px);
+        box-shadow: 0 20px 44px rgba(30, 8, 69, 0.14);
+      }
+      .ev-card:hover .ev-inner-img {
+        transform: scale(1.05);
+      }
+      .ev-inner-img {
+        transition: transform 0.5s ease;
+      }
+
+      /* Featured event glow */
+      .feat-glow {
+        box-shadow:
+          0 0 0 1px rgba(191, 160, 80, 0.3),
+          0 24px 56px rgba(30, 8, 69, 0.18);
+      }
+
+      /* Countdown */
+      .cd-box {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(6px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      @keyframes tick {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(0.96);
+        }
+      }
+      .cd-num {
+        animation: tick 1s ease-in-out infinite;
+      }
+
+      /* Filter tabs */
+      .ev-tab {
+        transition: all 0.22s;
+      }
+      .ev-tab.active {
+        background: #3e1490;
+        color: #fff;
+        box-shadow: 0 4px 14px rgba(62, 20, 144, 0.3);
+      }
+
+      /* Testimonial card */
+      .test-card {
+        transition:
+          transform 0.35s,
+          box-shadow 0.35s;
+      }
+      .test-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 18px 40px rgba(30, 8, 69, 0.12);
+      }
+
+      /* Carousel dots */
+      .dot {
+        transition: all 0.25s;
+      }
+      .dot.active {
+        background: #bfa050;
+        width: 24px;
+        border-radius: 4px;
+      }
+
+      /* Star rating */
+      .star {
+        color: #bfa050;
+      }
+
+      /* Calendar mini */
+      .cal-day {
+        transition: all 0.2s;
+      }
+      .cal-day.has-event {
+        background: #ede6ff;
+        color: #3e1490;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .cal-day.has-event:hover {
+        background: #3e1490;
+        color: #fff;
+      }
+      .cal-day.today {
+        border: 2px solid #bfa050;
+      }
+
+      /* Slants */
+      .slant-bot {
+        clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+      }
+      .slant-top {
+        clip-path: polygon(0 6%, 100% 0, 100% 100%, 0 100%);
+      }
+
+      /* Modal */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(30, 8, 69, 0.6);
+        backdrop-filter: blur(5px);
+        z-index: 200;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+      }
+      .modal-overlay.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .modal-box {
+        background: #fff;
+        border-radius: 20px;
+        max-width: 580px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        transform: translateY(18px) scale(0.97);
+        transition: transform 0.3s;
+      }
+      .modal-overlay.open .modal-box {
+        transform: translateY(0) scale(1);
+      }
+
+      /* Testimonial quote mark */
+      .big-quote {
+        font-family: "Cormorant Garamond", Georgia, serif;
+        font-size: 6rem;
+        line-height: 0.5;
+        color: #ede6ff;
+      }
+
+      @media (max-width: 1024px) {
+        .aside-cal {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-white text-p-900 overflow-x-hidden">
+    <!-- ══════════════════════════════════
+       ANNOUNCE + NAV
+  ══════════════════════════════════ -->
+    <div
+      class="bg-gold text-p-900 text-center py-2 px-4 font-label text-xs font-semibold tracking-widest z-50 relative"
+    >
+      <span
+        data-fr="🎓 Inscriptions ouvertes — Année académique 2024–2025"
+        data-en="🎓 Enrolments open — Academic year 2024–2025"
+        >🎓 Inscriptions ouvertes — Année académique 2024–2025</span
+      >
+      <a
+        href="#"
+        class="underline font-bold ml-2"
+        data-fr="Postuler →"
+        data-en="Apply now →"
+        >Postuler →</a
+      >
+    </div>
+
+    <nav
+      id="navbar"
+      class="sticky top-0 z-40 bg-p-900 border-b border-gold/20 px-6 h-[68px] flex items-center justify-between transition-shadow duration-300"
+    >
+      <a href="home.html" class="flex items-center gap-3 flex-shrink-0">
+        <div
+          class="w-10 h-10 rounded-full bg-gold flex items-center justify-center font-heading text-[18px] font-bold text-p-900"
+        >
+          U
+        </div>
+        <div class="leading-tight">
+          <div
+            class="font-heading text-[1.35rem] font-semibold text-white leading-none"
+          >
+            UniPlaceholder
+          </div>
+          <div
+            class="font-label text-[.6rem] tracking-[.2em] uppercase text-gold"
+            data-fr="Université d'Excellence"
+            data-en="University of Excellence"
+          >
+            Université d'Excellence
+          </div>
+        </div>
+      </a>
+      <ul class="hidden lg:flex items-center list-none gap-0 h-[68px]">
+        <li>
+          <a
+            href="home.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Accueil"
+            data-en="Home"
+            >Accueil</a
+          >
+        </li>
+        <li>
+          <a
+            href="about.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="À Propos"
+            data-en="About"
+            >À Propos</a
+          >
+        </li>
+        <li>
+          <a
+            href="programs.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Formations"
+            data-en="Programs"
+            >Formations</a
+          >
+        </li>
+        <li>
+          <a
+            href="library.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Bibliothèque"
+            data-en="Library"
+            >Bibliothèque</a
+          >
+        </li>
+        <li>
+          <a
+            href="news.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Actualités"
+            data-en="News"
+            >Actualités</a
+          >
+        </li>
+        <li>
+          <a
+            href="team.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Équipe"
+            data-en="Team"
+            >Équipe</a
+          >
+        </li>
+        <li>
+          <a
+            href="events.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-gold px-3 h-[68px] flex items-center border-b-2 border-gold"
+            data-fr="Événements"
+            data-en="Events"
+            >Événements</a
+          >
+        </li>
+        <li>
+          <a
+            href="contact.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Contact"
+            data-en="Contact"
+            >Contact</a
+          >
+        </li>
+      </ul>
+      <div class="flex items-center gap-2.5">
+        <div
+          class="flex rounded-full overflow-hidden border border-white/20 bg-white/10"
+        >
+          <button
+            onclick="setLang('fr')"
+            class="lang-btn active font-label text-[.7rem] font-bold tracking-[.05em] px-3 py-1 text-white/55 bg-transparent border-none cursor-pointer"
+          >
+            FR
+          </button>
+          <button
+            onclick="setLang('en')"
+            class="lang-btn font-label text-[.7rem] font-bold tracking-[.05em] px-3 py-1 text-white/55 bg-transparent border-none cursor-pointer"
+          >
+            EN
+          </button>
+        </div>
+        <a
+          href="#"
+          class="hidden sm:inline-block font-label text-[.78rem] font-semibold tracking-[.08em] uppercase px-4 py-2 border border-gold text-gold rounded hover:bg-gold hover:text-p-900 transition-colors"
+          data-fr="Se Connecter"
+          data-en="Login"
+          >Se Connecter</a
+        >
+        <button
+          onclick="toggleMenu()"
+          class="lg:hidden flex flex-col gap-[5px] p-1 bg-transparent border-none cursor-pointer"
+        >
+          <span class="block w-5 h-[2px] bg-white rounded"></span>
+          <span class="block w-5 h-[2px] bg-white rounded"></span>
+          <span class="block w-5 h-[2px] bg-white rounded"></span>
+        </button>
+      </div>
+    </nav>
+    <div
+      id="mobileMenu"
+      class="hidden lg:hidden bg-p-900 border-t border-white/10 z-30 relative"
+    >
+      <a
+        href="home.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Accueil"
+        data-en="Home"
+        >Accueil</a
+      >
+      <a
+        href="about.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="À Propos"
+        data-en="About"
+        >À Propos</a
+      >
+      <a
+        href="programs.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Formations"
+        data-en="Programs"
+        >Formations</a
+      >
+      <a
+        href="library.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Bibliothèque"
+        data-en="Library"
+        >Bibliothèque</a
+      >
+      <a
+        href="news.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Actualités"
+        data-en="News"
+        >Actualités</a
+      >
+      <a
+        href="team.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Équipe"
+        data-en="Team"
+        >Équipe</a
+      >
+      <a
+        href="events.html"
+        class="block font-label text-sm tracking-widest uppercase text-gold px-6 py-3 border-b border-white/5"
+        data-fr="Événements"
+        data-en="Events"
+        >Événements</a
+      >
+      <a
+        href="contact.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Contact"
+        data-en="Contact"
+        >Contact</a
+      >
+    </div>
+
+    <!-- ══════════════════════════════════
+       PAGE HERO BANNER
+  ══════════════════════════════════ -->
+    <div class="slant-bot bg-p-900 pt-20 pb-36 px-6 relative overflow-hidden">
+      <div
+        class="absolute inset-0 pointer-events-none"
+        style="
+          background-image:
+            linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+            linear-gradient(
+              90deg,
+              rgba(255, 255, 255, 0.025) 1px,
+              transparent 1px
+            );
+          background-size: 50px 50px;
+        "
+      ></div>
+      <div
+        class="absolute -right-20 top-0 w-96 h-96 rounded-full pointer-events-none"
+        style="
+          background: radial-gradient(
+            circle,
+            rgba(155, 114, 232, 0.15) 0%,
+            transparent 70%
+          );
+        "
+      ></div>
+      <div
+        class="max-w-6xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+      >
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <span class="block w-7 h-[2px] bg-gold"></span>
+            <span
+              class="font-label text-[.7rem] tracking-[.28em] uppercase text-gold"
+              data-fr="Calendrier & Communauté"
+              data-en="Calendar & Community"
+              >Calendrier & Communauté</span
+            >
+          </div>
+          <h1
+            class="font-heading font-semibold text-white leading-[1.08] mb-4"
+            style="font-size: clamp(2.4rem, 4.5vw, 4rem)"
+          >
+            <span data-fr="Événements &" data-en="Events &">Événements &</span
+            ><br />
+            <em
+              class="text-gold italic"
+              data-fr=" Témoignages"
+              data-en=" Testimonials"
+            >
+              Témoignages</em
+            >
+          </h1>
+          <p
+            class="text-white/65 leading-relaxed mb-6 max-w-md"
+            style="font-size: 0.95rem"
+            data-fr="Conférences, soutenances, portes ouvertes, remises de prix — et les voix de ceux qui ont vécu l'expérience UniPlaceholder."
+            data-en="Conferences, defenses, open days, award ceremonies — and the voices of those who have lived the UniPlaceholder experience."
+          >
+            Conférences, soutenances, portes ouvertes, remises de prix — et les
+            voix de ceux qui ont vécu l'expérience UniPlaceholder.
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <a
+              href="#events"
+              class="font-label text-[.82rem] font-bold tracking-[.1em] uppercase px-7 py-3 bg-gold text-p-900 rounded hover:bg-gold-light transition-all"
+              data-fr="Voir les événements"
+              data-en="View events"
+              >Voir les événements</a
+            >
+            <a
+              href="#testimonials"
+              class="font-label text-[.82rem] font-semibold tracking-[.1em] uppercase px-7 py-3 border border-white/40 text-white rounded hover:bg-white/10 transition-all"
+              data-fr="Témoignages →"
+              data-en="Testimonials →"
+              >Témoignages →</a
+            >
+          </div>
+          <div
+            class="flex items-center gap-2 mt-6 font-label text-[.72rem] tracking-widest uppercase text-white/30"
+          >
+            <a
+              href="home.html"
+              class="hover:text-gold transition-colors"
+              data-fr="Accueil"
+              data-en="Home"
+              >Accueil</a
+            >
+            <span>/</span>
+            <span class="text-gold" data-fr="Événements" data-en="Events"
+              >Événements</span
+            >
+          </div>
+        </div>
+        <!-- Countdown to next event -->
+        <div class="hidden lg:block">
+          <div
+            class="bg-white/8 backdrop-blur border border-white/15 rounded-2xl p-7"
+          >
+            <div
+              class="font-label text-[.68rem] tracking-[.2em] uppercase text-gold mb-1"
+              data-fr="Prochain événement dans"
+              data-en="Next event in"
+            >
+              Prochain événement dans
+            </div>
+            <div
+              class="font-heading font-semibold text-white text-lg mb-5"
+              data-fr="3ème Conférence Internationale — 2 Oct. 2024"
+              data-en="3rd International Conference — Oct. 2, 2024"
+            >
+              3ème Conférence Internationale — 2 Oct. 2024
+            </div>
+            <div class="grid grid-cols-4 gap-3 mb-6">
+              <div class="cd-box rounded-xl p-3 text-center">
+                <div
+                  class="cd-num font-heading font-bold text-gold text-3xl leading-none"
+                  id="cd-days"
+                >
+                  00
+                </div>
+                <div
+                  class="font-label text-[.6rem] tracking-widest uppercase text-white/50 mt-1"
+                  data-fr="Jours"
+                  data-en="Days"
+                >
+                  Jours
+                </div>
+              </div>
+              <div class="cd-box rounded-xl p-3 text-center">
+                <div
+                  class="cd-num font-heading font-bold text-gold text-3xl leading-none"
+                  id="cd-hours"
+                >
+                  00
+                </div>
+                <div
+                  class="font-label text-[.6rem] tracking-widest uppercase text-white/50 mt-1"
+                  data-fr="Heures"
+                  data-en="Hours"
+                >
+                  Heures
+                </div>
+              </div>
+              <div class="cd-box rounded-xl p-3 text-center">
+                <div
+                  class="cd-num font-heading font-bold text-gold text-3xl leading-none"
+                  id="cd-mins"
+                >
+                  00
+                </div>
+                <div
+                  class="font-label text-[.6rem] tracking-widest uppercase text-white/50 mt-1"
+                  data-fr="Minutes"
+                  data-en="Minutes"
+                >
+                  Minutes
+                </div>
+              </div>
+              <div class="cd-box rounded-xl p-3 text-center">
+                <div
+                  class="cd-num font-heading font-bold text-gold text-3xl leading-none"
+                  id="cd-secs"
+                >
+                  00
+                </div>
+                <div
+                  class="font-label text-[.6rem] tracking-widest uppercase text-white/50 mt-1"
+                  data-fr="Secondes"
+                  data-en="Seconds"
+                >
+                  Secondes
+                </div>
+              </div>
+            </div>
+            <a
+              href="#"
+              onclick="openEvent('e1')"
+              class="block w-full text-center font-label text-[.78rem] font-bold tracking-widest uppercase py-2.5 bg-gold text-p-900 rounded-lg hover:bg-gold-light transition-colors"
+              data-fr="S'inscrire à l'événement"
+              data-en="Register for event"
+              >S'inscrire à l'événement</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════
+       FEATURED UPCOMING EVENT
+  ══════════════════════════════════ -->
+    <section class="py-16 px-6 bg-white" id="events">
+      <div class="max-w-6xl mx-auto">
+        <div class="flex items-center gap-2 mb-8 reveal">
+          <span class="block w-7 h-[2px] bg-gold"></span>
+          <span
+            class="font-label text-[.7rem] tracking-[.28em] uppercase text-p-600"
+            data-fr="À ne pas manquer"
+            data-en="Not to be missed"
+            >À ne pas manquer</span
+          >
+        </div>
+        <!-- Big featured card -->
+        <div
+          class="feat-glow rounded-2xl overflow-hidden cursor-pointer reveal"
+          onclick="openEvent('e1')"
+        >
+          <div class="grid grid-cols-1 lg:grid-cols-5">
+            <!-- Visual -->
+            <div
+              class="lg:col-span-2 relative overflow-hidden min-h-[260px]"
+              style="
+                background: linear-gradient(140deg, #1e0845, #3e1490, #7040d4);
+              "
+            >
+              <div
+                class="ev-inner-img absolute inset-0 flex flex-col items-center justify-center gap-4 p-8"
+              >
+                <div class="text-7xl opacity-70">🌍</div>
+                <div
+                  class="font-label text-[.65rem] tracking-widest uppercase text-white/50 text-center"
+                  data-fr="Conférence Internationale"
+                  data-en="International Conference"
+                >
+                  Conférence Internationale
+                </div>
+              </div>
+              <div
+                class="absolute inset-0 opacity-10"
+                style="
+                  background-image: repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 14px,
+                    rgba(255, 255, 255, 0.2) 14px,
+                    rgba(255, 255, 255, 0.2) 28px
+                  );
+                "
+              ></div>
+              <!-- Date badge -->
+              <div
+                class="absolute top-5 left-5 bg-gold rounded-xl px-4 py-3 text-center shadow-lg"
+              >
+                <div
+                  class="font-heading font-bold text-p-900 text-2xl leading-none"
+                >
+                  02
+                </div>
+                <div
+                  class="font-label text-[.62rem] tracking-widest uppercase text-p-900"
+                  data-fr="Octobre 2024"
+                  data-en="October 2024"
+                >
+                  Octobre 2024
+                </div>
+              </div>
+            </div>
+            <!-- Content -->
+            <div
+              class="lg:col-span-3 p-8 lg:p-10 bg-p-50 flex flex-col justify-center"
+            >
+              <div class="flex flex-wrap items-center gap-2 mb-4">
+                <span
+                  class="font-label text-[.68rem] font-semibold tracking-widest uppercase px-3 py-1 rounded-full bg-p-200 text-p-700"
+                  data-fr="Conférence"
+                  data-en="Conference"
+                  >Conférence</span
+                >
+                <span
+                  class="font-label text-[.68rem] font-semibold tracking-widest uppercase px-3 py-1 rounded-full bg-gold/20 text-gold-dark"
+                  data-fr="🔴 Inscription ouverte"
+                  data-en="🔴 Registration open"
+                  >🔴 Inscription ouverte</span
+                >
+              </div>
+              <h2
+                class="font-heading font-semibold text-p-900 leading-snug mb-3"
+                style="font-size: clamp(1.6rem, 2.5vw, 2.2rem)"
+                data-fr="3ème Conférence Internationale sur l'Innovation Africaine"
+                data-en="3rd International Conference on African Innovation"
+              >
+                3ème Conférence Internationale sur l'Innovation Africaine
+              </h2>
+              <p
+                class="text-p-600/80 leading-[1.75] mb-5"
+                style="font-size: 0.92rem"
+                data-fr="3 jours de conférences, ateliers et networking avec 200+ participants de 15 pays. Thèmes : IA, énergie renouvelable et entrepreneuriat africain."
+                data-en="3 days of talks, workshops and networking with 200+ participants from 15 countries. Themes: AI, renewable energy and African entrepreneurship."
+              >
+                3 jours de conférences, ateliers et networking avec 200+
+                participants de 15 pays. Thèmes : IA, énergie renouvelable et
+                entrepreneuriat africain.
+              </p>
+              <div class="grid grid-cols-3 gap-3 mb-5">
+                <div class="text-sm text-p-600">
+                  <div
+                    class="font-label text-[.62rem] tracking-widest uppercase text-p-400 mb-0.5"
+                    data-fr="Date"
+                    data-en="Date"
+                  >
+                    Date
+                  </div>
+                  <div
+                    class="font-heading font-semibold text-p-900"
+                    data-fr="2 – 4 Oct. 2024"
+                    data-en="Oct. 2–4, 2024"
+                  >
+                    2 – 4 Oct. 2024
+                  </div>
+                </div>
+                <div class="text-sm text-p-600">
+                  <div
+                    class="font-label text-[.62rem] tracking-widest uppercase text-p-400 mb-0.5"
+                    data-fr="Lieu"
+                    data-en="Venue"
+                  >
+                    Lieu
+                  </div>
+                  <div
+                    class="font-heading font-semibold text-p-900"
+                    data-fr="Amphi Central"
+                    data-en="Central Auditorium"
+                  >
+                    Amphi Central
+                  </div>
+                </div>
+                <div class="text-sm text-p-600">
+                  <div
+                    class="font-label text-[.62rem] tracking-widest uppercase text-p-400 mb-0.5"
+                    data-fr="Places"
+                    data-en="Seats"
+                  >
+                    Places
+                  </div>
+                  <div class="font-heading font-semibold text-p-900">
+                    <span class="text-gold">47</span> / 200
+                  </div>
+                </div>
+              </div>
+              <div class="flex gap-3">
+                <a
+                  href="#"
+                  class="font-label text-[.78rem] font-bold tracking-widest uppercase px-6 py-2.5 bg-p-700 text-white rounded-lg hover:bg-p-800 transition-colors"
+                  data-fr="S'inscrire"
+                  data-en="Register"
+                  >S'inscrire</a
+                >
+                <button
+                  onclick="openEvent('e1')"
+                  class="font-label text-[.78rem] font-semibold tracking-widest uppercase px-6 py-2.5 border border-p-200 text-p-700 rounded-lg hover:bg-p-100 transition-colors"
+                  data-fr="En savoir plus"
+                  data-en="Learn more"
+                >
+                  En savoir plus
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+       ALL EVENTS + MINI CALENDAR
+  ══════════════════════════════════ -->
+    <section class="py-16 px-6 bg-p-50">
+      <div class="max-w-6xl mx-auto flex gap-8">
+        <!-- Events list -->
+        <div class="flex-1 min-w-0">
+          <!-- Filter tabs -->
+          <div
+            class="flex flex-wrap items-center justify-between gap-3 mb-8 reveal"
+          >
+            <div class="flex gap-2 flex-wrap">
+              <button
+                onclick="filterEvents('all')"
+                data-etab="all"
+                class="ev-tab active font-label text-[.72rem] font-semibold tracking-wider uppercase px-4 py-2 rounded-full border border-p-200 text-p-700 cursor-pointer"
+                data-fr="Tous"
+                data-en="All"
+              >
+                Tous
+              </button>
+              <button
+                onclick="filterEvents('upcoming')"
+                data-etab="upcoming"
+                class="ev-tab font-label text-[.72rem] font-semibold tracking-wider uppercase px-4 py-2 rounded-full border border-p-200 text-p-700 cursor-pointer"
+                data-fr="À venir"
+                data-en="Upcoming"
+              >
+                À venir
+              </button>
+              <button
+                onclick="filterEvents('conf')"
+                data-etab="conf"
+                class="ev-tab font-label text-[.72rem] font-semibold tracking-wider uppercase px-4 py-2 rounded-full border border-p-200 text-p-700 cursor-pointer"
+                data-fr="Conférences"
+                data-en="Conferences"
+              >
+                Conférences
+              </button>
+              <button
+                onclick="filterEvents('campus')"
+                data-etab="campus"
+                class="ev-tab font-label text-[.72rem] font-semibold tracking-wider uppercase px-4 py-2 rounded-full border border-p-200 text-p-700 cursor-pointer"
+                data-fr="Vie Campus"
+                data-en="Campus Life"
+              >
+                Vie Campus
+              </button>
+              <button
+                onclick="filterEvents('sout')"
+                data-etab="sout"
+                class="ev-tab font-label text-[.72rem] font-semibold tracking-wider uppercase px-4 py-2 rounded-full border border-p-200 text-p-700 cursor-pointer"
+                data-fr="Soutenances"
+                data-en="Defenses"
+              >
+                Soutenances
+              </button>
+              <button
+                onclick="filterEvents('recru')"
+                data-etab="recru"
+                class="ev-tab font-label text-[.72rem] font-semibold tracking-wider uppercase px-4 py-2 rounded-full border border-p-200 text-p-700 cursor-pointer"
+                data-fr="Recrutement"
+                data-en="Recruitment"
+              >
+                Recrutement
+              </button>
+            </div>
+          </div>
+
+          <!-- Events grid -->
+          <div id="eventsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <!-- E1 -->
+            <div
+              class="ev-card bg-white rounded-2xl overflow-hidden shadow-sm cursor-pointer ev-item"
+              data-etab="conf upcoming"
+              onclick="openEvent('e1')"
+            >
+              <div
+                class="relative h-36 overflow-hidden"
+                style="background: linear-gradient(135deg, #1e0845, #7040d4)"
+              >
+                <div
+                  class="ev-inner-img absolute inset-0 flex items-center justify-center text-5xl opacity-60"
+                >
+                  🌍
+                </div>
+                <div
+                  class="absolute inset-0 opacity-10"
+                  style="
+                    background-image: repeating-linear-gradient(
+                      45deg,
+                      transparent,
+                      transparent 12px,
+                      rgba(255, 255, 255, 0.2) 12px,
+                      rgba(255, 255, 255, 0.2) 24px
+                    );
+                  "
+                ></div>
+                <div class="absolute top-3 left-3 flex gap-2">
+                  <span
+                    class="font-label text-[.62rem] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full bg-p-200 text-p-800"
+                    data-fr="Conférence"
+                    data-en="Conference"
+                    >Conférence</span
+                  >
+                  <span
+                    class="font-label text-[.62rem] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full bg-gold text-p-900"
+                    data-fr="À venir"
+                    data-en="Upcoming"
+                    >À venir</span
+                  >
+                </div>
+              </div>
+              <div class="p-5">
+                <div class="flex gap-4 items-start">
+                  <div class="text-center flex-shrink-0 w-12 pt-0.5">
+                    <div
+                      class="font-heading font-bold text-p-700 text-2xl leading-none"
+                    >
+                      02
+                    </div>
+                    <div
+                      class="font-label text-[.6rem] tracking-widest uppercase text-gold"
+                    >
+                      Oct
+                    </div>
+                  </div>
+                  <div>
+                    <h3
+                      class="font-heading font-semibold text-p-900 text-lg leading-snug mb-1"
+                      data-fr="Conférence Internationale Innovation Africaine"
+                      data-en="International Conference on African Innovation"
+                    >
+                      Conférence Internationale Innovation Africaine
+                    </h3>
+                    <div class="flex flex-wrap gap-3 text-p-400">
+                      <span
+                        class="font-label text-[.62rem] tracking-wider uppercase"
+                        >📍 Amphi Central</span
+                      >
+                      <span
+                        class="font-label text-[.62rem] tracking-wider uppercase"
+                        >🕗 08h00 – 18h00</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- E2 -->
+            <div
+              class="ev-card bg-white rounded-2xl overflow-hidden shadow-sm cursor-pointer ev-item"
+              data-etab="campus upcoming"
+              onclick="openEvent('e2')"
+            >
+              <div
+                class="relative h-36 overflow-hidden"
+                style="background: linear-gradient(135deg, #7a6014, #c8a028)"
+              >
+                <div
+                  class="ev-inner-img absolute inset-0 flex items-center justify-center text-5xl opacity-60"
+                >
+                  🎓
+                </div>
+                <div
+                  class="absolute inset-0 opacity-10"
+                  style="
+                    background-image: repeating-linear-gradient(
+                      45deg,
+                      transparent,
+                      transparent 12px,
+                      rgba(255, 255, 255, 0.2) 12px,
+                      rgba(255, 255, 255, 0.2) 24px
+                    );
+                  "
+                ></div>
+                <div class="absolute top-3 left-3 flex gap-2">
+                  <span
+                    class="font-label text-[.62rem] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full bg-gold/80 text-p-900"
+                    data-fr="Vie Campus"
+                    data-en="Campus Life"
+                    >Vie Campus</span
+                  >
+                  <span
+                    class="font-label text-[.62rem] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full bg-gold text-p-900"
+                    data-fr="À venir"
+                    data-en="Upcoming"
+                    >À venir</span
+                  >
+                </div>
+              </div>
+              <div class="p-5">
+                <div class="flex gap-4 items-start">
+                  <div class="text-center flex-shrink-0 w-12 pt-0.5">
+                    <div
+                      class="font-heading font-bold text-p-700 text-2xl leading-none"
+                    >
+                      15
+                    </div>
+                    <div
+                      class="font-label text-[.6rem] tracking-widest uppercase text-gold"
+                    >
+                      Nov
+                    </div>
+                  </div>
+                  <div>
+                    <h3
+                      class="font-heading font-semibold text-p-900 text-lg leading-snug mb-1"
+                      data-fr="Journée Portes Ouvertes 2024"
+                      data-en="Open Day 2024"
+                    >
+                      Journée Portes Ouvertes 2024
+                    </h3>
+                    <div class="flex flex-wrap gap-3 text-p-400">
+                      <span
+                        class="font-label text-[.62rem] tracking-wider uppercase"
+                        >📍 Tout le campus</span
+                      >
+                      <span
+                        class="font-label text-[.62rem] tracking-wider uppercase"
+                        >🕗 09h00 – 17h00</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- E3 -->
+            <div
+              class="ev-card bg-white rounded-2xl overflow-hidden shadow-sm cursor-pointer ev-item"
+              data-etab="sout upcoming"
+              onclick="openEvent('e3')"
+            >
+              <div
+                class="relative h-36 overflow-hidden"
+                style="background: linear-gradient(135deg, #14507a, #2888c8)"
+              >
+                <div
+                  class="ev-inner-img absolute inset-0 flex items-center justify-center text-5xl opacity-60"
+                >
+                  📋
+                </div>
+                <div
+                  class="absolute inset-0 opacity-10"
+                  style="
+                    background-image: repeating-linear-gradient(
+                      45deg,
+                      transparent,
+                      transparent 12px,
+                      rgba(255, 255, 255, 0.2) 12px,
+                      rgba(255, 255, 255, 0.2) 24px
+                    );
+                  "
+                ></div>
+                <div class="absolute top-3 left-3 flex gap-2">
+                  <span
+                    class="font-label text-[.62rem] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full bg-blue-200 text-blue-800"
+                    data-fr="Soutenances"
+                    data-en="Defenses"
+                    >Soutenances</span
+                  >
+                  <span
+                    class="font-label text-[.62rem] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full bg-gold text-p-900"
+                    data-fr="À venir"
+                    data-en="Upcoming"
+                    >À venir</span
+                  >
+                </div>
+              </div>
+              <div class="p-5">
+                <div class="flex gap-4 items-start">
+                  <div class="text-center flex-shrink-0 w-12 pt-0.5">
+                    <div
+                      class="font-heading font-bold text-p-700 text-2xl leading-none"
+                    >
+                      20
+                    </div>
+                    <div
+                      class="font-label text-[.6rem] tracking-widest uppercase text-gold"
+                    >
+                      Nov
+                    </div>
+                  </div>
+                  <div>
+                    <h3
+                      class="font-heading font-semibold text-p-900 text-lg leading-snug mb-1"
+                      data-fr="Soutenances de Mémoires — Promotion 2024"
+                      data-en="Dissertation Defenses — Class of 2024"
+                    >
+                      Soutenances de Mémoires — Promotion 2024
+                    </h3>
+                    <div class="flex flex-wrap gap-3 text-p-400">
+                      <span
+                        class="font-label text-[.62rem] tracking-wider uppercase"
+                        >📍 Salle des Actes</span
+                      >
+                      <span
+                        class="font-label text-[.62rem] tracking-wider uppercase"
+                        >🕗 08h00 – 17h00</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- E4 -->
+            <div
+              class="ev-card bg-white rounded-2xl overflow-hidden shadow-sm cursor-pointer ev-item"
+              data-etab="recru upcoming"
+              onclick="openEvent('e4')"
+            >
+              <div
+                class="relative h-36 overflow-hidden"
+                style="background: linear-gradient(135deg, #147a3c, #28c868)"
+              >
+                <div
+                  class="ev-inner-img absolute inset-0 flex items-center justify-center text-5xl opacity-60"
+                >
+                  🤝
+                </div>
+                <div
+                  class="absolute inset-0 opacity-10"
+                  style="
+                    background-image: repeating-linear-gradient(
+                      45deg,
+                      transparent,
+                      transparent 12px,
+                      rgba(255, 255, 255, 0.2) 12px,
+                      rgba(255, 255, 255, 0.2) 24px
+                    );
+                  "
+                ></div>
+                <div class="absolute top-3 left-3 flex gap-2">
+                  <span
+                    class="font-label text-[.62rem] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full bg-green-200 text-green-800"
+                    data-fr="Recrutement"
+                    data-en="Recruitment"
+                    >Recrutement</span
+                  >
+                  <span
+                    class="font-label text-[.62rem] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full bg-gold text-p-900"
+                    data-fr="À venir"
+                    data-en="Upcoming"
+                    >À venir</span
+                  >
+                </div>
+              </div>
+              <div class="p-5">
+                <div class="flex gap-4 items-start">
+                  <div class="text-center flex-shrink-0 w-12 pt-0.5">
+                    <div
+                      class="font-heading font-bold text-p-700 text-2xl leading-none"
+                    >
+                      05
+                    </div>
+                    <div
+                      class="font-label text-[.6rem] tracking-widest uppercase text-gold"
+                    >
+                      Déc
+                    </div>
+                  </div>
+                  <div>
+                    <h3
+                      class="font-heading font-semibold text-p-900 text-lg leading-snug mb-1"
+                      data-fr="Forum Entreprises & Emploi 2024"
+                      data-en="Business & Employment Forum 2024"
+                    >
+                      Forum Entreprises & Emploi 2024
+                    </h3>
+                    <div class="flex flex-wrap gap-3 text-p-400">
+                      <span
+                        class="font-label text-[.62rem] tracking-wider uppercase"
+                        >📍 Campus Principal</span
+                      >
+                      <span
+                        class="font-label text-[.62rem] tracking-wider uppercase"
+                        >🕗 09h00 – 16h00</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- E5 — Past -->
+            <div
+              class="ev-card bg-white rounded-2xl overflow-hidden shadow-sm cursor-pointer ev-item opacity-70"
+              data-etab="campus"
+              onclick="openEvent('e5')"
+            >
+              <div
+                class="relative h-36 overflow-hidden"
+                style="background: linear-gradient(135deg, #404040, #808080)"
+              >
+                <div
+                  class="ev-inner-img absolute inset-0 flex items-center justify-center text-5xl opacity-50"
+                >
+                  🎭
+                </div>
+                <div class="absolute top-3 left-3">
+                  <span
+                    class="font-label text-[.62rem] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full bg-white/20 text-white"
+                    data-fr="Passé"
+                    data-en="Past"
+                    >Passé</span
+                  >
+                </div>
+              </div>
+              <div class="p-5">
+                <div class="flex gap-4 items-start">
+                  <div class="text-center flex-shrink-0 w-12 pt-0.5">
+                    <div
+                      class="font-heading font-bold text-p-400 text-2xl leading-none"
+                    >
+                      10
+                    </div>
+                    <div
+                      class="font-label text-[.6rem] tracking-widest uppercase text-p-300"
+                    >
+                      Juin
+                    </div>
+                  </div>
+                  <div>
+                    <h3
+                      class="font-heading font-semibold text-p-600 text-lg leading-snug mb-1"
+                      data-fr="Semaine Culturelle 2024"
+                      data-en="Cultural Week 2024"
+                    >
+                      Semaine Culturelle 2024
+                    </h3>
+                    <div class="flex flex-wrap gap-3 text-p-300">
+                      <span
+                        class="font-label text-[.62rem] tracking-wider uppercase"
+                        >📍 Campus Principal</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- E6 — Past -->
+            <div
+              class="ev-card bg-white rounded-2xl overflow-hidden shadow-sm cursor-pointer ev-item opacity-70"
+              data-etab="campus"
+              onclick="openEvent('e6')"
+            >
+              <div
+                class="relative h-36 overflow-hidden"
+                style="background: linear-gradient(135deg, #404040, #808080)"
+              >
+                <div
+                  class="ev-inner-img absolute inset-0 flex items-center justify-center text-5xl opacity-50"
+                >
+                  🏆
+                </div>
+                <div class="absolute top-3 left-3">
+                  <span
+                    class="font-label text-[.62rem] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full bg-white/20 text-white"
+                    data-fr="Passé"
+                    data-en="Past"
+                    >Passé</span
+                  >
+                </div>
+              </div>
+              <div class="p-5">
+                <div class="flex gap-4 items-start">
+                  <div class="text-center flex-shrink-0 w-12 pt-0.5">
+                    <div
+                      class="font-heading font-bold text-p-400 text-2xl leading-none"
+                    >
+                      01
+                    </div>
+                    <div
+                      class="font-label text-[.6rem] tracking-widest uppercase text-p-300"
+                    >
+                      Juin
+                    </div>
+                  </div>
+                  <div>
+                    <h3
+                      class="font-heading font-semibold text-p-600 text-lg leading-snug mb-1"
+                      data-fr="Cérémonie de Remise des Diplômes 2024"
+                      data-en="Graduation Ceremony 2024"
+                    >
+                      Cérémonie de Remise des Diplômes 2024
+                    </h3>
+                    <div class="flex flex-wrap gap-3 text-p-300">
+                      <span
+                        class="font-label text-[.62rem] tracking-wider uppercase"
+                        >📍 Grand Amphi</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Mini calendar sidebar ── -->
+        <aside class="aside-cal w-72 flex-shrink-0 space-y-5">
+          <!-- Calendar widget -->
+          <div class="bg-white rounded-2xl p-5 border border-p-100 reveal">
+            <div class="flex items-center justify-between mb-4">
+              <button
+                onclick="prevMonth()"
+                class="w-7 h-7 rounded-full hover:bg-p-100 flex items-center justify-center text-p-600 text-sm transition-colors"
+              >
+                ‹
+              </button>
+              <div
+                class="font-label text-[.75rem] tracking-[.15em] uppercase text-p-700"
+                id="calMonth"
+              >
+                Octobre 2024
+              </div>
+              <button
+                onclick="nextMonth()"
+                class="w-7 h-7 rounded-full hover:bg-p-100 flex items-center justify-center text-p-600 text-sm transition-colors"
+              >
+                ›
+              </button>
+            </div>
+            <div class="grid grid-cols-7 gap-1 mb-2">
+              <div
+                class="font-label text-[.6rem] tracking-widest uppercase text-p-300 text-center"
+              >
+                L
+              </div>
+              <div
+                class="font-label text-[.6rem] tracking-widest uppercase text-p-300 text-center"
+              >
+                M
+              </div>
+              <div
+                class="font-label text-[.6rem] tracking-widest uppercase text-p-300 text-center"
+              >
+                M
+              </div>
+              <div
+                class="font-label text-[.6rem] tracking-widest uppercase text-p-300 text-center"
+              >
+                J
+              </div>
+              <div
+                class="font-label text-[.6rem] tracking-widest uppercase text-p-300 text-center"
+              >
+                V
+              </div>
+              <div
+                class="font-label text-[.6rem] tracking-widest uppercase text-p-300 text-center"
+              >
+                S
+              </div>
+              <div
+                class="font-label text-[.6rem] tracking-widest uppercase text-p-300 text-center"
+              >
+                D
+              </div>
+            </div>
+            <div id="calGrid" class="grid grid-cols-7 gap-1"></div>
+            <div class="mt-4 flex items-center gap-2">
+              <div class="w-3 h-3 rounded-sm bg-p-200"></div>
+              <span
+                class="font-label text-[.62rem] tracking-wider uppercase text-p-400"
+                data-fr="Événement prévu"
+                data-en="Scheduled event"
+                >Événement prévu</span
+              >
+            </div>
+          </div>
+
+          <!-- Upcoming quick-list -->
+          <div class="bg-p-50 rounded-2xl p-5 reveal">
+            <div
+              class="font-label text-[.7rem] tracking-[.2em] uppercase text-p-600 mb-4"
+              data-fr="Prochains événements"
+              data-en="Upcoming events"
+            >
+              Prochains événements
+            </div>
+            <div class="space-y-3">
+              <div
+                class="flex gap-3 cursor-pointer group"
+                onclick="openEvent('e1')"
+              >
+                <div
+                  class="w-10 h-10 rounded-lg bg-p-700 flex flex-col items-center justify-center flex-shrink-0"
+                >
+                  <span
+                    class="font-heading font-bold text-gold text-sm leading-none"
+                    >02</span
+                  >
+                  <span class="font-label text-[.55rem] uppercase text-white/60"
+                    >Oct</span
+                  >
+                </div>
+                <div>
+                  <p
+                    class="font-heading font-semibold text-p-900 text-sm leading-snug group-hover:text-p-600 transition-colors"
+                    data-fr="Conférence Innovation"
+                    data-en="Innovation Conference"
+                  >
+                    Conférence Innovation
+                  </p>
+                  <span
+                    class="font-label text-[.6rem] tracking-wider uppercase text-p-400"
+                    >Amphi Central</span
+                  >
+                </div>
+              </div>
+              <div
+                class="flex gap-3 cursor-pointer group"
+                onclick="openEvent('e2')"
+              >
+                <div
+                  class="w-10 h-10 rounded-lg bg-gold flex flex-col items-center justify-center flex-shrink-0"
+                >
+                  <span
+                    class="font-heading font-bold text-p-900 text-sm leading-none"
+                    >15</span
+                  >
+                  <span class="font-label text-[.55rem] uppercase text-p-900/60"
+                    >Nov</span
+                  >
+                </div>
+                <div>
+                  <p
+                    class="font-heading font-semibold text-p-900 text-sm leading-snug group-hover:text-p-600 transition-colors"
+                    data-fr="Portes Ouvertes"
+                    data-en="Open Day"
+                  >
+                    Portes Ouvertes
+                  </p>
+                  <span
+                    class="font-label text-[.6rem] tracking-wider uppercase text-p-400"
+                    data-fr="Tout le campus"
+                    data-en="Whole campus"
+                    >Tout le campus</span
+                  >
+                </div>
+              </div>
+              <div
+                class="flex gap-3 cursor-pointer group"
+                onclick="openEvent('e3')"
+              >
+                <div
+                  class="w-10 h-10 rounded-lg bg-p-100 flex flex-col items-center justify-center flex-shrink-0"
+                >
+                  <span
+                    class="font-heading font-bold text-p-700 text-sm leading-none"
+                    >20</span
+                  >
+                  <span class="font-label text-[.55rem] uppercase text-p-400"
+                    >Nov</span
+                  >
+                </div>
+                <div>
+                  <p
+                    class="font-heading font-semibold text-p-900 text-sm leading-snug group-hover:text-p-600 transition-colors"
+                    data-fr="Soutenances"
+                    data-en="Defenses"
+                  >
+                    Soutenances
+                  </p>
+                  <span
+                    class="font-label text-[.6rem] tracking-wider uppercase text-p-400"
+                    data-fr="Salle des Actes"
+                    data-en="Meeting Room"
+                    >Salle des Actes</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add to calendar CTA -->
+          <div class="bg-p-900 rounded-2xl p-5 text-center reveal">
+            <div class="text-3xl mb-3">📅</div>
+            <p
+              class="text-white/60 text-xs leading-relaxed mb-4 font-label tracking-wider uppercase"
+              data-fr="Abonnez-vous au calendrier pour recevoir les événements automatiquement"
+              data-en="Subscribe to the calendar to receive events automatically"
+            >
+              Abonnez-vous au calendrier
+            </p>
+            <a
+              href="#"
+              class="block font-label text-[.72rem] font-bold tracking-widest uppercase py-2 bg-gold text-p-900 rounded-lg hover:bg-gold-light transition-colors"
+              data-fr="Ajouter à Google Calendar"
+              data-en="Add to Google Calendar"
+              >Ajouter à Google Calendar</a
+            >
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+       TESTIMONIALS
+  ══════════════════════════════════ -->
+    <section class="py-24 px-6 bg-white" id="testimonials">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-14 reveal">
+          <div class="flex items-center justify-center gap-2 mb-3">
+            <span class="block w-7 h-[2px] bg-gold"></span>
+            <span
+              class="font-label text-[.7rem] tracking-[.28em] uppercase text-p-600"
+              data-fr="Ils ont vécu l'expérience"
+              data-en="They lived the experience"
+              >Ils ont vécu l'expérience</span
+            >
+            <span class="block w-7 h-[2px] bg-gold"></span>
+          </div>
+          <h2
+            class="font-heading font-semibold text-p-900 leading-[1.15]"
+            style="font-size: clamp(2rem, 3.5vw, 2.9rem)"
+          >
+            <span data-fr="Ce que disent nos" data-en="What our"
+              >Ce que disent nos</span
+            >
+            <em
+              class="text-p-600 italic"
+              data-fr=" diplômés"
+              data-en=" graduates say"
+            >
+              diplômés</em
+            >
+          </h2>
+        </div>
+
+        <!-- Stats row -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-14 reveal">
+          <div class="text-center p-5 bg-p-50 rounded-2xl">
+            <div
+              class="font-heading font-bold text-p-700 text-4xl leading-none mb-1"
+            >
+              87%
+            </div>
+            <div
+              class="font-label text-[.68rem] tracking-widest uppercase text-p-400"
+              data-fr="Taux d'insertion"
+              data-en="Employment rate"
+            >
+              Taux d'insertion
+            </div>
+          </div>
+          <div class="text-center p-5 bg-gold/10 rounded-2xl">
+            <div
+              class="font-heading font-bold text-gold text-4xl leading-none mb-1"
+            >
+              4.7<span class="text-2xl">/5</span>
+            </div>
+            <div
+              class="font-label text-[.68km] tracking-widest uppercase text-p-400"
+              data-fr="Satisfaction diplômés"
+              data-en="Graduate satisfaction"
+            >
+              Satisfaction
+            </div>
+          </div>
+          <div class="text-center p-5 bg-p-50 rounded-2xl">
+            <div
+              class="font-heading font-bold text-p-700 text-4xl leading-none mb-1"
+            >
+              850<span class="text-2xl">+</span>
+            </div>
+            <div
+              class="font-label text-[.68rem] tracking-widest uppercase text-p-400"
+              data-fr="Diplômés actifs"
+              data-en="Active graduates"
+            >
+              Diplômés actifs
+            </div>
+          </div>
+          <div class="text-center p-5 bg-p-50 rounded-2xl">
+            <div
+              class="font-heading font-bold text-p-700 text-4xl leading-none mb-1"
+            >
+              12
+            </div>
+            <div
+              class="font-label text-[.68rem] tracking-widest uppercase text-p-400"
+              data-fr="Pays représentés"
+              data-en="Countries represented"
+            >
+              Pays représentés
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonials grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          <!-- T1 -->
+          <div
+            class="test-card bg-white rounded-2xl p-7 border border-p-100 shadow-sm reveal cursor-pointer"
+            onclick="openTestimonial('t1')"
+          >
+            <div class="big-quote mb-3">"</div>
+            <div class="flex mb-2">
+              <span class="star text-sm">★★★★★</span>
+            </div>
+            <p
+              class="text-p-600/80 text-sm leading-[1.82] mb-6 font-body italic"
+              data-fr="UniPlaceholder m'a offert bien plus qu'un diplôme. J'ai acquis des compétences solides, un réseau professionnel incroyable et la confiance nécessaire pour diriger mon propre cabinet."
+              data-en="UniPlaceholder gave me far more than a degree. I gained solid skills, an incredible professional network and the confidence to run my own firm."
+            >
+              UniPlaceholder m'a offert bien plus qu'un diplôme. J'ai acquis des
+              compétences solides, un réseau professionnel incroyable et la
+              confiance nécessaire pour diriger mon propre cabinet.
+            </p>
+            <div class="flex items-center gap-3 pt-4 border-t border-p-50">
+              <div
+                class="w-11 h-11 rounded-full flex-shrink-0 flex items-center justify-center font-heading italic text-white/50 text-lg"
+                style="background: linear-gradient(135deg, #7a1450, #d040a0)"
+              >
+                S
+              </div>
+              <div>
+                <div class="font-heading font-semibold text-p-900 text-base">
+                  Sarah Nkemelu
+                </div>
+                <div
+                  class="font-label text-[.62rem] tracking-wider uppercase text-p-400"
+                  data-fr="Finance · Promotion 2021 · Douala"
+                  data-en="Finance · Class of 2021 · Douala"
+                >
+                  Finance · Promotion 2021 · Douala
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- T2 — Featured (dark) -->
+          <div
+            class="test-card bg-p-900 rounded-2xl p-7 shadow-sm reveal cursor-pointer"
+            onclick="openTestimonial('t2')"
+            style="transition-delay: 0.1s"
+          >
+            <div class="big-quote mb-3" style="color: rgba(155, 114, 232, 0.3)">
+              "
+            </div>
+            <div class="flex mb-2">
+              <span class="star text-sm">★★★★★</span>
+            </div>
+            <p
+              class="text-white/70 text-sm leading-[1.82] mb-6 font-body italic"
+              data-fr="Les professeurs sont des praticiens actifs. Chaque cours était connecté à la réalité du marché. Grâce à UniPlaceholder, j'ai eu mon premier emploi avant même de finir mon mémoire."
+              data-en="The professors are active practitioners. Every course was connected to market reality. Thanks to UniPlaceholder, I had my first job before even finishing my dissertation."
+            >
+              Les professeurs sont des praticiens actifs. Chaque cours était
+              connecté à la réalité du marché. Grâce à UniPlaceholder, j'ai eu
+              mon premier emploi avant même de finir mon mémoire.
+            </p>
+            <div class="flex items-center gap-3 pt-4 border-t border-white/10">
+              <div
+                class="w-11 h-11 rounded-full flex-shrink-0 flex items-center justify-center font-heading italic text-white/50 text-lg"
+                style="background: linear-gradient(135deg, #3e1490, #9b72e8)"
+              >
+                K
+              </div>
+              <div>
+                <div class="font-heading font-semibold text-white text-base">
+                  Kevin Biyong
+                </div>
+                <div
+                  class="font-label text-[.62rem] tracking-wider uppercase text-white/40"
+                  data-fr="Informatique · Promotion 2022 · Yaoundé"
+                  data-en="Computer Science · Class of 2022 · Yaoundé"
+                >
+                  Informatique · Promotion 2022 · Yaoundé
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- T3 -->
+          <div
+            class="test-card bg-white rounded-2xl p-7 border border-p-100 shadow-sm reveal cursor-pointer"
+            onclick="openTestimonial('t3')"
+            style="transition-delay: 0.2s"
+          >
+            <div class="big-quote mb-3">"</div>
+            <div class="flex mb-2">
+              <span class="star text-sm">★★★★★</span>
+            </div>
+            <p
+              class="text-p-600/80 text-sm leading-[1.82] mb-6 font-body italic"
+              data-fr="L'environnement bilingue est un atout énorme. Mon Master bilingue m'a ouvert des portes en Europe que je n'aurais jamais franchies autrement."
+              data-en="The bilingual environment is a huge asset. My bilingual Master's opened doors in Europe that I would never have gone through otherwise."
+            >
+              L'environnement bilingue est un atout énorme. Mon Master bilingue
+              m'a ouvert des portes en Europe que je n'aurais jamais franchies
+              autrement.
+            </p>
+            <div class="flex items-center gap-3 pt-4 border-t border-p-50">
+              <div
+                class="w-11 h-11 rounded-full flex-shrink-0 flex items-center justify-center font-heading italic text-white/50 text-lg"
+                style="background: linear-gradient(135deg, #147a3c, #28c868)"
+              >
+                P
+              </div>
+              <div>
+                <div class="font-heading font-semibold text-p-900 text-base">
+                  Patience Fotso
+                </div>
+                <div
+                  class="font-label text-[.62rem] tracking-wider uppercase text-p-400"
+                  data-fr="Communication · Promotion 2023 · Bruxelles"
+                  data-en="Communication · Class of 2023 · Brussels"
+                >
+                  Communication · Promotion 2023 · Bruxelles
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- T4 -->
+          <div
+            class="test-card bg-p-50 rounded-2xl p-7 shadow-sm reveal cursor-pointer"
+            onclick="openTestimonial('t4')"
+            style="transition-delay: 0.05s"
+          >
+            <div class="big-quote mb-3">"</div>
+            <div class="flex mb-2">
+              <span class="star text-sm">★★★★★</span>
+            </div>
+            <p
+              class="text-p-600/80 text-sm leading-[1.82] mb-6 font-body italic"
+              data-fr="Le programme de Droit des Affaires est exceptionnel. Les simulations de procès et les ateliers avec des avocats en exercice ont fait toute la différence."
+              data-en="The Business Law program is exceptional. The mock trials and workshops with practising lawyers made all the difference."
+            >
+              Le programme de Droit des Affaires est exceptionnel. Les
+              simulations de procès et les ateliers avec des avocats en exercice
+              ont fait toute la différence.
+            </p>
+            <div class="flex items-center gap-3 pt-4 border-t border-p-100">
+              <div
+                class="w-11 h-11 rounded-full flex-shrink-0 flex items-center justify-center font-heading italic text-white/50 text-lg"
+                style="background: linear-gradient(135deg, #7a1450, #c82888)"
+              >
+                A
+              </div>
+              <div>
+                <div class="font-heading font-semibold text-p-900 text-base">
+                  Armelle Tsague
+                </div>
+                <div
+                  class="font-label text-[.62rem] tracking-wider uppercase text-p-400"
+                  data-fr="Droit · Promotion 2022 · Barreau de Douala"
+                  data-en="Law · Class of 2022 · Douala Bar"
+                >
+                  Droit · Promotion 2022 · Barreau de Douala
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- T5 -->
+          <div
+            class="test-card bg-p-50 rounded-2xl p-7 shadow-sm reveal cursor-pointer"
+            onclick="openTestimonial('t5')"
+            style="transition-delay: 0.15s"
+          >
+            <div class="big-quote mb-3">"</div>
+            <div class="flex mb-2">
+              <span class="star text-sm">★★★★★</span>
+            </div>
+            <p
+              class="text-p-600/80 text-sm leading-[1.82] mb-6 font-body italic"
+              data-fr="La bibliothèque numérique et la plateforme e-learning sont des ressources incroyables. Tout est accessible, organisé et vraiment utile pour la recherche."
+              data-en="The digital library and e-learning platform are incredible resources. Everything is accessible, organised and genuinely useful for research."
+            >
+              La bibliothèque numérique et la plateforme e-learning sont des
+              ressources incroyables. Tout est accessible, organisé et vraiment
+              utile pour la recherche.
+            </p>
+            <div class="flex items-center gap-3 pt-4 border-t border-p-100">
+              <div
+                class="w-11 h-11 rounded-full flex-shrink-0 flex items-center justify-center font-heading italic text-white/50 text-lg"
+                style="background: linear-gradient(135deg, #14507a, #4090d0)"
+              >
+                M
+              </div>
+              <div>
+                <div class="font-heading font-semibold text-p-900 text-base">
+                  Michel Essamba
+                </div>
+                <div
+                  class="font-label text-[.62rem] tracking-wider uppercase text-p-400"
+                  data-fr="Génie Civil · Promotion 2023 · BTP Cameroun"
+                  data-en="Civil Eng. · Class of 2023 · Cameroon BTP"
+                >
+                  Génie Civil · Promotion 2023 · BTP Cameroun
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- T6 -->
+          <div
+            class="test-card bg-p-50 rounded-2xl p-7 shadow-sm reveal cursor-pointer"
+            onclick="openTestimonial('t6')"
+            style="transition-delay: 0.25s"
+          >
+            <div class="big-quote mb-3">"</div>
+            <div class="flex mb-2">
+              <span class="star text-sm">★★★★☆</span>
+            </div>
+            <p
+              class="text-p-600/80 text-sm leading-[1.82] mb-6 font-body italic"
+              data-fr="Le stage garanti en 2ème année m'a permis de valider mon projet professionnel. J'ai décroché mon CDI dans l'entreprise où j'effectuais mon stage de fin d'études."
+              data-en="The guaranteed internship in 2nd year helped me validate my career plan. I got a permanent contract at the company where I did my final internship."
+            >
+              Le stage garanti en 2ème année m'a permis de valider mon projet
+              professionnel. J'ai décroché mon CDI dans l'entreprise où
+              j'effectuais mon stage de fin d'études.
+            </p>
+            <div class="flex items-center gap-3 pt-4 border-t border-p-100">
+              <div
+                class="w-11 h-11 rounded-full flex-shrink-0 flex items-center justify-center font-heading italic text-white/50 text-lg"
+                style="background: linear-gradient(135deg, #7a6014, #c8a028)"
+              >
+                L
+              </div>
+              <div>
+                <div class="font-heading font-semibold text-p-900 text-base">
+                  Laure Menguele
+                </div>
+                <div
+                  class="font-label text-[.62rem] tracking-wider uppercase text-p-400"
+                  data-fr="Finance · Promotion 2023 · Société Générale"
+                  data-en="Finance · Class of 2023 · Société Générale"
+                >
+                  Finance · Promotion 2023 · Société Générale
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Share your story CTA -->
+        <div class="reveal">
+          <div
+            class="bg-p-50 rounded-2xl p-8 grid grid-cols-1 md:grid-cols-2 gap-6 items-center"
+          >
+            <div>
+              <div
+                class="font-label text-[.7rem] tracking-[.28em] uppercase text-p-600 mb-2"
+                data-fr="Vous êtes diplômé(e) ?"
+                data-en="Are you a graduate?"
+              >
+                Vous êtes diplômé(e) ?
+              </div>
+              <h3
+                class="font-heading font-semibold text-p-900 text-2xl leading-snug mb-3"
+                data-fr="Partagez votre expérience"
+                data-en="Share your experience"
+              >
+                Partagez votre expérience
+              </h3>
+              <p
+                class="text-p-600/75 text-sm leading-relaxed"
+                data-fr="Votre témoignage inspire les futures générations d'étudiants. Prenez 5 minutes pour raconter votre parcours."
+                data-en="Your testimonial inspires future generations of students. Take 5 minutes to share your journey."
+              >
+                Votre témoignage inspire les futures générations d'étudiants.
+                Prenez 5 minutes pour raconter votre parcours.
+              </p>
+            </div>
+            <div class="flex flex-col gap-3">
+              <textarea
+                rows="3"
+                class="w-full px-4 py-3 rounded-xl border border-p-200 text-p-900 text-sm font-body outline-none focus:border-p-500 transition-colors resize-none"
+                id="testInput"
+                placeholder="Partagez votre témoignage ici…"
+              ></textarea>
+              <button
+                onclick="submitTest()"
+                class="font-label text-[.78rem] font-bold tracking-[.1em] uppercase py-3 bg-p-700 text-white rounded-xl hover:bg-p-800 transition-colors"
+                data-fr="Soumettre mon témoignage"
+                data-en="Submit my testimonial"
+              >
+                Soumettre mon témoignage
+              </button>
+              <div
+                id="testSuccess"
+                class="hidden text-center font-label text-sm tracking-wider uppercase text-p-600"
+                data-fr="✓ Merci ! Votre témoignage sera examiné."
+                data-en="✓ Thank you! Your testimonial will be reviewed."
+              >
+                ✓ Merci ! Votre témoignage sera examiné.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+       CTA BANNER
+  ══════════════════════════════════ -->
+    <section
+      class="slant-top py-28 px-6 relative overflow-hidden"
+      style="background: linear-gradient(140deg, #3e1490, #5520b8)"
+    >
+      <div
+        class="absolute inset-0 pointer-events-none"
+        style="
+          background-image:
+            linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+            linear-gradient(
+              90deg,
+              rgba(255, 255, 255, 0.025) 1px,
+              transparent 1px
+            );
+          background-size: 50px 50px;
+        "
+      ></div>
+      <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
+        <div
+          class="font-label text-[.74rem] tracking-[.28em] uppercase text-gold mb-3"
+          data-fr="Rejoignez l'aventure"
+          data-en="Join the adventure"
+        >
+          Rejoignez l'aventure
+        </div>
+        <h2
+          class="font-heading font-semibold text-white leading-[1.15] mb-4"
+          style="font-size: clamp(2rem, 3.5vw, 3rem)"
+        >
+          <span data-fr="Vivez l'expérience" data-en="Live the"
+            >Vivez l'expérience</span
+          >
+          <em class="text-gold italic"> UniPlaceholder</em>
+        </h2>
+        <p
+          class="text-white/65 leading-relaxed mb-8 max-w-lg mx-auto"
+          style="font-size: 0.94rem"
+          data-fr="Des événements qui inspirent, des diplômés qui réussissent, une communauté qui grandit. Faites partie de l'histoire."
+          data-en="Events that inspire, graduates who succeed, a community that grows. Be part of the story."
+        >
+          Des événements qui inspirent, des diplômés qui réussissent, une
+          communauté qui grandit. Faites partie de l'histoire.
+        </p>
+        <div class="flex gap-3 justify-center flex-wrap">
+          <a
+            href="programs.html"
+            class="font-label text-[.82rem] font-bold tracking-[.1em] uppercase px-8 py-3 bg-gold text-p-900 rounded hover:bg-gold-light transition-all"
+            data-fr="Voir les formations"
+            data-en="View programs"
+            >Voir les formations</a
+          >
+          <a
+            href="#"
+            class="font-label text-[.82rem] font-semibold tracking-[.1em] uppercase px-8 py-3 border border-white/40 text-white rounded hover:bg-white/10 transition-all"
+            data-fr="Nous contacter"
+            data-en="Contact us"
+            >Nous contacter</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+       EVENT DETAIL MODAL
+  ══════════════════════════════════ -->
+    <div id="evModal" class="modal-overlay" onclick="closeEvOutside(event)">
+      <div class="modal-box">
+        <div
+          id="em-header"
+          class="h-36 relative"
+          style="background: linear-gradient(140deg, #1e0845, #5520b8)"
+        >
+          <button
+            onclick="closeEv()"
+            class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/20 hover:bg-white/35 flex items-center justify-center text-white font-bold transition-colors"
+          >
+            ✕
+          </button>
+          <span
+            id="em-icon"
+            class="absolute top-1/2 right-8 -translate-y-1/2 text-7xl opacity-20"
+          ></span>
+          <div class="absolute bottom-5 left-5 z-10">
+            <span
+              id="em-type"
+              class="font-label text-[.62rem] tracking-widest uppercase text-white/60 block mb-1"
+            ></span>
+            <h3
+              id="em-title"
+              class="font-heading font-semibold text-white text-xl leading-snug"
+            ></h3>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="grid grid-cols-3 gap-3 mb-5" id="em-meta"></div>
+          <h4
+            class="font-label text-[.68rem] tracking-widest uppercase text-p-600 font-semibold mb-2"
+            data-fr="Description"
+            data-en="Description"
+          >
+            Description
+          </h4>
+          <p
+            class="text-p-600/80 text-sm leading-relaxed mb-5"
+            id="em-desc"
+          ></p>
+          <h4
+            class="font-label text-[.68rem] tracking-widest uppercase text-p-600 font-semibold mb-2"
+            data-fr="Programme"
+            data-en="Programme"
+          >
+            Programme
+          </h4>
+          <div id="em-prog" class="space-y-2 mb-6"></div>
+          <div class="flex gap-3">
+            <a
+              href="#"
+              class="flex-1 text-center font-label text-[.78rem] font-bold tracking-widest uppercase py-3 bg-p-700 text-white rounded-lg hover:bg-p-800 transition-colors"
+              data-fr="S'inscrire"
+              data-en="Register"
+              >S'inscrire</a
+            >
+            <button
+              onclick="closeEv()"
+              class="flex-1 font-label text-[.78rem] font-bold tracking-widest uppercase py-3 border-2 border-p-200 text-p-700 rounded-lg hover:bg-p-100 transition-colors"
+              data-fr="Fermer"
+              data-en="Close"
+            >
+              Fermer
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TESTIMONIAL MODAL -->
+    <div id="testModal" class="modal-overlay" onclick="closeTestOutside(event)">
+      <div class="modal-box">
+        <div
+          id="tm-header"
+          class="h-24 relative"
+          style="background: linear-gradient(135deg, #3e1490, #7040d4)"
+        >
+          <button
+            onclick="closeTest()"
+            class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/20 hover:bg-white/35 flex items-center justify-center text-white font-bold transition-colors"
+          >
+            ✕
+          </button>
+          <div class="absolute bottom-4 left-5 flex items-center gap-3">
+            <div
+              id="tm-avatar"
+              class="w-12 h-12 rounded-full border-3 border-white -mb-8 flex items-center justify-center font-heading italic text-white/50 text-xl"
+              style="background: linear-gradient(135deg, #7a1450, #d040a0)"
+            >
+              S
+            </div>
+          </div>
+        </div>
+        <div class="p-6 pt-10">
+          <div
+            class="font-label text-[.65rem] tracking-widest uppercase text-p-500 mb-0.5"
+            id="tm-prog"
+          ></div>
+          <h3
+            class="font-heading font-semibold text-p-900 text-xl mb-1"
+            id="tm-name"
+          ></h3>
+          <div class="flex mb-4" id="tm-stars"></div>
+          <div
+            class="big-quote text-4xl mb-2"
+            style="
+              font-family: &quot;Cormorant Garamond&quot;, Georgia, serif;
+              color: #ede6ff;
+            "
+          >
+            "
+          </div>
+          <p
+            class="text-p-600/85 text-sm leading-[1.85] mb-4 italic"
+            id="tm-quote"
+          ></p>
+          <button
+            onclick="closeTest()"
+            class="w-full font-label text-[.78rem] font-bold tracking-widest uppercase py-3 bg-p-700 text-white rounded-lg hover:bg-p-800 transition-colors"
+            data-fr="Fermer"
+            data-en="Close"
+          >
+            Fermer
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════
+       SCRIPTS
+  ══════════════════════════════════ -->
+    <script>
+      let lang = "fr";
+
+      /* ── Event data ── */
+      const evData = {
+        e1: {
+          color: "linear-gradient(140deg,#1E0845,#7040D4)",
+          icon: "🌍",
+          typeFr: "Conférence Internationale",
+          typeEn: "International Conference",
+          titleFr: "3ème Conférence sur l'Innovation Africaine",
+          titleEn: "3rd Conference on African Innovation",
+          meta: [
+            { v: "2–4 Oct", lFr: "Date", lEn: "Date" },
+            { v: "200+", lFr: "Participants", lEn: "Attendees" },
+            { v: "Gratuit*", lFr: "Tarif", lEn: "Fee" },
+          ],
+          descFr:
+            "Trois journées d'échanges académiques et professionnels sur l'innovation technologique en Afrique. Au programme : présentations de recherches, ateliers pratiques, panel d'experts et session networking. Langues : français et anglais.",
+          descEn:
+            "Three days of academic and professional exchanges on technological innovation in Africa. The programme includes research presentations, practical workshops, expert panels and a networking session. Languages: French and English.",
+          prog: [
+            "08h00 – Accueil & enregistrement",
+            "09h00 – Conférence inaugurale",
+            "11h00 – Ateliers parallèles (IA / Énergie / Entrepreneuriat)",
+            "14h00 – Panels experts",
+            "17h00 – Networking & cocktail",
+          ],
+        },
+        e2: {
+          color: "linear-gradient(135deg,#7A6014,#C8A028)",
+          icon: "🎓",
+          typeFr: "Journée Portes Ouvertes",
+          typeEn: "Open Day",
+          titleFr: "Journée Portes Ouvertes 2024",
+          titleEn: "Open Day 2024",
+          meta: [
+            { v: "15 Nov", lFr: "Date", lEn: "Date" },
+            { v: "09h–17h", lFr: "Horaire", lEn: "Time" },
+            { v: "Libre", lFr: "Accès", lEn: "Access" },
+          ],
+          descFr:
+            "Venez découvrir UniPlaceholder, visiter les campus, rencontrer les enseignants et les étudiants, assister à des démonstrations pédagogiques et obtenir toutes les informations sur nos formations et le processus d'admission.",
+          descEn:
+            "Come and discover UniPlaceholder, visit the campus, meet lecturers and students, attend teaching demonstrations and get all the information about our programs and the admission process.",
+          prog: [
+            "09h00 – Accueil des visiteurs",
+            "10h00 – Présentation des formations",
+            "12h00 – Déjeuner campus (offert)",
+            "14h00 – Visites guidées",
+            "16h00 – Questions & réponses avec les étudiants",
+          ],
+        },
+        e3: {
+          color: "linear-gradient(135deg,#14507A,#2888C8)",
+          icon: "📋",
+          typeFr: "Soutenances de Mémoires",
+          typeEn: "Dissertation Defenses",
+          titleFr: "Soutenances de Mémoires — Promotion 2024",
+          titleEn: "Dissertation Defenses — Class of 2024",
+          meta: [
+            { v: "20 Nov", lFr: "Date", lEn: "Date" },
+            { v: "08h–17h", lFr: "Horaire", lEn: "Time" },
+            { v: "Sur invitation", lFr: "Accès", lEn: "Access" },
+          ],
+          descFr:
+            "Journée de soutenances publiques des mémoires de fin d'études de la Promotion 2024. 45 étudiants présenteront leurs travaux devant un jury de professionnels et d'enseignants.",
+          descEn:
+            "Day of public dissertation defenses for the Class of 2024. 45 students will present their work before a jury of professionals and lecturers.",
+          prog: [
+            "08h00 – Début des soutenances (salles A, B, C)",
+            "13h00 – Pause déjeuner",
+            "14h00 – Reprises des soutenances",
+            "17h00 – Délibérations & résultats",
+            "18h00 – Cocktail de fin",
+          ],
+        },
+        e4: {
+          color: "linear-gradient(135deg,#147A3C,#28C868)",
+          icon: "🤝",
+          typeFr: "Forum Emploi",
+          typeEn: "Employment Forum",
+          titleFr: "Forum Entreprises & Emploi 2024",
+          titleEn: "Business & Employment Forum 2024",
+          meta: [
+            { v: "5 Déc", lFr: "Date", lEn: "Date" },
+            { v: "40+", lFr: "Entreprises", lEn: "Companies" },
+            { v: "Étudiants", lFr: "Pour", lEn: "For" },
+          ],
+          descFr:
+            "Le Forum Emploi UniPlaceholder rassemble 40+ entreprises partenaires pour des entretiens de recrutement, des stages et des présentations de métiers. L'événement phare pour l'insertion professionnelle des étudiants en fin de cursus.",
+          descEn:
+            "The UniPlaceholder Employment Forum brings together 40+ partner companies for recruitment interviews, internships and career presentations. The flagship event for professional integration of students nearing graduation.",
+          prog: [
+            "09h00 – Ouverture du forum",
+            "10h00 – Présentations entreprises",
+            "12h00 – Entretiens individuels",
+            "14h00 – Tables rondes métiers",
+            "16h00 – Ateliers CV & entretien",
+          ],
+        },
+        e5: {
+          color: "linear-gradient(135deg,#404040,#808080)",
+          icon: "🎭",
+          typeFr: "Événement Passé",
+          typeEn: "Past Event",
+          titleFr: "Semaine Culturelle 2024",
+          titleEn: "Cultural Week 2024",
+          meta: [
+            { v: "10–12 Juin", lFr: "Date", lEn: "Date" },
+            { v: "600+", lFr: "Participants", lEn: "Attendees" },
+            { v: "Terminé", lFr: "Statut", lEn: "Status" },
+          ],
+          descFr:
+            "3 jours de festivités, expositions artistiques, concours d'éloquence bilingue, performances musicales et soirée gastronomique célébrant les cuisines d'Afrique centrale.",
+          descEn:
+            "3 days of festivities, art exhibitions, bilingual eloquence competition, musical performances and a gastronomic evening celebrating Central African cuisines.",
+          prog: [
+            "Jour 1 – Exposition arts plastiques & vernissage",
+            "Jour 2 – Concours d'éloquence & performances",
+            "Jour 3 – Modèle ONU & soirée gastronomique",
+          ],
+        },
+        e6: {
+          color: "linear-gradient(135deg,#404040,#808080)",
+          icon: "🏆",
+          typeFr: "Événement Passé",
+          typeEn: "Past Event",
+          titleFr: "Cérémonie de Remise des Diplômes 2024",
+          titleEn: "Graduation Ceremony 2024",
+          meta: [
+            { v: "1er Juin", lFr: "Date", lEn: "Date" },
+            { v: "187", lFr: "Diplômés", lEn: "Graduates" },
+            { v: "Terminé", lFr: "Statut", lEn: "Status" },
+          ],
+          descFr:
+            "La Promotion 2024 a été officiellement diplômée lors d'une cérémonie solennelle. 187 étudiants de 6 filières ont reçu leurs diplômes, dont 23 avec mention très honorable.",
+          descEn:
+            "The Class of 2024 was officially graduated at a solemn ceremony. 187 students from 6 programs received their diplomas, including 23 with highest honours.",
+          prog: [
+            "Cérémonie officielle",
+            "Discours du Recteur",
+            "Remise individuelle des diplômes",
+            "Réception & photos",
+          ],
+        },
+      };
+
+      /* ── Testimonial data ── */
+      const testData = {
+        t1: {
+          av: "S",
+          avBg: "linear-gradient(135deg,#7A1450,#D040A0)",
+          stars: 5,
+          name: "Sarah Nkemelu",
+          progFr:
+            "Finance · Promotion 2021 · Directrice Financière chez MTN Cameroun",
+          progEn: "Finance · Class of 2021 · Finance Director at MTN Cameroon",
+          quoteFr:
+            "UniPlaceholder m'a offert bien plus qu'un diplôme. J'ai acquis des compétences solides, un réseau professionnel incroyable et la confiance nécessaire pour diriger mon propre cabinet. Les cours de finance d'entreprise avec M. Abomo étaient particulièrement remarquables — chaque séance était une simulation de la réalité professionnelle.",
+          quoteEn:
+            "UniPlaceholder gave me far more than a degree. I gained solid skills, an incredible professional network and the confidence to run my own firm. The corporate finance courses with Mr. Abomo were particularly remarkable — every session was a simulation of professional reality.",
+        },
+        t2: {
+          av: "K",
+          avBg: "linear-gradient(135deg,#3E1490,#9B72E8)",
+          stars: 5,
+          name: "Kevin Biyong",
+          progFr:
+            "Informatique · Promotion 2022 · Développeur Senior chez Orange Digital",
+          progEn:
+            "Computer Science · Class of 2022 · Senior Developer at Orange Digital",
+          quoteFr:
+            "Les professeurs sont des praticiens actifs dans leurs domaines. Chaque cours était directement connecté aux réalités du marché tech africain. Grâce à UniPlaceholder, j'ai eu mon premier emploi avant même de finir mon mémoire. Le projet de groupe en dernière année m'a appris autant que toute une carrière.",
+          quoteEn:
+            "The professors are active practitioners in their fields. Every course was directly connected to the realities of the African tech market. Thanks to UniPlaceholder, I had my first job before even finishing my dissertation. The group project in final year taught me as much as an entire career.",
+        },
+        t3: {
+          av: "P",
+          avBg: "linear-gradient(135deg,#147A3C,#28C868)",
+          stars: 5,
+          name: "Patience Fotso",
+          progFr:
+            "Communication · Promotion 2023 · Journaliste à RTBF Bruxelles",
+          progEn: "Communication · Class of 2023 · Journalist at RTBF Brussels",
+          quoteFr:
+            "L'environnement bilingue est un atout énorme. Mon Master bilingue m'a ouvert des portes en Europe que je n'aurais jamais franchies autrement. Le studio radio du département Communication était une ressource formidable — pratiquer en conditions réelles dès la première année fait une vraie différence.",
+          quoteEn:
+            "The bilingual environment is a huge asset. My bilingual Master's opened doors in Europe that I would never have gone through otherwise. The radio studio in the Communication department was a great resource — practising in real conditions from the first year makes a real difference.",
+        },
+        t4: {
+          av: "A",
+          avBg: "linear-gradient(135deg,#7A1450,#C82888)",
+          stars: 5,
+          name: "Armelle Tsague",
+          progFr:
+            "Droit des Affaires · Promotion 2022 · Avocate au Barreau de Douala",
+          progEn: "Business Law · Class of 2022 · Lawyer at the Douala Bar",
+          quoteFr:
+            "Le programme de Droit des Affaires est exceptionnel. Les simulations de procès et les ateliers avec des avocats en exercice ont fait toute la différence. Le Professeur Nguema enseigne le droit OHADA avec une passion et une précision remarquables.",
+          quoteEn:
+            "The Business Law program is exceptional. The mock trials and workshops with practising lawyers made all the difference. Professor Nguema teaches OHADA law with remarkable passion and precision.",
+        },
+        t5: {
+          av: "M",
+          avBg: "linear-gradient(135deg,#14507A,#4090D0)",
+          stars: 5,
+          name: "Michel Essamba",
+          progFr:
+            "Génie Civil · Promotion 2023 · Ingénieur Chantier chez BTP Cameroun",
+          progEn:
+            "Civil Engineering · Class of 2023 · Site Engineer at BTP Cameroon",
+          quoteFr:
+            "La bibliothèque numérique et la plateforme e-learning sont des ressources incroyables. Tout est accessible, organisé et vraiment utile pour la recherche. J'utilise encore les ressources de la bibliothèque dans mon travail quotidien.",
+          quoteEn:
+            "The digital library and e-learning platform are incredible resources. Everything is accessible, organised and genuinely useful for research. I still use the library resources in my daily work.",
+        },
+        t6: {
+          av: "L",
+          avBg: "linear-gradient(135deg,#7A6014,#C8A028)",
+          stars: 4,
+          name: "Laure Menguele",
+          progFr:
+            "Finance · Promotion 2023 · Analyste Crédit chez Société Générale",
+          progEn:
+            "Finance · Class of 2023 · Credit Analyst at Société Générale",
+          quoteFr:
+            "Le stage garanti en 2ème année m'a permis de valider mon projet professionnel. J'ai décroché mon CDI dans l'entreprise où j'effectuais mon stage de fin d'études. Le réseau d'entreprises partenaires d'UniPlaceholder est très solide.",
+          quoteEn:
+            "The guaranteed internship in 2nd year helped me validate my career plan. I got a permanent contract at the company where I did my final internship. UniPlaceholder's partner company network is very solid.",
+        },
+      };
+
+      /* ── modals ── */
+      function openEvent(id) {
+        const d = evData[id];
+        if (!d) return;
+        const l = lang;
+        document.getElementById("em-header").style.background = d.color;
+        document.getElementById("em-icon").textContent = d.icon;
+        document.getElementById("em-type").textContent =
+          l === "fr" ? d.typeFr : d.typeEn;
+        document.getElementById("em-title").textContent =
+          l === "fr" ? d.titleFr : d.titleEn;
+        document.getElementById("em-desc").textContent =
+          l === "fr" ? d.descFr : d.descEn;
+        document.getElementById("em-meta").innerHTML = d.meta
+          .map(
+            (m) => `
+        <div class="text-center bg-p-50 rounded-xl p-3">
+          <div class="font-heading font-bold text-p-700 text-xl">${m.v}</div>
+          <div class="font-label text-[.62rem] tracking-widest uppercase text-p-400">${l === "fr" ? m.lFr : m.lEn}</div>
+        </div>`,
+          )
+          .join("");
+        document.getElementById("em-prog").innerHTML = d.prog
+          .map(
+            (p) => `
+        <div class="flex gap-3 items-start">
+          <span class="w-1.5 h-1.5 rounded-full bg-gold mt-1.5 flex-shrink-0"></span>
+          <span class="text-p-600 text-sm">${p}</span>
+        </div>`,
+          )
+          .join("");
+        document.getElementById("evModal").classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+      function closeEv() {
+        document.getElementById("evModal").classList.remove("open");
+        document.body.style.overflow = "";
+      }
+      function closeEvOutside(e) {
+        if (e.target === document.getElementById("evModal")) closeEv();
+      }
+
+      function openTestimonial(id) {
+        const d = testData[id];
+        if (!d) return;
+        const l = lang;
+        const av = document.getElementById("tm-avatar");
+        av.textContent = d.av;
+        av.style.background = d.avBg;
+        document.getElementById("tm-name").textContent = d.name;
+        document.getElementById("tm-prog").textContent =
+          l === "fr" ? d.progFr : d.progEn;
+        document.getElementById("tm-quote").textContent =
+          l === "fr" ? d.quoteFr : d.quoteEn;
+        document.getElementById("tm-stars").innerHTML =
+          '<span class="star text-lg">' +
+          "★".repeat(d.stars) +
+          "☆".repeat(5 - d.stars) +
+          "</span>";
+        document.getElementById("testModal").classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+      function closeTest() {
+        document.getElementById("testModal").classList.remove("open");
+        document.body.style.overflow = "";
+      }
+      function closeTestOutside(e) {
+        if (e.target === document.getElementById("testModal")) closeTest();
+      }
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closeEv();
+          closeTest();
+        }
+      });
+
+      /* ── filter events ── */
+      function filterEvents(f) {
+        document
+          .querySelectorAll(".ev-tab")
+          .forEach((t) => t.classList.toggle("active", t.dataset.etab === f));
+        document.querySelectorAll(".ev-item").forEach((el) => {
+          const tabs = el.dataset.etab || "";
+          el.style.display = f === "all" || tabs.includes(f) ? "" : "none";
+        });
+      }
+
+      /* ── Mini calendar ── */
+      const eventDays = { 10: [2, 3, 4], 11: [15, 20], 12: [5] };
+      let calYear = 2024,
+        calMonth = 9; // 0-indexed → Oct
+      const monthNames = {
+        fr: [
+          "Janvier",
+          "Février",
+          "Mars",
+          "Avril",
+          "Mai",
+          "Juin",
+          "Juillet",
+          "Août",
+          "Septembre",
+          "Octobre",
+          "Novembre",
+          "Décembre",
+        ],
+        en: [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ],
+      };
+      function renderCal() {
+        const m = calMonth,
+          y = calYear;
+        document.getElementById("calMonth").textContent =
+          `${monthNames[lang][m]} ${y}`;
+        const first = new Date(y, m, 1).getDay();
+        const days = new Date(y, m + 1, 0).getDate();
+        const offset = first === 0 ? 6 : first - 1;
+        let html = "";
+        for (let i = 0; i < offset; i++) html += `<div></div>`;
+        const evd = eventDays[m + 1] || [];
+        const today = new Date();
+        for (let d = 1; d <= days; d++) {
+          const isEv = evd.includes(d);
+          const isToday =
+            today.getDate() === d &&
+            today.getMonth() === m &&
+            today.getFullYear() === y;
+          html += `<div class="cal-day w-7 h-7 rounded-full flex items-center justify-center text-xs font-label font-medium text-p-600 ${isEv ? "has-event" : ""} ${isToday ? "today" : ""}">${d}</div>`;
+        }
+        document.getElementById("calGrid").innerHTML = html;
+      }
+      function prevMonth() {
+        calMonth--;
+        if (calMonth < 0) {
+          calMonth = 11;
+          calYear--;
+        }
+        renderCal();
+      }
+      function nextMonth() {
+        calMonth++;
+        if (calMonth > 11) {
+          calMonth = 0;
+          calYear++;
+        }
+        renderCal();
+      }
+      renderCal();
+
+      /* ── Countdown ── */
+      const target = new Date("2024-10-02T08:00:00");
+      function updateCD() {
+        const now = new Date(),
+          diff = target - now;
+        if (diff <= 0) {
+          document.getElementById("cd-days").textContent = "00";
+          return;
+        }
+        document.getElementById("cd-days").textContent = String(
+          Math.floor(diff / 86400000),
+        ).padStart(2, "0");
+        document.getElementById("cd-hours").textContent = String(
+          Math.floor((diff % 86400000) / 3600000),
+        ).padStart(2, "0");
+        document.getElementById("cd-mins").textContent = String(
+          Math.floor((diff % 3600000) / 60000),
+        ).padStart(2, "0");
+        document.getElementById("cd-secs").textContent = String(
+          Math.floor((diff % 60000) / 1000),
+        ).padStart(2, "0");
+      }
+      updateCD();
+      setInterval(updateCD, 1000);
+
+      /* ── Testimonial submit ── */
+      function submitTest() {
+        const v = document.getElementById("testInput").value.trim();
+        if (!v) return;
+        document.getElementById("testInput").value = "";
+        document.getElementById("testSuccess").classList.remove("hidden");
+        setTimeout(
+          () => document.getElementById("testSuccess").classList.add("hidden"),
+          4000,
+        );
+      }
+
+      /* ── Language ── */
+      function setLang(l) {
+        lang = l;
+        document
+          .querySelectorAll(".lang-btn")
+          .forEach((b) => b.classList.remove("active"));
+        document
+          .querySelector(`.lang-btn[onclick="setLang('${l}')"]`)
+          .classList.add("active");
+        document.querySelectorAll("[data-fr]").forEach((el) => {
+          const txt = el.getAttribute("data-" + l);
+          if (txt) el.textContent = txt;
+        });
+        renderCal();
+      }
+
+      /* ── Scroll reveal ── */
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("show");
+              obs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.08 },
+      );
+      document
+        .querySelectorAll(".reveal,.reveal-l,.reveal-r")
+        .forEach((el) => obs.observe(el));
+
+      /* ── Nav shadow ── */
+      window.addEventListener("scroll", () => {
+        document.getElementById("navbar").style.boxShadow =
+          window.pageYOffset > 60 ? "0 4px 30px rgba(0,0,0,.4)" : "none";
+      });
+      function toggleMenu() {
+        document.getElementById("mobileMenu").classList.toggle("hidden");
+      }
+    </script>
+  </body>
+</html>

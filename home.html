@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="fr" data-lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UniPlaceholder — Accueil</title>
+    <link rel="stylesheet" href="assets/css/output.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              p: {
+                50: "#F7F4FF",
+                100: "#EDE6FF",
+                200: "#D4BEFA",
+                300: "#B89AF5",
+                400: "#9B72E8",
+                500: "#7040D4",
+                600: "#5520B8",
+                700: "#3E1490",
+                800: "#2D0A6E",
+                900: "#1E0845",
+              },
+              gold: {
+                DEFAULT: "#BFA050",
+                light: "#D4B866",
+                dark: "#9A7C30",
+              },
+            },
+            fontFamily: {
+              heading: ["Cormorant Garamond", "Georgia", "serif"],
+              body: ["DM Sans", "system-ui", "sans-serif"],
+              label: ["Barlow Condensed", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-white text-p-900 overflow-x-hidden">
+    <!-- ═══════════════════════════════════════════
+       ANNOUNCEMENT BAR
+  ═══════════════════════════════════════════ -->
+    <div
+      class="bg-gold text-p-900 text-center py-2 px-4 font-label text-xs font-semibold tracking-widest z-50 relative"
+    >
+      <span
+        data-fr="🎓 Inscriptions ouvertes — Année académique 2024–2025"
+        data-en="🎓 Enrolments open — Academic year 2024–2025"
+      >
+        🎓 Inscriptions ouvertes — Année académique 2024–2025
+      </span>
+      <a
+        href="#"
+        class="underline font-bold ml-2"
+        data-fr="Postuler →"
+        data-en="Apply now →"
+        >Postuler →</a
+      >
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════════ -->
+    <nav
+      id="navbar"
+      class="sticky top-0 z-40 bg-p-900 border-b border-gold/20 px-6 h-[68px] flex items-center justify-between transition-shadow duration-300"
+    >
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-3 flex-shrink-0">
+        <div
+          class="w-10 h-10 rounded-full bg-gold flex items-center justify-center font-heading text-[18px] font-bold text-p-900"
+        >
+          U
+        </div>
+        <div class="leading-tight">
+          <div
+            class="font-heading text-[1.35rem] font-semibold text-white leading-none"
+          >
+            UniPlaceholder
+          </div>
+          <div
+            class="font-label text-[.6rem] tracking-[.2em] uppercase text-gold"
+            data-fr="Université d'Excellence"
+            data-en="University of Excellence"
+          >
+            Université d'Excellence
+          </div>
+        </div>
+      </a>
+
+      <!-- Desktop links -->
+      <ul class="hidden lg:flex items-center list-none gap-0 h-[68px]">
+        <li>
+          <a
+            href="#"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-gold px-3 h-[68px] flex items-center border-b-2 border-gold"
+            data-fr="Accueil"
+            data-en="Home"
+            >Accueil</a
+          >
+        </li>
+        <li>
+          <a
+            href="about.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="À Propos"
+            data-en="About"
+            >À Propos</a
+          >
+        </li>
+        <li>
+          <a
+            href="programs.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Formations"
+            data-en="Programs"
+            >Formations</a
+          >
+        </li>
+        <li>
+          <a
+            href="library.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Bibliothèque"
+            data-en="Library"
+            >Bibliothèque</a
+          >
+        </li>
+        <li>
+          <a
+            href="news.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Actualités"
+            data-en="News"
+            >Actualités</a
+          >
+        </li>
+        <li>
+          <a
+            href="team.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Équipe"
+            data-en="Team"
+            >Équipe</a
+          >
+        </li>
+        <li>
+          <a
+            href="events.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Événements"
+            data-en="Events"
+            >Événements</a
+          >
+        </li>
+        <li>
+          <a
+            href="contact.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Contact"
+            data-en="Contact"
+            >Contact</a
+          >
+        </li>
+      </ul>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-2.5">
+        <!-- Language toggle -->
+        <div
+          class="flex rounded-full overflow-hidden border border-white/20 bg-white/10"
+        >
+          <button
+            onclick="setLang('fr')"
+            class="lang-btn active font-label text-[.7rem] font-bold tracking-[.05em] px-3 py-1 text-white/55 bg-transparent border-none cursor-pointer"
+          >
+            FR
+          </button>
+          <button
+            onclick="setLang('en')"
+            class="lang-btn font-label text-[.7rem] font-bold tracking-[.05em] px-3 py-1 text-white/55 bg-transparent border-none cursor-pointer"
+          >
+            EN
+          </button>
+        </div>
+        <!-- Login -->
+        <a
+          href="#"
+          class="hidden sm:inline-block font-label text-[.78rem] font-semibold tracking-[.08em] uppercase px-4 py-2 border border-gold text-gold rounded hover:bg-gold hover:text-p-900 transition-colors duration-200"
+          data-fr="Se Connecter"
+          data-en="Login"
+          >Se Connecter</a
+        >
+        <!-- Hamburger -->
+        <button
+          onclick="toggleMenu()"
+          class="lg:hidden flex flex-col gap-[5px] p-1 bg-transparent border-none cursor-pointer"
+          aria-label="Menu"
+        >
+          <span class="block w-5 h-[2px] bg-white rounded"></span>
+          <span class="block w-5 h-[2px] bg-white rounded"></span>
+          <span class="block w-5 h-[2px] bg-white rounded"></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div
+      id="mobileMenu"
+      class="hidden lg:hidden bg-p-900 border-t border-white/10 z-30 relative"
+    >
+      <a
+        href="#"
+        class="block font-label text-sm tracking-widest uppercase text-gold px-6 py-3 border-b border-white/5"
+        data-fr="Accueil"
+        data-en="Home"
+        >Accueil</a
+      >
+      <a
+        href="about.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="À Propos"
+        data-en="About"
+        >À Propos</a
+      >
+      <a
+        href="programs.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Formations"
+        data-en="Programs"
+        >Formations</a
+      >
+      <a
+        href="library.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Bibliothèque"
+        data-en="Library"
+        >Bibliothèque</a
+      >
+      <a
+        href="news.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Actualités"
+        data-en="News"
+        >Actualités</a
+      >
+      <a
+        href="team.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Équipe"
+        data-en="Team"
+        >Équipe</a
+      >
+      <a
+        href="events.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Événements"
+        data-en="Events"
+        >Événements</a
+      >
+      <a
+        href="contact.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Contact"
+        data-en="Contact"
+        >Contact</a
+      >
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+       HERO SECTION
+  ═══════════════════════════════════════════ -->
+    <section
+      class="relative min-h-screen flex items-center overflow-hidden"
+      style="
+        background: linear-gradient(
+          140deg,
+          #1e0845 0%,
+          #2d0a6e 40%,
+          #3e1490 100%
+        );
+      "
+    >
+      <!-- Grid overlay -->
+      <div class="absolute inset-0 hero-grid pointer-events-none"></div>
+
+      <!-- Decorative orbs -->
+      <div
+        class="absolute -top-24 -right-24 w-[560px] h-[560px] rounded-full pointer-events-none"
+        style="
+          background: radial-gradient(
+            circle,
+            rgba(155, 114, 232, 0.18) 0%,
+            transparent 70%
+          );
+        "
+      ></div>
+      <div
+        class="absolute bottom-10 -left-20 w-80 h-80 rounded-full border border-gold/15 pointer-events-none"
+      ></div>
+      <div
+        class="absolute top-1/3 right-1/4 w-40 h-40 rounded-full border border-white/5 pointer-events-none"
+      ></div>
+
+      <!-- Content grid -->
+      <div
+        class="relative z-10 max-w-6xl mx-auto px-6 w-full py-16 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center"
+      >
+        <!-- LEFT: Text -->
+        <div>
+          <!-- Label -->
+          <div class="flex items-center gap-3 mb-6">
+            <span class="block w-9 h-px bg-gold"></span>
+            <span
+              class="font-label text-[.74rem] tracking-[.28em] uppercase text-gold"
+              data-fr="Fondée en 2010 · Douala, Cameroun"
+              data-en="Founded 2010 · Douala, Cameroon"
+            >
+              Fondée en 2010 · Douala, Cameroun
+            </span>
+          </div>
+
+          <!-- Heading -->
+          <h1
+            class="font-heading font-semibold text-white leading-[1.05] mb-6"
+            style="font-size: clamp(2.8rem, 5.5vw, 5rem)"
+          >
+            <em
+              class="text-gold not-italic italic"
+              data-fr="Façonner"
+              data-en="Shaping"
+              >Façonner</em
+            ><br />
+            <span data-fr="l'Excellence" data-en="Excellence">l'Excellence</span
+            ><br />
+            <span data-fr="Académique" data-en="Academic">Académique</span>
+          </h1>
+
+          <!-- Subtitle -->
+          <p
+            class="text-white/72 leading-[1.78] mb-9 max-w-md"
+            style="font-size: 0.96rem"
+            data-fr="UniPlaceholder est un établissement d'enseignement supérieur dédié à la formation d'esprits critiques et de professionnels compétents pour relever les défis du monde contemporain."
+            data-en="UniPlaceholder is a higher education institution dedicated to shaping critical minds and skilled professionals ready to meet the challenges of the contemporary world."
+          >
+            UniPlaceholder est un établissement d'enseignement supérieur dédié à
+            la formation d'esprits critiques et de professionnels compétents
+            pour relever les défis du monde contemporain.
+          </p>
+
+          <!-- CTAs -->
+          <div class="flex flex-wrap gap-3">
+            <a
+              href="#prog"
+              class="font-label text-[.82rem] font-bold tracking-[.1em] uppercase px-8 py-3 bg-gold text-p-900 rounded hover:bg-gold-light transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_22px_rgba(191,160,80,.35)]"
+              data-fr="Nos Formations"
+              data-en="Our Programs"
+              >Nos Formations</a
+            >
+            <a
+              href="#about"
+              class="font-label text-[.82rem] font-semibold tracking-[.1em] uppercase px-8 py-3 bg-transparent text-white border border-white/40 rounded hover:bg-white/10 hover:border-white transition-all duration-300"
+              data-fr="En savoir plus"
+              data-en="Learn More"
+              >En savoir plus</a
+            >
+          </div>
+        </div>
+
+        <!-- RIGHT: Info cards -->
+        <div class="hidden lg:flex flex-col gap-3">
+          <div
+            class="hero-card flex items-center gap-4 bg-white/7 backdrop-blur border border-white/13 rounded-xl px-5 py-4"
+          >
+            <div
+              class="w-11 h-11 rounded-[10px] bg-gold flex items-center justify-center text-xl flex-shrink-0"
+            >
+              🎓
+            </div>
+            <div>
+              <div
+                class="font-label text-[.7rem] tracking-[.1em] uppercase text-gold mb-0.5"
+                data-fr="Inscriptions 2024–2025"
+                data-en="Enrolment 2024–2025"
+              >
+                Inscriptions 2024–2025
+              </div>
+              <div
+                class="text-white/82 text-[.87rem]"
+                data-fr="Candidatures ouvertes jusqu'au 31 Août"
+                data-en="Applications open until August 31"
+              >
+                Candidatures ouvertes jusqu'au 31 Août
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="hero-card flex items-center gap-4 bg-white/7 backdrop-blur border border-white/13 rounded-xl px-5 py-4"
+          >
+            <div
+              class="w-11 h-11 rounded-[10px] bg-gold flex items-center justify-center text-xl flex-shrink-0"
+            >
+              💻
+            </div>
+            <div>
+              <div
+                class="font-label text-[.7rem] tracking-[.1em] uppercase text-gold mb-0.5"
+                data-fr="E-Learning"
+                data-en="E-Learning"
+              >
+                E-Learning
+              </div>
+              <div
+                class="text-white/82 text-[.87rem]"
+                data-fr="Accédez à vos cours en ligne 24h/24"
+                data-en="Access your online courses 24/7"
+              >
+                Accédez à vos cours en ligne 24h/24
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="hero-card flex items-center gap-4 bg-white/7 backdrop-blur border border-white/13 rounded-xl px-5 py-4"
+          >
+            <div
+              class="w-11 h-11 rounded-[10px] bg-gold flex items-center justify-center text-xl flex-shrink-0"
+            >
+              🏅
+            </div>
+            <div>
+              <div
+                class="font-label text-[.7rem] tracking-[.1em] uppercase text-gold mb-0.5"
+                data-fr="Accréditation"
+                data-en="Accreditation"
+              >
+                Accréditation
+              </div>
+              <div
+                class="text-white/82 text-[.87rem]"
+                data-fr="Reconnue par le MINESUP"
+                data-en="Recognized by MINESUP"
+              >
+                Reconnue par le MINESUP
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="hero-card flex items-center gap-4 bg-white/7 backdrop-blur border border-white/13 rounded-xl px-5 py-4"
+          >
+            <div
+              class="w-11 h-11 rounded-[10px] bg-gold flex items-center justify-center text-xl flex-shrink-0"
+            >
+              🌍
+            </div>
+            <div>
+              <div
+                class="font-label text-[.7rem] tracking-[.1em] uppercase text-gold mb-0.5"
+                data-fr="Partenariats Internationaux"
+                data-en="International Partnerships"
+              >
+                Partenariats Internationaux
+              </div>
+              <div
+                class="text-white/82 text-[.87rem]"
+                data-fr="7 universités partenaires dans le monde"
+                data-en="7 partner universities worldwide"
+              >
+                7 universités partenaires dans le monde
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll indicator -->
+      <button
+        onclick="
+          document
+            .getElementById('stats')
+            .scrollIntoView({ behavior: 'smooth' })
+        "
+        class="absolute bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-white/45 font-label text-[.64rem] tracking-[.2em] uppercase cursor-pointer bg-transparent border-none"
+      >
+        <div
+          class="scroll-line w-px h-9 bg-gradient-to-b from-white/45 to-transparent"
+        ></div>
+        <span data-fr="Défiler" data-en="Scroll">Défiler</span>
+      </button>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+       STATS BAR
+  ═══════════════════════════════════════════ -->
+    <section id="stats" class="bg-p-900 py-16 px-6">
+      <div
+        class="max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-6 text-center"
+      >
+        <div class="fade-in-stat px-4 lg:border-r border-gold/20 pb-6 lg:pb-0">
+          <div
+            class="font-heading font-bold text-gold leading-none mb-2"
+            style="font-size: 3.4rem"
+          >
+            <span class="counter" data-target="2400">0</span
+            ><sup class="text-2xl">+</sup>
+          </div>
+          <div
+            class="font-label text-[.7rem] tracking-[.15em] uppercase text-white/55"
+            data-fr="Étudiants Actifs"
+            data-en="Active Students"
+          >
+            Étudiants Actifs
+          </div>
+        </div>
+
+        <div
+          class="fade-in-stat px-4 lg:border-r border-gold/20 pb-6 lg:pb-0 border-b lg:border-b-0 border-gold/20"
+        >
+          <div
+            class="font-heading font-bold text-gold leading-none mb-2"
+            style="font-size: 3.4rem"
+          >
+            <span class="counter" data-target="15">0</span>
+          </div>
+          <div
+            class="font-label text-[.7rem] tracking-[.15em] uppercase text-white/55"
+            data-fr="Années d'Excellence"
+            data-en="Years of Excellence"
+          >
+            Années d'Excellence
+          </div>
+        </div>
+
+        <div class="fade-in-stat px-4 lg:border-r border-gold/20">
+          <div
+            class="font-heading font-bold text-gold leading-none mb-2"
+            style="font-size: 3.4rem"
+          >
+            <span class="counter" data-target="850">0</span
+            ><sup class="text-2xl">+</sup>
+          </div>
+          <div
+            class="font-label text-[.7rem] tracking-[.15em] uppercase text-white/55"
+            data-fr="Diplômés"
+            data-en="Graduates"
+          >
+            Diplômés
+          </div>
+        </div>
+
+        <div class="fade-in-stat px-4">
+          <div
+            class="font-heading font-bold text-gold leading-none mb-2"
+            style="font-size: 3.4rem"
+          >
+            <span class="counter" data-target="12">0</span>
+          </div>
+          <div
+            class="font-label text-[.7rem] tracking-[.15em] uppercase text-white/55"
+            data-fr="Filières de Formation"
+            data-en="Programs Offered"
+          >
+            Filières de Formation
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+       SCRIPTS
+  ═══════════════════════════════════════════ -->
+    <script>
+      // ── Language toggle ──
+      function setLang(l) {
+        document
+          .querySelectorAll(".lang-btn")
+          .forEach((b) => b.classList.remove("active"));
+        document
+          .querySelector(`.lang-btn[onclick="setLang('${l}')"]`)
+          .classList.add("active");
+        document.querySelectorAll("[data-fr]").forEach((el) => {
+          const txt = el.getAttribute("data-" + l);
+          if (txt) el.textContent = txt;
+        });
+      }
+
+      // ── Counter animation ──
+      function runCounter(el) {
+        const target = +el.dataset.target;
+        const dur = 2000,
+          step = target / (dur / 16);
+        let cur = 0;
+        const t = setInterval(() => {
+          cur += step;
+          if (cur >= target) {
+            cur = target;
+            clearInterval(t);
+          }
+          el.textContent = Math.floor(cur).toLocaleString();
+        }, 16);
+      }
+
+      // ── Scroll reveal ──
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e, i) => {
+            if (e.isIntersecting) {
+              setTimeout(() => {
+                e.target.classList.add("visible");
+                e.target.querySelectorAll(".counter").forEach((c) => {
+                  if (!c.dataset.done) {
+                    c.dataset.done = 1;
+                    runCounter(c);
+                  }
+                });
+              }, i * 120);
+              obs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.15 },
+      );
+
+      document
+        .querySelectorAll(".fade-in-stat")
+        .forEach((el) => obs.observe(el));
+
+      // ── Sticky nav shadow ──
+      window.addEventListener("scroll", () => {
+        document.getElementById("navbar").style.boxShadow =
+          window.pageYOffset > 60 ? "0 4px 30px rgba(0,0,0,.4)" : "none";
+      });
+
+      // ── Mobile menu ──
+      function toggleMenu() {
+        const m = document.getElementById("mobileMenu");
+        m.classList.toggle("hidden");
+      }
+      document
+        .querySelectorAll("#mobileMenu a")
+        .forEach((a) =>
+          a.addEventListener("click", () =>
+            document.getElementById("mobileMenu").classList.add("hidden"),
+          ),
+        );
+    </script>
+  </body>
+</html>

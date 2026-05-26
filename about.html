@@ -1,0 +1,1191 @@
+<!doctype html>
+<html lang="fr" data-lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UniPlaceholder — À Propos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              p: {
+                50: "#F7F4FF",
+                100: "#EDE6FF",
+                200: "#D4BEFA",
+                300: "#B89AF5",
+                400: "#9B72E8",
+                500: "#7040D4",
+                600: "#5520B8",
+                700: "#3E1490",
+                800: "#2D0A6E",
+                900: "#1E0845",
+              },
+              gold: { DEFAULT: "#BFA050", light: "#D4B866", dark: "#9A7C30" },
+            },
+            fontFamily: {
+              heading: ["Cormorant Garamond", "Georgia", "serif"],
+              body: ["DM Sans", "system-ui", "sans-serif"],
+              label: ["Barlow Condensed", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "DM Sans", system-ui, sans-serif;
+      }
+      .font-heading {
+        font-family: "Cormorant Garamond", Georgia, serif;
+      }
+      .font-label {
+        font-family: "Barlow Condensed", sans-serif;
+      }
+
+      .nav-link {
+        border-bottom: 2px solid transparent;
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+      }
+      .nav-link:hover {
+        color: #bfa050;
+        border-bottom-color: #bfa050;
+      }
+      .lang-btn {
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+      .lang-btn.active {
+        background: #bfa050;
+        color: #1e0845;
+      }
+
+      /* Fade-up on scroll */
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.65s ease,
+          transform 0.65s ease;
+      }
+      .reveal.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .reveal-left {
+        opacity: 0;
+        transform: translateX(-32px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .reveal-left.show {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .reveal-right {
+        opacity: 0;
+        transform: translateX(32px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .reveal-right.show {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      /* Value card hover */
+      .val-card {
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s,
+          background 0.3s;
+      }
+      .val-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 14px 36px rgba(30, 8, 69, 0.12);
+        background: #ede6ff;
+      }
+
+      /* Timeline dot pulse */
+      @keyframes ping2 {
+        0% {
+          transform: scale(1);
+          opacity: 0.7;
+        }
+        70% {
+          transform: scale(1.6);
+          opacity: 0;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 0;
+        }
+      }
+      .dot-ping::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 9999px;
+        background: #bfa050;
+        animation: ping2 2s ease-in-out infinite;
+      }
+
+      /* Decorative section divider */
+      .slant-bot {
+        clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+      }
+      .slant-top {
+        clip-path: polygon(0 6%, 100% 0, 100% 100%, 0 100%);
+      }
+    </style>
+  </head>
+  <body class="bg-white text-p-900 overflow-x-hidden">
+    <!-- ═══════════════════════════════════════
+       ANNOUNCEMENT BAR
+  ═══════════════════════════════════════ -->
+    <div
+      class="bg-gold text-p-900 text-center py-2 px-4 font-label text-xs font-semibold tracking-widest z-50 relative"
+    >
+      <span
+        data-fr="🎓 Inscriptions ouvertes — Année académique 2024–2025"
+        data-en="🎓 Enrolments open — Academic year 2024–2025"
+      >
+        🎓 Inscriptions ouvertes — Année académique 2024–2025
+      </span>
+      <a
+        href="#"
+        class="underline font-bold ml-2"
+        data-fr="Postuler →"
+        data-en="Apply now →"
+        >Postuler →</a
+      >
+    </div>
+
+    <!-- ═══════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════ -->
+    <nav
+      id="navbar"
+      class="sticky top-0 z-40 bg-p-900 border-b border-gold/20 px-6 h-[68px] flex items-center justify-between transition-shadow duration-300"
+    >
+      <a href="home.html" class="flex items-center gap-3 flex-shrink-0">
+        <div
+          class="w-10 h-10 rounded-full bg-gold flex items-center justify-center font-heading text-[18px] font-bold text-p-900"
+        >
+          U
+        </div>
+        <div class="leading-tight">
+          <div
+            class="font-heading text-[1.35rem] font-semibold text-white leading-none"
+          >
+            UniPlaceholder
+          </div>
+          <div
+            class="font-label text-[.6rem] tracking-[.2em] uppercase text-gold"
+            data-fr="Université d'Excellence"
+            data-en="University of Excellence"
+          >
+            Université d'Excellence
+          </div>
+        </div>
+      </a>
+      <ul class="hidden lg:flex items-center list-none gap-0 h-[68px]">
+        <li>
+          <a
+            href="home.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Accueil"
+            data-en="Home"
+            >Accueil</a
+          >
+        </li>
+        <li>
+          <a
+            href="about.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-gold px-3 h-[68px] flex items-center border-b-2 border-gold"
+            data-fr="À Propos"
+            data-en="About"
+            >À Propos</a
+          >
+        </li>
+        <li>
+          <a
+            href="programs.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Formations"
+            data-en="Programs"
+            >Formations</a
+          >
+        </li>
+        <li>
+          <a
+            href="library.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Bibliothèque"
+            data-en="Library"
+            >Bibliothèque</a
+          >
+        </li>
+        <li>
+          <a
+            href="news.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Actualités"
+            data-en="News"
+            >Actualités</a
+          >
+        </li>
+        <li>
+          <a
+            href="team.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Équipe"
+            data-en="Team"
+            >Équipe</a
+          >
+        </li>
+        <li>
+          <a
+            href="events.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Événements"
+            data-en="Events"
+            >Événements</a
+          >
+        </li>
+        <li>
+          <a
+            href="contact.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Contact"
+            data-en="Contact"
+            >Contact</a
+          >
+        </li>
+      </ul>
+      <div class="flex items-center gap-2.5">
+        <div
+          class="flex rounded-full overflow-hidden border border-white/20 bg-white/10"
+        >
+          <button
+            onclick="setLang('fr')"
+            class="lang-btn active font-label text-[.7rem] font-bold tracking-[.05em] px-3 py-1 text-white/55 bg-transparent border-none cursor-pointer"
+          >
+            FR
+          </button>
+          <button
+            onclick="setLang('en')"
+            class="lang-btn font-label text-[.7rem] font-bold tracking-[.05em] px-3 py-1 text-white/55 bg-transparent border-none cursor-pointer"
+          >
+            EN
+          </button>
+        </div>
+        <a
+          href="login.html"
+          class="hidden sm:inline-block font-label text-[.78rem] font-semibold tracking-[.08em] uppercase px-4 py-2 border border-gold text-gold rounded hover:bg-gold hover:text-p-900 transition-colors duration-200"
+          data-fr="Se Connecter"
+          data-en="Login"
+          >Se Connecter</a
+        >
+        <button
+          onclick="toggleMenu()"
+          class="lg:hidden flex flex-col gap-[5px] p-1 bg-transparent border-none cursor-pointer"
+          aria-label="Menu"
+        >
+          <span class="block w-5 h-[2px] bg-white rounded"></span>
+          <span class="block w-5 h-[2px] bg-white rounded"></span>
+          <span class="block w-5 h-[2px] bg-white rounded"></span>
+        </button>
+      </div>
+    </nav>
+    <div
+      id="mobileMenu"
+      class="hidden lg:hidden bg-p-900 border-t border-white/10 z-30 relative"
+    >
+      <a
+        href="home.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Accueil"
+        data-en="Home"
+        >Accueil</a
+      >
+      <a
+        href="about.html"
+        class="block font-label text-sm tracking-widest uppercase text-gold px-6 py-3 border-b border-white/5"
+        data-fr="À Propos"
+        data-en="About"
+        >À Propos</a
+      >
+      <a
+        href="programs.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Formations"
+        data-en="Programs"
+        >Formations</a
+      >
+      <a
+        href="library.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Bibliothèque"
+        data-en="Library"
+        >Bibliothèque</a
+      >
+      <a
+        href="news.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Actualités"
+        data-en="News"
+        >Actualités</a
+      >
+      <a
+        href="team.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Équipe"
+        data-en="Team"
+        >Équipe</a
+      >
+      <a
+        href="events.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Événements"
+        data-en="Events"
+        >Événements</a
+      >
+      <a
+        href="contact.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Contact"
+        data-en="Contact"
+        >Contact</a
+      >
+    </div>
+
+    <!-- ═══════════════════════════════════════
+       PAGE HERO BANNER
+  ═══════════════════════════════════════ -->
+    <div class="slant-bot bg-p-900 pt-20 pb-32 px-6 relative overflow-hidden">
+      <div
+        class="absolute inset-0 pointer-events-none"
+        style="
+          background-image:
+            linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+            linear-gradient(
+              90deg,
+              rgba(255, 255, 255, 0.025) 1px,
+              transparent 1px
+            );
+          background-size: 50px 50px;
+        "
+      ></div>
+      <div
+        class="absolute -right-20 top-0 w-80 h-80 rounded-full pointer-events-none"
+        style="
+          background: radial-gradient(
+            circle,
+            rgba(155, 114, 232, 0.15) 0%,
+            transparent 70%
+          );
+        "
+      ></div>
+      <div class="max-w-6xl mx-auto relative z-10">
+        <div class="flex items-center gap-2 mb-4">
+          <span class="block w-7 h-[2px] bg-gold"></span>
+          <span
+            class="font-label text-[.7rem] tracking-[.28em] uppercase text-gold"
+            data-fr="Qui sommes-nous"
+            data-en="Who we are"
+            >Qui sommes-nous</span
+          >
+        </div>
+        <h1
+          class="font-heading font-semibold text-white leading-[1.1] mb-4"
+          style="font-size: clamp(2.4rem, 4.5vw, 4rem)"
+        >
+          <span data-fr="À Propos de" data-en="About">À Propos de</span>
+          <em
+            class="text-gold italic"
+            data-fr=" UniPlaceholder"
+            data-en=" UniPlaceholder"
+          >
+            UniPlaceholder</em
+          >
+        </h1>
+        <p
+          class="text-white/65 max-w-xl leading-relaxed"
+          style="font-size: 0.95rem"
+          data-fr="Découvrez notre histoire, notre mission, nos valeurs et la vision qui guide chaque décision que nous prenons pour l'avenir de nos étudiants."
+          data-en="Discover our history, mission, values and the vision that guides every decision we make for the future of our students."
+        >
+          Découvrez notre histoire, notre mission, nos valeurs et la vision qui
+          guide chaque décision que nous prenons pour l'avenir de nos étudiants.
+        </p>
+        <!-- Breadcrumb -->
+        <div
+          class="flex items-center gap-2 mt-6 font-label text-[.72rem] tracking-widest uppercase text-white/35"
+        >
+          <a
+            href="home.html"
+            class="hover:text-gold transition-colors"
+            data-fr="Accueil"
+            data-en="Home"
+            >Accueil</a
+          >
+          <span>/</span>
+          <span class="text-gold" data-fr="À Propos" data-en="About"
+            >À Propos</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+       SECTION 1 — INTRO + IMAGE
+  ═══════════════════════════════════════ -->
+    <section class="py-24 px-6 bg-white">
+      <div
+        class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center"
+      >
+        <!-- Image block -->
+        <div class="reveal-left relative">
+          <!-- Main decorative image -->
+          <div
+            class="w-full h-[400px] rounded-2xl flex items-center justify-center relative overflow-hidden"
+            style="background: linear-gradient(140deg, #3e1490, #9b72e8)"
+          >
+            <!-- Pattern overlay -->
+            <div
+              class="absolute inset-0 opacity-10"
+              style="
+                background-image: repeating-linear-gradient(
+                  45deg,
+                  transparent,
+                  transparent 14px,
+                  rgba(255, 255, 255, 0.4) 14px,
+                  rgba(255, 255, 255, 0.4) 28px
+                );
+              "
+            ></div>
+            <span
+              class="font-heading italic text-white/20 select-none"
+              style="font-size: 7rem"
+              >U</span
+            >
+          </div>
+          <!-- Floating badge -->
+          <div
+            class="absolute -bottom-5 -right-5 w-[110px] h-[110px] rounded-full bg-gold flex flex-col items-center justify-center shadow-[0_8px_28px_rgba(191,160,80,.4)]"
+          >
+            <span
+              class="font-heading font-bold text-p-900 leading-none"
+              style="font-size: 1.9rem"
+              >N°1</span
+            >
+            <span
+              class="font-label text-[.56rem] tracking-[.1em] uppercase text-p-900 text-center px-2"
+              data-fr="Région"
+              data-en="Region"
+              >Région</span
+            >
+          </div>
+          <!-- Small accent card -->
+          <div
+            class="absolute -top-4 -left-4 bg-white rounded-xl shadow-lg px-4 py-3 flex items-center gap-3 border border-p-100"
+          >
+            <span class="text-2xl">🏛️</span>
+            <div>
+              <div
+                class="font-label text-[.65rem] tracking-widest uppercase text-p-500 mb-0.5"
+                data-fr="Fondée en"
+                data-en="Founded in"
+              >
+                Fondée en
+              </div>
+              <div
+                class="font-heading font-bold text-p-900 text-xl leading-none"
+              >
+                2010
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Text block -->
+        <div class="reveal-right">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="block w-7 h-[2px] bg-gold"></span>
+            <span
+              class="font-label text-[.7rem] tracking-[.28em] uppercase text-p-600"
+              data-fr="Notre histoire"
+              data-en="Our story"
+              >Notre histoire</span
+            >
+          </div>
+          <h2
+            class="font-heading font-semibold text-p-900 leading-[1.15] mb-5"
+            style="font-size: clamp(2rem, 3.5vw, 2.8rem)"
+          >
+            <span
+              data-fr="Une institution bâtie sur"
+              data-en="An institution built on"
+              >Une institution bâtie sur</span
+            >
+            <em
+              class="text-p-600 italic"
+              data-fr=" l'excellence"
+              data-en=" excellence"
+            >
+              l'excellence</em
+            >
+          </h2>
+          <p
+            class="text-p-600/80 leading-[1.82] mb-4"
+            style="font-size: 0.94rem"
+            data-fr="UniPlaceholder est un établissement privé d'enseignement supérieur fondé en 2010 avec la vision de former une nouvelle génération de leaders africains. Dès sa création, l'université s'est imposée comme un acteur de référence dans la région grâce à la qualité de ses formations et l'engagement de son corps enseignant."
+            data-en="UniPlaceholder is a private higher education institution founded in 2010 with the vision of shaping a new generation of African leaders. Since its creation, the university has established itself as a key player in the region thanks to the quality of its programs and the commitment of its faculty."
+          >
+            UniPlaceholder est un établissement privé d'enseignement supérieur
+            fondé en 2010 avec la vision de former une nouvelle génération de
+            leaders africains. Dès sa création, l'université s'est imposée comme
+            un acteur de référence dans la région grâce à la qualité de ses
+            formations et l'engagement de son corps enseignant.
+          </p>
+          <p
+            class="text-p-600/80 leading-[1.82] mb-8"
+            style="font-size: 0.94rem"
+            data-fr="Aujourd'hui, nous allions rigueur académique, innovation pédagogique et ancrage dans les réalités africaines pour préparer nos étudiants à exceller dans un monde en constante transformation."
+            data-en="Today, we combine academic rigor, pedagogical innovation and grounding in African realities to prepare our students to excel in a constantly changing world."
+          >
+            Aujourd'hui, nous allions rigueur académique, innovation pédagogique
+            et ancrage dans les réalités africaines pour préparer nos étudiants
+            à exceller dans un monde en constante transformation.
+          </p>
+          <a
+            href="#values"
+            class="inline-block font-label text-[.82rem] font-bold tracking-[.1em] uppercase px-8 py-3 bg-p-700 text-white rounded hover:bg-p-800 transition-colors duration-300"
+            data-fr="Nos valeurs →"
+            data-en="Our values →"
+            >Nos valeurs →</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+       SECTION 2 — MISSION / VISION / MOTTO
+  ═══════════════════════════════════════ -->
+    <section id="values" class="py-24 px-6 bg-p-50 relative overflow-hidden">
+      <!-- Background decoration -->
+      <div
+        class="absolute top-0 right-0 w-[420px] h-[420px] rounded-full pointer-events-none opacity-40"
+        style="
+          background: radial-gradient(circle, #d4befa 0%, transparent 70%);
+          transform: translate(30%, -30%);
+        "
+      ></div>
+
+      <div class="max-w-6xl mx-auto relative z-10">
+        <!-- Section header -->
+        <div class="text-center mb-16 reveal">
+          <div class="flex items-center justify-center gap-2 mb-3">
+            <span class="block w-7 h-[2px] bg-gold"></span>
+            <span
+              class="font-label text-[.7rem] tracking-[.28em] uppercase text-p-600"
+              data-fr="Ce qui nous définit"
+              data-en="What defines us"
+              >Ce qui nous définit</span
+            >
+            <span class="block w-7 h-[2px] bg-gold"></span>
+          </div>
+          <h2
+            class="font-heading font-semibold text-p-900 leading-[1.15]"
+            style="font-size: clamp(2rem, 3.5vw, 2.9rem)"
+          >
+            <span data-fr="Mission, Vision &" data-en="Mission, Vision &"
+              >Mission, Vision &</span
+            >
+            <em class="text-p-600 italic" data-fr=" Valeurs" data-en=" Values">
+              Valeurs</em
+            >
+          </h2>
+        </div>
+
+        <!-- Cards row -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+          <!-- Mission -->
+          <div
+            class="val-card bg-white rounded-2xl p-8 border-t-4 border-p-600 reveal"
+          >
+            <div
+              class="w-14 h-14 rounded-xl bg-p-100 flex items-center justify-center text-3xl mb-5"
+            >
+              🏛️
+            </div>
+            <div
+              class="font-label text-[.7rem] tracking-[.18em] uppercase text-p-500 mb-2"
+              data-fr="Notre Mission"
+              data-en="Our Mission"
+            >
+              Notre Mission
+            </div>
+            <h3
+              class="font-heading font-semibold text-p-900 text-xl mb-4 leading-snug"
+              data-fr="Former pour transformer"
+              data-en="Train to transform"
+            >
+              Former pour transformer
+            </h3>
+            <p
+              class="text-p-600/80 leading-[1.75]"
+              style="font-size: 0.88rem"
+              data-fr="Former des professionnels compétents, éthiques et engagés pour le développement durable de l'Afrique, capables d'apporter des solutions concrètes aux défis de leur époque."
+              data-en="Train competent, ethical and engaged professionals for the sustainable development of Africa, capable of bringing concrete solutions to the challenges of their time."
+            >
+              Former des professionnels compétents, éthiques et engagés pour le
+              développement durable de l'Afrique, capables d'apporter des
+              solutions concrètes aux défis de leur époque.
+            </p>
+          </div>
+
+          <!-- Vision -->
+          <div
+            class="val-card bg-white rounded-2xl p-8 border-t-4 border-gold reveal"
+            style="transition-delay: 0.1s"
+          >
+            <div
+              class="w-14 h-14 rounded-xl bg-gold/15 flex items-center justify-center text-3xl mb-5"
+            >
+              🔭
+            </div>
+            <div
+              class="font-label text-[.7rem] tracking-[.18em] uppercase text-gold-dark mb-2"
+              data-fr="Notre Vision"
+              data-en="Our Vision"
+            >
+              Notre Vision
+            </div>
+            <h3
+              class="font-heading font-semibold text-p-900 text-xl mb-4 leading-snug"
+              data-fr="Référence internationale"
+              data-en="International reference"
+            >
+              Référence internationale
+            </h3>
+            <p
+              class="text-p-600/80 leading-[1.75]"
+              style="font-size: 0.88rem"
+              data-fr="Devenir une université de référence internationale, reconnue pour l'excellence de sa recherche, la qualité de ses diplômés et son ancrage dans les réalités du continent africain."
+              data-en="Become an internationally referenced university, recognized for the excellence of its research, the quality of its graduates and its grounding in the realities of the African continent."
+            >
+              Devenir une université de référence internationale, reconnue pour
+              l'excellence de sa recherche, la qualité de ses diplômés et son
+              ancrage dans les réalités du continent africain.
+            </p>
+          </div>
+
+          <!-- Motto -->
+          <div
+            class="val-card bg-p-900 rounded-2xl p-8 border-t-4 border-p-400 reveal"
+            style="transition-delay: 0.2s"
+          >
+            <div
+              class="w-14 h-14 rounded-xl bg-white/10 flex items-center justify-center text-3xl mb-5"
+            >
+              📜
+            </div>
+            <div
+              class="font-label text-[.7rem] tracking-[.18em] uppercase text-p-300 mb-2"
+              data-fr="Notre Devise"
+              data-en="Our Motto"
+            >
+              Notre Devise
+            </div>
+            <h3
+              class="font-heading font-semibold text-white text-xl mb-4 leading-snug italic"
+            >
+              « Savoir, Agir, Servir »
+            </h3>
+            <p
+              class="text-white/60 leading-[1.75]"
+              style="font-size: 0.88rem"
+              data-fr="Trois piliers indissociables qui fondent notre engagement : acquérir le savoir, agir avec intégrité et servir sa communauté avec humilité et dévouement."
+              data-en="Three inseparable pillars that underpin our commitment: acquiring knowledge, acting with integrity and serving one's community with humility and dedication."
+            >
+              Trois piliers indissociables qui fondent notre engagement :
+              acquérir le savoir, agir avec intégrité et servir sa communauté
+              avec humilité et dévouement.
+            </p>
+          </div>
+        </div>
+
+        <!-- Core Values grid -->
+        <div class="reveal">
+          <div class="text-center mb-8">
+            <span
+              class="font-label text-[.7rem] tracking-[.25em] uppercase text-p-500"
+              data-fr="Nos valeurs fondamentales"
+              data-en="Our core values"
+              >Nos valeurs fondamentales</span
+            >
+          </div>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            <!-- Each value pill -->
+            <div
+              class="bg-white rounded-xl p-4 text-center border border-p-100 hover:border-p-300 hover:shadow-md transition-all duration-300"
+            >
+              <div class="text-2xl mb-2">⚖️</div>
+              <div
+                class="font-label text-[.7rem] tracking-[.1em] uppercase text-p-700 font-semibold"
+                data-fr="Intégrité"
+                data-en="Integrity"
+              >
+                Intégrité
+              </div>
+            </div>
+            <div
+              class="bg-white rounded-xl p-4 text-center border border-p-100 hover:border-p-300 hover:shadow-md transition-all duration-300"
+            >
+              <div class="text-2xl mb-2">🏆</div>
+              <div
+                class="font-label text-[.7rem] tracking-[.1em] uppercase text-p-700 font-semibold"
+                data-fr="Excellence"
+                data-en="Excellence"
+              >
+                Excellence
+              </div>
+            </div>
+            <div
+              class="bg-white rounded-xl p-4 text-center border border-p-100 hover:border-p-300 hover:shadow-md transition-all duration-300"
+            >
+              <div class="text-2xl mb-2">💡</div>
+              <div
+                class="font-label text-[.7rem] tracking-[.1em] uppercase text-p-700 font-semibold"
+                data-fr="Innovation"
+                data-en="Innovation"
+              >
+                Innovation
+              </div>
+            </div>
+            <div
+              class="bg-white rounded-xl p-4 text-center border border-p-100 hover:border-p-300 hover:shadow-md transition-all duration-300"
+            >
+              <div class="text-2xl mb-2">🤝</div>
+              <div
+                class="font-label text-[.7rem] tracking-[.1em] uppercase text-p-700 font-semibold"
+                data-fr="Solidarité"
+                data-en="Solidarity"
+              >
+                Solidarité
+              </div>
+            </div>
+            <div
+              class="bg-white rounded-xl p-4 text-center border border-p-100 hover:border-p-300 hover:shadow-md transition-all duration-300"
+            >
+              <div class="text-2xl mb-2">🌱</div>
+              <div
+                class="font-label text-[.7rem] tracking-[.1em] uppercase text-p-700 font-semibold"
+                data-fr="Durabilité"
+                data-en="Sustainability"
+              >
+                Durabilité
+              </div>
+            </div>
+            <div
+              class="bg-white rounded-xl p-4 text-center border border-p-100 hover:border-p-300 hover:shadow-md transition-all duration-300"
+            >
+              <div class="text-2xl mb-2">🌍</div>
+              <div
+                class="font-label text-[.7rem] tracking-[.1em] uppercase text-p-700 font-semibold"
+                data-fr="Responsabilité"
+                data-en="Responsibility"
+              >
+                Responsabilité
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+       SECTION 3 — TIMELINE / HISTORY
+  ═══════════════════════════════════════ -->
+    <section class="py-24 px-6 bg-white">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-16 reveal">
+          <div class="flex items-center justify-center gap-2 mb-3">
+            <span class="block w-7 h-[2px] bg-gold"></span>
+            <span
+              class="font-label text-[.7rem] tracking-[.28em] uppercase text-p-600"
+              data-fr="Nos grandes étapes"
+              data-en="Our milestones"
+              >Nos grandes étapes</span
+            >
+            <span class="block w-7 h-[2px] bg-gold"></span>
+          </div>
+          <h2
+            class="font-heading font-semibold text-p-900 leading-[1.15]"
+            style="font-size: clamp(2rem, 3.5vw, 2.9rem)"
+          >
+            <span data-fr="Notre" data-en="Our">Notre</span>
+            <em
+              class="text-p-600 italic"
+              data-fr=" parcours"
+              data-en=" journey"
+            >
+              parcours</em
+            >
+          </h2>
+        </div>
+
+        <!-- Timeline -->
+        <div class="relative">
+          <!-- Vertical line -->
+          <div
+            class="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-p-100 hidden md:block"
+          ></div>
+
+          <!-- Items -->
+          <div class="space-y-12">
+            <!-- 2010 -->
+            <div
+              class="reveal grid grid-cols-1 md:grid-cols-2 gap-6 items-center"
+            >
+              <div class="md:text-right md:pr-12">
+                <div class="font-heading font-bold text-p-700 text-4xl mb-1">
+                  2010
+                </div>
+                <h3
+                  class="font-heading font-semibold text-p-900 text-xl mb-2"
+                  data-fr="Fondation"
+                  data-en="Foundation"
+                >
+                  Fondation
+                </h3>
+                <p
+                  class="text-p-600/75 leading-relaxed"
+                  style="font-size: 0.87rem"
+                  data-fr="Création d'UniPlaceholder avec 3 filières pionnières et 120 étudiants fondateurs à Douala."
+                  data-en="Creation of UniPlaceholder with 3 pioneering programs and 120 founding students in Douala."
+                >
+                  Création d'UniPlaceholder avec 3 filières pionnières et 120
+                  étudiants fondateurs à Douala.
+                </p>
+              </div>
+              <div class="hidden md:flex justify-start pl-12 items-center">
+                <div
+                  class="w-12 h-12 rounded-full bg-gold flex items-center justify-center text-xl font-bold text-p-900 z-10 relative dot-ping flex-shrink-0 -ml-[78px] mr-6"
+                >
+                  🎯
+                </div>
+                <div class="bg-p-50 rounded-xl p-4 flex-1">
+                  <span
+                    class="font-label text-xs tracking-widest uppercase text-p-400"
+                    data-fr="120 étudiants fondateurs"
+                    data-en="120 founding students"
+                    >120 étudiants fondateurs</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- 2013 -->
+            <div
+              class="reveal grid grid-cols-1 md:grid-cols-2 gap-6 items-center"
+              style="transition-delay: 0.1s"
+            >
+              <div class="hidden md:flex justify-end pr-12 items-center">
+                <div class="bg-p-50 rounded-xl p-4 flex-1 text-right">
+                  <span
+                    class="font-label text-xs tracking-widest uppercase text-p-400"
+                    data-fr="Accréditation MINESUP"
+                    data-en="MINESUP Accreditation"
+                    >Accréditation MINESUP</span
+                  >
+                </div>
+                <div
+                  class="w-12 h-12 rounded-full bg-p-700 flex items-center justify-center text-xl z-10 relative -mr-[78px] ml-6 flex-shrink-0"
+                >
+                  🏅
+                </div>
+              </div>
+              <div class="md:pl-12">
+                <div class="font-heading font-bold text-p-700 text-4xl mb-1">
+                  2013
+                </div>
+                <h3
+                  class="font-heading font-semibold text-p-900 text-xl mb-2"
+                  data-fr="Reconnaissance officielle"
+                  data-en="Official recognition"
+                >
+                  Reconnaissance officielle
+                </h3>
+                <p
+                  class="text-p-600/75 leading-relaxed"
+                  style="font-size: 0.87rem"
+                  data-fr="Obtention de l'accréditation officielle du MINESUP. Lancement des programmes de Master."
+                  data-en="Obtaining official MINESUP accreditation. Launch of Master's degree programs."
+                >
+                  Obtention de l'accréditation officielle du MINESUP. Lancement
+                  des programmes de Master.
+                </p>
+              </div>
+            </div>
+
+            <!-- 2017 -->
+            <div
+              class="reveal grid grid-cols-1 md:grid-cols-2 gap-6 items-center"
+              style="transition-delay: 0.2s"
+            >
+              <div class="md:text-right md:pr-12">
+                <div class="font-heading font-bold text-p-700 text-4xl mb-1">
+                  2017
+                </div>
+                <h3
+                  class="font-heading font-semibold text-p-900 text-xl mb-2"
+                  data-fr="Expansion internationale"
+                  data-en="International expansion"
+                >
+                  Expansion internationale
+                </h3>
+                <p
+                  class="text-p-600/75 leading-relaxed"
+                  style="font-size: 0.87rem"
+                  data-fr="Signature de 4 accords de partenariat avec des universités en Europe et en Amérique du Nord."
+                  data-en="Signing of 4 partnership agreements with universities in Europe and North America."
+                >
+                  Signature de 4 accords de partenariat avec des universités en
+                  Europe et en Amérique du Nord.
+                </p>
+              </div>
+              <div class="hidden md:flex justify-start pl-12 items-center">
+                <div
+                  class="w-12 h-12 rounded-full bg-gold flex items-center justify-center text-xl z-10 relative -ml-[78px] mr-6 flex-shrink-0"
+                >
+                  🌍
+                </div>
+                <div class="bg-p-50 rounded-xl p-4 flex-1">
+                  <span
+                    class="font-label text-xs tracking-widest uppercase text-p-400"
+                    data-fr="4 partenaires internationaux"
+                    data-en="4 international partners"
+                    >4 partenaires internationaux</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- 2021 -->
+            <div
+              class="reveal grid grid-cols-1 md:grid-cols-2 gap-6 items-center"
+              style="transition-delay: 0.3s"
+            >
+              <div class="hidden md:flex justify-end pr-12 items-center">
+                <div class="bg-p-50 rounded-xl p-4 flex-1 text-right">
+                  <span
+                    class="font-label text-xs tracking-widest uppercase text-p-400"
+                    data-fr="Bibliothèque numérique lancée"
+                    data-en="Digital library launched"
+                    >Bibliothèque numérique lancée</span
+                  >
+                </div>
+                <div
+                  class="w-12 h-12 rounded-full bg-p-700 flex items-center justify-center text-xl z-10 relative -mr-[78px] ml-6 flex-shrink-0"
+                >
+                  💻
+                </div>
+              </div>
+              <div class="md:pl-12">
+                <div class="font-heading font-bold text-p-700 text-4xl mb-1">
+                  2021
+                </div>
+                <h3
+                  class="font-heading font-semibold text-p-900 text-xl mb-2"
+                  data-fr="Transformation numérique"
+                  data-en="Digital transformation"
+                >
+                  Transformation numérique
+                </h3>
+                <p
+                  class="text-p-600/75 leading-relaxed"
+                  style="font-size: 0.87rem"
+                  data-fr="Lancement de la plateforme e-learning et de la bibliothèque numérique, rendant le savoir accessible à distance."
+                  data-en="Launch of the e-learning platform and digital library, making knowledge accessible remotely."
+                >
+                  Lancement de la plateforme e-learning et de la bibliothèque
+                  numérique, rendant le savoir accessible à distance.
+                </p>
+              </div>
+            </div>
+
+            <!-- 2024 -->
+            <div
+              class="reveal grid grid-cols-1 md:grid-cols-2 gap-6 items-center"
+              style="transition-delay: 0.4s"
+            >
+              <div class="md:text-right md:pr-12">
+                <div class="font-heading font-bold text-gold text-4xl mb-1">
+                  2024
+                </div>
+                <h3
+                  class="font-heading font-semibold text-p-900 text-xl mb-2"
+                  data-fr="Aujourd'hui"
+                  data-en="Today"
+                >
+                  Aujourd'hui
+                </h3>
+                <p
+                  class="text-p-600/75 leading-relaxed"
+                  style="font-size: 0.87rem"
+                  data-fr="Plus de 2 400 étudiants actifs, 12 filières, 7 partenaires internationaux et une réputation d'excellence croissante."
+                  data-en="Over 2,400 active students, 12 programs, 7 international partners and a growing reputation for excellence."
+                >
+                  Plus de 2 400 étudiants actifs, 12 filières, 7 partenaires
+                  internationaux et une réputation d'excellence croissante.
+                </p>
+              </div>
+              <div class="hidden md:flex justify-start pl-12 items-center">
+                <div
+                  class="w-12 h-12 rounded-full bg-gold flex items-center justify-center text-xl z-10 relative -ml-[78px] mr-6 flex-shrink-0"
+                >
+                  ⭐
+                </div>
+                <div
+                  class="bg-gold/10 border border-gold/30 rounded-xl p-4 flex-1"
+                >
+                  <span
+                    class="font-label text-xs tracking-widest uppercase text-gold-dark"
+                    data-fr="2400+ étudiants · 12 filières"
+                    data-en="2400+ students · 12 programs"
+                    >2400+ étudiants · 12 filières</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+       CTA BANNER
+  ═══════════════════════════════════════ -->
+    <section
+      class="slant-top py-28 px-6 relative overflow-hidden"
+      style="background: linear-gradient(140deg, #3e1490, #5520b8)"
+    >
+      <div
+        class="absolute inset-0 pointer-events-none"
+        style="
+          background-image:
+            linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+            linear-gradient(
+              90deg,
+              rgba(255, 255, 255, 0.025) 1px,
+              transparent 1px
+            );
+          background-size: 50px 50px;
+        "
+      ></div>
+      <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
+        <div
+          class="font-label text-[.74rem] tracking-[.28em] uppercase text-gold mb-3"
+          data-fr="Rejoignez-nous"
+          data-en="Join us"
+        >
+          Rejoignez-nous
+        </div>
+        <h2
+          class="font-heading font-semibold text-white leading-[1.15] mb-4"
+          style="font-size: clamp(2rem, 3.5vw, 3rem)"
+        >
+          <span data-fr="Prêt à écrire votre" data-en="Ready to write your"
+            >Prêt à écrire votre</span
+          >
+          <em class="text-gold italic" data-fr=" histoire ?" data-en=" story?">
+            histoire ?</em
+          >
+        </h2>
+        <p
+          class="text-white/65 leading-relaxed mb-8 max-w-xl mx-auto"
+          style="font-size: 0.94rem"
+          data-fr="Les inscriptions pour l'année 2024–2025 sont ouvertes. Rejoignez une communauté d'excellence et construisez l'avenir que vous méritez."
+          data-en="Enrolments for the year 2024–2025 are open. Join a community of excellence and build the future you deserve."
+        >
+          Les inscriptions pour l'année 2024–2025 sont ouvertes. Rejoignez une
+          communauté d'excellence et construisez l'avenir que vous méritez.
+        </p>
+        <div class="flex gap-3 justify-center flex-wrap">
+          <a
+            href="#"
+            class="font-label text-[.82rem] font-bold tracking-[.1em] uppercase px-8 py-3 bg-gold text-p-900 rounded hover:bg-gold-light transition-all duration-300"
+            data-fr="S'inscrire maintenant"
+            data-en="Enrol now"
+            >S'inscrire maintenant</a
+          >
+          <a
+            href="#"
+            class="font-label text-[.82rem] font-semibold tracking-[.1em] uppercase px-8 py-3 border border-white/40 text-white rounded hover:bg-white/10 transition-all duration-300"
+            data-fr="Voir les formations"
+            data-en="View programs"
+            >Voir les formations</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+       SCRIPTS
+  ═══════════════════════════════════════ -->
+    <script>
+      function setLang(l) {
+        document
+          .querySelectorAll(".lang-btn")
+          .forEach((b) => b.classList.remove("active"));
+        document
+          .querySelector(`.lang-btn[onclick="setLang('${l}')"]`)
+          .classList.add("active");
+        document.querySelectorAll("[data-fr]").forEach((el) => {
+          const txt = el.getAttribute("data-" + l);
+          if (txt) el.textContent = txt;
+        });
+      }
+
+      // Scroll reveal
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("show");
+              obs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.12 },
+      );
+      document
+        .querySelectorAll(".reveal, .reveal-left, .reveal-right")
+        .forEach((el) => obs.observe(el));
+
+      // Sticky nav shadow
+      window.addEventListener("scroll", () => {
+        document.getElementById("navbar").style.boxShadow =
+          window.pageYOffset > 60 ? "0 4px 30px rgba(0,0,0,.4)" : "none";
+      });
+
+      function toggleMenu() {
+        document.getElementById("mobileMenu").classList.toggle("hidden");
+      }
+    </script>
+  </body>
+</html>

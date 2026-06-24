@@ -1,0 +1,1041 @@
+<!doctype html>
+<html lang="fr" data-lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FATECAM — Contact</title>
+    <link rel="shortcut icon" href="assets/logo_fatecam.png" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              p: {
+                50: "#F7F4FF",
+                100: "#EDE6FF",
+                200: "#D4BEFA",
+                300: "#B89AF5",
+                400: "#9B72E8",
+                500: "#7040D4",
+                600: "#5520B8",
+                700: "#3E1490",
+                800: "#2D0A6E",
+                900: "#006fc0",
+              },
+              gold: {
+                DEFAULT: "#BFA050",
+                light: "#D4B866",
+                dark: "#9A7C30",
+              },
+            },
+            fontFamily: {
+              heading: ["Cormorant Garamond", "Georgia", "serif"],
+              body: ["DM Sans", "system-ui", "sans-serif"],
+              label: ["Barlow Condensed", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "DM Sans", system-ui, sans-serif;
+      }
+      .font-heading {
+        font-family: "Cormorant Garamond", Georgia, serif;
+      }
+      .font-label {
+        font-family: "Barlow Condensed", sans-serif;
+      }
+      .nav-link {
+        border-bottom: 2px solid transparent;
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+      }
+      .nav-link:hover {
+        color: #bfa050;
+        border-bottom-color: #bfa050;
+      }
+      .lang-btn {
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+      .lang-btn.active {
+        background: #bfa050;
+        color: #1e0845;
+      }
+      /* Reveal */
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition:
+          opacity 0.6s ease,
+          transform 0.6s ease;
+      }
+      .reveal.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .reveal-left {
+        opacity: 0;
+        transform: translateX(-26px);
+        transition:
+          opacity 0.65s ease,
+          transform 0.65s ease;
+      }
+      .reveal-left.show {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .reveal-right {
+        opacity: 0;
+        transform: translateX(26px);
+        transition:
+          opacity 0.65s ease,
+          transform 0.65s ease;
+      }
+      .reveal-right.show {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      /* Input focus glow */
+      .field-input:focus {
+        box-shadow: 0 0 0 3px rgba(191, 160, 80, 0.25);
+      }
+      /* Slant */
+      .slant-bot {
+        clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+      }
+      .slant-top {
+        clip-path: polygon(0 6%, 100% 0, 100% 100%, 0 100%);
+      }
+      /* Contact info card hover */
+      .info-card {
+        transition:
+          transform 0.3s cubic-bezier(0.22, 0.68, 0, 1.2),
+          box-shadow 0.3s,
+          border-color 0.3s;
+      }
+      .info-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 14px 32px rgba(30, 8, 69, 0.1);
+        border-color: #9b72e8;
+      }
+      /* FAQ accordion */
+      .faq-chevron {
+        transition: transform 0.3s ease;
+      }
+      .faq-item.open .faq-chevron {
+        transform: rotate(45deg);
+      }
+      .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease;
+      }
+      .faq-item.open .faq-answer {
+        max-height: 240px;
+      }
+      /* Map placeholder grid */
+      .map-grid {
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+      /* Toast */
+      #toast {
+        transform: translateY(20px);
+        opacity: 0;
+        transition:
+          transform 0.35s ease,
+          opacity 0.35s ease;
+        pointer-events: none;
+      }
+      #toast.show {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body class="bg-white text-p-900 overflow-x-hidden">
+    <!-- ═══════════════════════════════════════
+       ANNOUNCEMENT BAR
+  ═══════════════════════════════════════ -->
+    <div
+      class="bg-gold text-p-900 text-center py-2 px-4 font-label text-xs font-semibold tracking-widest z-50 relative"
+    >
+      <span
+        data-fr="🎓 Inscriptions ouvertes — Année académique 2026-2027"
+        data-en="🎓 Enrolments open — Academic year 2026-2027"
+      >
+        🎓 Inscriptions ouvertes — Année académique 2026-2027
+      </span>
+      <a
+        href="#"
+        class="underline font-bold ml-2"
+        data-fr="Postuler →"
+        data-en="Apply now →"
+        >Postuler →</a
+      >
+    </div>
+
+    <!-- ═══════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════ -->
+    <nav
+      id="navbar"
+      class="sticky top-0 z-40 bg-p-900 border-b border-gold/20 px-6 h-[68px] flex items-center justify-between transition-shadow duration-300"
+    >
+      <a href="index.html" class="flex items-center gap-3 flex-shrink-0">
+        <img src="assets/logo_fatecam.png" class="w-10 h-10 rounded-full" />
+        <div class="leading-tight">
+          <div
+            class="font-heading text-[1.35rem] font-semibold text-white leading-none"
+          >
+            FATECAM
+          </div>
+          <div
+            class="font-label text-[.6rem] tracking-[.2em] uppercase text-gold"
+            data-fr="Université d'Excellence"
+            data-en="University of Excellence"
+          >
+            Université d'Excellence
+          </div>
+        </div>
+      </a>
+
+      <ul class="hidden lg:flex items-center list-none gap-0 h-[68px]">
+        <li>
+          <a
+            href="index.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Accueil"
+            data-en="Home"
+            >Accueil</a
+          >
+        </li>
+        <li>
+          <a
+            href="about.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="À Propos"
+            data-en="About"
+            >À Propos</a
+          >
+        </li>
+        <li>
+          <a
+            href="programs.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Formations"
+            data-en="Programs"
+            >Formations</a
+          >
+        </li>
+        <li>
+          <a
+            href="library.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Bibliothèque"
+            data-en="Library"
+            >Bibliothèque</a
+          >
+        </li>
+        <li>
+          <a
+            href="news.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Actualités"
+            data-en="News"
+            >Actualités</a
+          >
+        </li>
+        <li>
+          <a
+            href="team.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Équipe"
+            data-en="Team"
+            >Équipe</a
+          >
+        </li>
+        <li>
+          <a
+            href="events.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-white/80 px-3 h-[68px] flex items-center"
+            data-fr="Événements"
+            data-en="Events"
+            >Événements</a
+          >
+        </li>
+        <li>
+          <a
+            href="contact.html"
+            class="nav-link font-label text-[.82rem] font-medium tracking-[.07em] uppercase text-gold px-3 h-[68px] flex items-center border-b-2 border-gold"
+            data-fr="Contact"
+            data-en="Contact"
+            >Contact</a
+          >
+        </li>
+      </ul>
+
+      <div class="flex items-center gap-2.5">
+        <div
+          class="flex rounded-full overflow-hidden border border-white/20 bg-white/10"
+        >
+          <button
+            onclick="setLang('fr')"
+            class="lang-btn active font-label text-[.7rem] font-bold tracking-[.05em] px-3 py-1 text-white/55 bg-transparent border-none cursor-pointer"
+          >
+            FR
+          </button>
+          <button
+            onclick="setLang('en')"
+            class="lang-btn font-label text-[.7rem] font-bold tracking-[.05em] px-3 py-1 text-white/55 bg-transparent border-none cursor-pointer"
+          >
+            EN
+          </button>
+        </div>
+        <a
+          href="login.html"
+          class="hidden sm:inline-block font-label text-[.78rem] font-semibold tracking-[.08em] uppercase px-4 py-2 border border-gold text-gold rounded hover:bg-gold hover:text-p-900 transition-colors duration-200"
+          data-fr="Se Connecter"
+          data-en="Login"
+          >Se Connecter</a
+        >
+        <button
+          onclick="toggleMenu()"
+          class="lg:hidden flex flex-col gap-[5px] p-1 bg-transparent border-none cursor-pointer"
+          aria-label="Menu"
+        >
+          <span class="block w-5 h-[2px] bg-white rounded"></span>
+          <span class="block w-5 h-[2px] bg-white rounded"></span>
+          <span class="block w-5 h-[2px] bg-white rounded"></span>
+        </button>
+      </div>
+    </nav>
+
+    <div
+      id="mobileMenu"
+      class="hidden lg:hidden bg-p-900 border-t border-white/10 z-30 relative"
+    >
+      <a
+        href="index.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Accueil"
+        data-en="Home"
+        >Accueil</a
+      >
+      <a
+        href="about.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="À Propos"
+        data-en="About"
+        >À Propos</a
+      >
+      <a
+        href="programs.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Formations"
+        data-en="Programs"
+        >Formations</a
+      >
+      <a
+        href="library.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Bibliothèque"
+        data-en="Library"
+        >Bibliothèque</a
+      >
+      <a
+        href="news.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Actualités"
+        data-en="News"
+        >Actualités</a
+      >
+      <a
+        href="team.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Équipe"
+        data-en="Team"
+        >Équipe</a
+      >
+      <a
+        href="events.html"
+        class="block font-label text-sm tracking-widest uppercase text-white/80 px-6 py-3 border-b border-white/5 hover:text-gold"
+        data-fr="Événements"
+        data-en="Events"
+        >Événements</a
+      >
+      <a
+        href="contact.html"
+        class="block font-label text-sm tracking-widest uppercase text-gold px-6 py-3 border-b border-white/5"
+        data-fr="Contact"
+        data-en="Contact"
+        >Contact</a
+      >
+    </div>
+
+    <!-- ═══════════════════════════════════════
+       PAGE HERO BANNER
+  ═══════════════════════════════════════ -->
+    <div class="slant-bot bg-p-900 pt-20 pb-32 px-6 relative overflow-hidden">
+      <div
+        class="absolute inset-0 pointer-events-none"
+        style="
+          background-image:
+            linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+            linear-gradient(
+              90deg,
+              rgba(255, 255, 255, 0.025) 1px,
+              transparent 1px
+            );
+          background-size: 50px 50px;
+        "
+      ></div>
+      <div
+        class="absolute -right-20 top-0 w-80 h-80 rounded-full pointer-events-none"
+        style="
+          background: radial-gradient(
+            circle,
+            rgba(155, 114, 232, 0.15) 0%,
+            transparent 70%
+          );
+        "
+      ></div>
+      <div class="max-w-6xl mx-auto relative z-10">
+        <div class="flex items-center gap-2 mb-4">
+          <span class="block w-7 h-[2px] bg-gold"></span>
+          <span
+            class="font-label text-[.7rem] tracking-[.28em] uppercase text-gold"
+            data-fr="Nous contacter"
+            data-en="Get in touch"
+            >Nous contacter</span
+          >
+        </div>
+        <h1
+          class="font-heading font-semibold text-white leading-[1.1] mb-4"
+          style="font-size: clamp(2.4rem, 4.5vw, 4rem)"
+        >
+          <span data-fr="Restons en" data-en="Let's stay in">Restons en</span>
+          <em class="text-gold italic" data-fr=" contact" data-en=" touch">
+            contact</em
+          >
+        </h1>
+        <p
+          class="text-white/65 max-w-xl leading-relaxed"
+          style="font-size: 0.95rem"
+          data-fr="Une question sur nos formations, une demande d'admission ou simplement envie d'en savoir plus ? Notre équipe vous répond rapidement."
+          data-en="A question about our programs, an admission request, or simply want to know more? Our team responds quickly."
+        >
+          Une question sur nos formations, une demande d'admission ou
+          simplement envie d'en savoir plus ? Notre équipe vous répond
+          rapidement.
+        </p>
+
+        <!-- Breadcrumb -->
+        <div
+          class="flex items-center gap-2 mt-6 font-label text-[.72rem] tracking-widest uppercase text-white/35"
+        >
+          <a
+            href="index.html"
+            class="hover:text-gold transition-colors"
+            data-fr="Accueil"
+            data-en="Home"
+            >Accueil</a
+          >
+          <span>/</span>
+          <span class="text-gold" data-fr="Contact" data-en="Contact"
+            >Contact</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+       SECTION 1 — CONTACT INFO CARDS
+  ═══════════════════════════════════════ -->
+    <section class="px-6 -mt-16 relative z-20">
+      <div
+        class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5"
+      >
+        <!-- Address -->
+        <div
+          class="info-card bg-white rounded-2xl p-7 border border-p-100 shadow-[0_8px_28px_rgba(30,8,69,.08)] reveal"
+        >
+          <div
+            class="w-12 h-12 rounded-xl bg-p-100 flex items-center justify-center text-2xl mb-4"
+          >
+            📍
+          </div>
+          <div
+            class="font-label text-[.68rem] tracking-[.18em] uppercase text-p-500 mb-2"
+            data-fr="Adresse du Campus"
+            data-en="Campus Address"
+          >
+            Adresse du Campus
+          </div>
+          <p
+            class="text-p-600/80 leading-relaxed"
+            style="font-size: 0.88rem"
+            data-fr="Akwa Nord, Rue de la Liberté, Douala, Cameroun"
+            data-en="Akwa Nord, Rue de la Liberté, Douala, Cameroon"
+          >
+            Akwa Nord, Rue de la Liberté, Douala, Cameroun
+          </p>
+        </div>
+
+        <!-- Phone -->
+        <div
+          class="info-card bg-white rounded-2xl p-7 border border-p-100 shadow-[0_8px_28px_rgba(30,8,69,.08)] reveal"
+          style="transition-delay: 0.08s"
+        >
+          <div
+            class="w-12 h-12 rounded-xl bg-gold/15 flex items-center justify-center text-2xl mb-4"
+          >
+            📞
+          </div>
+          <div
+            class="font-label text-[.68rem] tracking-[.18em] uppercase text-gold-dark mb-2"
+            data-fr="Téléphone"
+            data-en="Phone"
+          >
+            Téléphone
+          </div>
+          <p class="text-p-600/80 leading-relaxed" style="font-size: 0.88rem">
+            +237 6 78 50 88 54<br />
+            +237 6 94 23 55 93 <br/>
+            +237 6 70 89 94 01
+          </p>
+        </div>
+
+        <!-- Email -->
+        <div
+          class="info-card bg-white rounded-2xl p-7 border border-p-100 shadow-[0_8px_28px_rgba(30,8,69,.08)] reveal"
+          style="transition-delay: 0.16s"
+        >
+          <div
+            class="w-12 h-12 rounded-xl bg-p-100 flex items-center justify-center text-2xl mb-4"
+          >
+            ✉️
+          </div>
+          <div
+            class="font-label text-[.68rem] tracking-[.18em] uppercase text-p-500 mb-2"
+            data-fr="Email"
+            data-en="Email"
+          >
+            Email
+          </div>
+          <p class="text-p-600/80 leading-relaxed" style="font-size: 0.88rem">
+            contact@fatecam.cm<br />
+            admissions@fatecam.cm
+          </p>
+        </div>
+
+        <!-- Hours -->
+        <div
+          class="info-card bg-white rounded-2xl p-7 border border-p-100 shadow-[0_8px_28px_rgba(30,8,69,.08)] reveal"
+          style="transition-delay: 0.24s"
+        >
+          <div
+            class="w-12 h-12 rounded-xl bg-gold/15 flex items-center justify-center text-2xl mb-4"
+          >
+            🕘
+          </div>
+          <div
+            class="font-label text-[.68rem] tracking-[.18em] uppercase text-gold-dark mb-2"
+            data-fr="Horaires d'ouverture"
+            data-en="Office Hours"
+          >
+            Horaires d'ouverture
+          </div>
+          <p
+            class="text-p-600/80 leading-relaxed"
+            style="font-size: 0.88rem"
+            data-fr="Lun – Ven : 8h00 – 17h00<br>Sam : 9h00 – 13h00"
+            data-en="Mon – Fri: 8:00 AM – 5:00 PM<br>Sat: 9:00 AM – 1:00 PM"
+          >
+            Lun – Ven : 8h00 – 17h00<br />Sam : 9h00 – 13h00
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+       SECTION 2 — FORM + MAP
+  ═══════════════════════════════════════ -->
+    <section class="py-24 px-6 bg-white">
+      <div
+        class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-12 items-start"
+      >
+        <!-- Form -->
+        <div class="lg:col-span-3 reveal-left">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="block w-7 h-[2px] bg-gold"></span>
+            <span
+              class="font-label text-[.7rem] tracking-[.28em] uppercase text-p-600"
+              data-fr="Envoyez-nous un message"
+              data-en="Send us a message"
+              >Envoyez-nous un message</span
+            >
+          </div>
+          <h2
+            class="font-heading font-semibold text-p-900 leading-[1.15] mb-5"
+            style="font-size: clamp(1.9rem, 3.2vw, 2.6rem)"
+          >
+            <span data-fr="Une question ?" data-en="Have a">
+              Une question ?</span
+            >
+            <em class="text-p-600 italic" data-fr=" Écrivez-nous" data-en=" question? Write to us">
+              Écrivez-nous</em
+            >
+          </h2>
+
+          <form
+            id="contactForm"
+            onsubmit="submitContact(event)"
+            class="grid grid-cols-1 sm:grid-cols-2 gap-5"
+          >
+            <div class="sm:col-span-1">
+              <label
+                class="block font-label text-[.7rem] tracking-[.12em] uppercase text-p-500 mb-2"
+                data-fr="Nom complet"
+                data-en="Full name"
+                >Nom complet</label
+              >
+              <input
+                type="text"
+                required
+                class="field-input w-full px-4 py-3 rounded-xl border border-p-200 text-p-900 text-sm font-body outline-none focus:border-p-500 transition-colors"
+                placeholder="Jean Mballa"
+              />
+            </div>
+            <div class="sm:col-span-1">
+              <label
+                class="block font-label text-[.7rem] tracking-[.12em] uppercase text-p-500 mb-2"
+                data-fr="Adresse email"
+                data-en="Email address"
+                >Adresse email</label
+              >
+              <input
+                type="email"
+                required
+                class="field-input w-full px-4 py-3 rounded-xl border border-p-200 text-p-900 text-sm font-body outline-none focus:border-p-500 transition-colors"
+                placeholder="jean.mballa@email.com"
+              />
+            </div>
+            <div class="sm:col-span-1">
+              <label
+                class="block font-label text-[.7rem] tracking-[.12em] uppercase text-p-500 mb-2"
+                data-fr="Téléphone"
+                data-en="Phone"
+                >Téléphone</label
+              >
+              <input
+                type="tel"
+                class="field-input w-full px-4 py-3 rounded-xl border border-p-200 text-p-900 text-sm font-body outline-none focus:border-p-500 transition-colors"
+                placeholder="+237 6 00 00 00 00"
+              />
+            </div>
+            <div class="sm:col-span-1">
+              <label
+                class="block font-label text-[.7rem] tracking-[.12em] uppercase text-p-500 mb-2"
+                data-fr="Sujet"
+                data-en="Subject"
+                >Sujet</label
+              >
+              <select
+                class="field-input w-full px-4 py-3 rounded-xl border border-p-200 text-p-900 text-sm font-body outline-none focus:border-p-500 transition-colors bg-white"
+              >
+                <option data-fr="Admissions" data-en="Admissions">
+                  Admissions
+                </option>
+                <option data-fr="Formations" data-en="Programs">
+                  Formations
+                </option>
+                <option data-fr="Partenariats" data-en="Partnerships">
+                  Partenariats
+                </option>
+                <option data-fr="Autre" data-en="Other">Autre</option>
+              </select>
+            </div>
+            <div class="sm:col-span-2">
+              <label
+                class="block font-label text-[.7rem] tracking-[.12em] uppercase text-p-500 mb-2"
+                data-fr="Message"
+                data-en="Message"
+                >Message</label
+              >
+              <textarea
+                rows="5"
+                required
+                class="field-input w-full px-4 py-3 rounded-xl border border-p-200 text-p-900 text-sm font-body outline-none focus:border-p-500 transition-colors resize-none"
+                placeholder="Écrivez votre message ici…"
+              ></textarea>
+            </div>
+            <div class="sm:col-span-2">
+              <button
+                type="submit"
+                class="font-label text-[.82rem] font-bold tracking-[.1em] uppercase px-8 py-3.5 bg-p-700 text-white rounded hover:bg-p-800 transition-colors duration-300 w-full sm:w-auto"
+                data-fr="Envoyer le message →"
+                data-en="Send message →"
+              >
+                Envoyer le message →
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Map / location block -->
+        <div class="lg:col-span-2 reveal-right">
+          <div
+            class="map-grid rounded-2xl h-[280px] relative overflow-hidden flex items-center justify-center mb-6"
+            style="background: linear-gradient(140deg, #3e1490, #5520b8)"
+          >
+            <div class="text-center relative z-10 px-6">
+              <div
+                class="w-14 h-14 rounded-full bg-gold flex items-center justify-center text-2xl mx-auto mb-3"
+              >
+                📍
+              </div>
+              <div
+                class="font-label text-[.72rem] tracking-[.18em] uppercase text-white/80"
+                data-fr="Campus de Douala"
+                data-en="Douala Campus"
+              >
+                Campus de Douala
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-p-50 rounded-2xl p-7">
+            <h3
+              class="font-heading font-semibold text-p-900 text-lg mb-4"
+              data-fr="Suivez-nous"
+              data-en="Follow us"
+            >
+              Suivez-nous
+            </h3>
+            <div class="flex gap-3">
+              <a
+                href="#"
+                class="w-10 h-10 rounded-full bg-white border border-p-200 flex items-center justify-center hover:bg-p-700 hover:text-white hover:border-p-700 transition-colors text-p-700"
+                aria-label="Facebook"
+              >
+                <span class="text-sm font-bold">f</span>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 rounded-full bg-white border border-p-200 flex items-center justify-center hover:bg-p-700 hover:text-white hover:border-p-700 transition-colors text-p-700"
+                aria-label="WhatsApp"
+              >
+                <span class="text-sm">📱</span>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 rounded-full bg-white border border-p-200 flex items-center justify-center hover:bg-p-700 hover:text-white hover:border-p-700 transition-colors text-p-700"
+                aria-label="LinkedIn"
+              >
+                <span class="text-sm font-bold">in</span>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 rounded-full bg-white border border-p-200 flex items-center justify-center hover:bg-p-700 hover:text-white hover:border-p-700 transition-colors text-p-700"
+                aria-label="YouTube"
+              >
+                <span class="text-sm">▶</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+       SECTION 3 — FAQ
+  ═══════════════════════════════════════ -->
+    <section class="py-24 px-6 bg-p-50">
+      <div class="max-w-3xl mx-auto">
+        <div class="text-center mb-12 reveal">
+          <div class="flex items-center justify-center gap-2 mb-3">
+            <span class="block w-7 h-[2px] bg-gold"></span>
+            <span
+              class="font-label text-[.7rem] tracking-[.28em] uppercase text-p-600"
+              data-fr="Avant de nous écrire"
+              data-en="Before you write to us"
+              >Avant de nous écrire</span
+            >
+            <span class="block w-7 h-[2px] bg-gold"></span>
+          </div>
+          <h2
+            class="font-heading font-semibold text-p-900 leading-[1.15]"
+            style="font-size: clamp(1.9rem, 3.2vw, 2.6rem)"
+          >
+            <span data-fr="Questions" data-en="Frequently asked">Questions</span>
+            <em class="text-p-600 italic" data-fr=" fréquentes" data-en=" questions">
+              fréquentes</em
+            >
+          </h2>
+        </div>
+
+        <div class="space-y-3">
+          <!-- FAQ 1 -->
+          <div
+            class="faq-item reveal bg-white rounded-xl border border-p-100 overflow-hidden"
+          >
+            <button
+              onclick="toggleFaq(this)"
+              class="w-full flex items-center justify-between gap-4 px-6 py-5 text-left bg-transparent border-none cursor-pointer"
+            >
+              <span
+                class="font-heading font-semibold text-p-900"
+                style="font-size: 1.02rem"
+                data-fr="Sous combien de temps recevrai-je une réponse ?"
+                data-en="How long until I get a response?"
+              >
+                Sous combien de temps recevrai-je une réponse ?
+              </span>
+              <span
+                class="faq-chevron text-gold text-xl flex-shrink-0 leading-none"
+                >+</span
+              >
+            </button>
+            <div class="faq-answer px-6">
+              <p
+                class="text-p-600/80 leading-relaxed pb-5"
+                style="font-size: 0.9rem"
+                data-fr="Notre équipe répond généralement sous 24 à 48 heures ouvrées. Pour les demandes urgentes liées aux admissions, privilégiez l'appel téléphonique."
+                data-en="Our team usually responds within 24 to 48 business hours. For urgent admissions-related requests, please call us directly."
+              >
+                Notre équipe répond généralement sous 24 à 48 heures ouvrées.
+                Pour les demandes urgentes liées aux admissions, privilégiez
+                l'appel téléphonique.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 2 -->
+          <div
+            class="faq-item reveal bg-white rounded-xl border border-p-100 overflow-hidden"
+            style="transition-delay: 0.08s"
+          >
+            <button
+              onclick="toggleFaq(this)"
+              class="w-full flex items-center justify-between gap-4 px-6 py-5 text-left bg-transparent border-none cursor-pointer"
+            >
+              <span
+                class="font-heading font-semibold text-p-900"
+                style="font-size: 1.02rem"
+                data-fr="Puis-je visiter le campus avant de m'inscrire ?"
+                data-en="Can I visit the campus before enrolling?"
+              >
+                Puis-je visiter le campus avant de m'inscrire ?
+              </span>
+              <span
+                class="faq-chevron text-gold text-xl flex-shrink-0 leading-none"
+                >+</span
+              >
+            </button>
+            <div class="faq-answer px-6">
+              <p
+                class="text-p-600/80 leading-relaxed pb-5"
+                style="font-size: 0.9rem"
+                data-fr="Oui, des visites guidées du campus de Douala sont organisées sur rendez-vous du lundi au vendredi. Contactez le service des admissions pour planifier la vôtre."
+                data-en="Yes, guided tours of the Douala campus are available by appointment Monday through Friday. Contact the admissions office to schedule yours."
+              >
+                Oui, des visites guidées du campus de Douala sont organisées
+                sur rendez-vous du lundi au vendredi. Contactez le service des
+                admissions pour planifier la vôtre.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 3 -->
+          <div
+            class="faq-item reveal bg-white rounded-xl border border-p-100 overflow-hidden"
+            style="transition-delay: 0.16s"
+          >
+            <button
+              onclick="toggleFaq(this)"
+              class="w-full flex items-center justify-between gap-4 px-6 py-5 text-left bg-transparent border-none cursor-pointer"
+            >
+              <span
+                class="font-heading font-semibold text-p-900"
+                style="font-size: 1.02rem"
+                data-fr="Proposez-vous un accompagnement pour les étudiants internationaux ?"
+                data-en="Do you offer support for international students?"
+              >
+                Proposez-vous un accompagnement pour les étudiants
+                internationaux ?
+              </span>
+              <span
+                class="faq-chevron text-gold text-xl flex-shrink-0 leading-none"
+                >+</span
+              >
+            </button>
+            <div class="faq-answer px-6">
+              <p
+                class="text-p-600/80 leading-relaxed pb-5"
+                style="font-size: 0.9rem"
+                data-fr="Absolument. Notre bureau des relations internationales accompagne les candidats étrangers pour le visa, le logement et l'intégration sur le campus."
+                data-en="Absolutely. Our international relations office assists foreign applicants with visas, housing and on-campus integration."
+              >
+                Absolument. Notre bureau des relations internationales
+                accompagne les candidats étrangers pour le visa, le logement
+                et l'intégration sur le campus.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+       CTA BANNER
+  ═══════════════════════════════════════ -->
+    <section
+      class="slant-top py-28 px-6 relative overflow-hidden"
+      style="background: linear-gradient(140deg, #3e1490, #5520b8)"
+    >
+      <div
+        class="absolute inset-0 pointer-events-none"
+        style="
+          background-image:
+            linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+            linear-gradient(
+              90deg,
+              rgba(255, 255, 255, 0.025) 1px,
+              transparent 1px
+            );
+          background-size: 50px 50px;
+        "
+      ></div>
+      <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
+        <div
+          class="font-label text-[.74rem] tracking-[.28em] uppercase text-gold mb-3"
+          data-fr="Rejoignez-nous"
+          data-en="Join us"
+        >
+          Rejoignez-nous
+        </div>
+        <h2
+          class="font-heading font-semibold text-white leading-[1.15] mb-4"
+          style="font-size: clamp(2rem, 3.5vw, 3rem)"
+        >
+          <span data-fr="Prêt à écrire votre" data-en="Ready to write your"
+            >Prêt à écrire votre</span
+          >
+          <em class="text-gold italic" data-fr=" histoire ?" data-en=" story?">
+            histoire ?</em
+          >
+        </h2>
+        <p
+          class="text-white/65 leading-relaxed mb-8 max-w-xl mx-auto"
+          style="font-size: 0.94rem"
+          data-fr="Les inscriptions pour l'année 2026-2027 sont ouvertes. Rejoignez une communauté d'excellence et construisez l'avenir que vous méritez."
+          data-en="Enrolments for the year 2026-2027 are open. Join a community of excellence and build the future you deserve."
+        >
+          Les inscriptions pour l'année 2026-2027 sont ouvertes. Rejoignez une
+          communauté d'excellence et construisez l'avenir que vous méritez.
+        </p>
+        <div class="flex gap-3 justify-center flex-wrap">
+          <a
+            href="#"
+            class="font-label text-[.82rem] font-bold tracking-[.1em] uppercase px-8 py-3 bg-gold text-p-900 rounded hover:bg-gold-light transition-all duration-300"
+            data-fr="S'inscrire maintenant"
+            data-en="Enrol now"
+            >S'inscrire maintenant</a
+          >
+          <a
+            href="programs.html"
+            class="font-label text-[.82rem] font-semibold tracking-[.1em] uppercase px-8 py-3 border border-white/40 text-white rounded hover:bg-white/10 transition-all duration-300"
+            data-fr="Voir les formations"
+            data-en="View programs"
+            >Voir les formations</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- Toast -->
+    <div
+      id="toast"
+      class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-p-900 text-white px-6 py-3.5 rounded-xl shadow-2xl z-50 font-label text-sm tracking-wide flex items-center gap-2"
+    >
+      <span class="text-gold">✓</span>
+      <span
+        data-fr="Message envoyé ! Nous vous répondrons bientôt."
+        data-en="Message sent! We'll get back to you soon."
+        >Message envoyé ! Nous vous répondrons bientôt.</span
+      >
+    </div>
+
+    <!-- ═══════════════════════════════════════
+       SCRIPTS
+  ═══════════════════════════════════════ -->
+    <script>
+      function setLang(l) {
+        document
+          .querySelectorAll(".lang-btn")
+          .forEach((b) => b.classList.remove("active"));
+        document
+          .querySelector(`.lang-btn[onclick="setLang('${l}')"]`)
+          .classList.add("active");
+        document.querySelectorAll("[data-fr]").forEach((el) => {
+          const txt = el.getAttribute("data-" + l);
+          if (txt) el.innerHTML = txt;
+        });
+      }
+
+      // Scroll reveal
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("show");
+              obs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.12 },
+      );
+      document
+        .querySelectorAll(".reveal, .reveal-left, .reveal-right")
+        .forEach((el) => obs.observe(el));
+
+      // Sticky nav shadow
+      window.addEventListener("scroll", () => {
+        document.getElementById("navbar").style.boxShadow =
+          window.pageYOffset > 60 ? "0 4px 30px rgba(0,0,0,.4)" : "none";
+      });
+
+      function toggleMenu() {
+        document.getElementById("mobileMenu").classList.toggle("hidden");
+      }
+
+      // FAQ accordion
+      function toggleFaq(btn) {
+        const item = btn.closest(".faq-item");
+        const wasOpen = item.classList.contains("open");
+        document
+          .querySelectorAll(".faq-item.open")
+          .forEach((el) => el.classList.remove("open"));
+        if (!wasOpen) item.classList.add("open");
+      }
+
+      // Contact form submission (front-end only demo)
+      function submitContact(e) {
+        e.preventDefault();
+        const toast = document.getElementById("toast");
+        toast.classList.add("show");
+        document.getElementById("contactForm").reset();
+        setTimeout(() => toast.classList.remove("show"), 3500);
+      }
+    </script>
+  </body>
+</html>

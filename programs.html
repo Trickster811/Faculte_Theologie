@@ -4,12 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FATECAM — Formations</title>
+    <link rel="shortcut icon" href="assets/logo_fatecam.png" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
     <script>
       tailwind.config = {
         theme: {
@@ -25,9 +21,13 @@
                 600: "#5520B8",
                 700: "#3E1490",
                 800: "#2D0A6E",
-                900: "#1E0845",
+                900: "#006fc0",
               },
-              gold: { DEFAULT: "#BFA050", light: "#D4B866", dark: "#9A7C30" },
+              gold: {
+                DEFAULT: "#BFA050",
+                light: "#D4B866",
+                dark: "#9A7C30",
+              },
             },
             fontFamily: {
               heading: ["Cormorant Garamond", "Georgia", "serif"],
@@ -69,10 +69,10 @@
         color: #1e0845;
       }
 
-      /* Scroll reveal */
+      /* Reveal */
       .reveal {
         opacity: 0;
-        transform: translateY(26px);
+        transform: translateY(24px);
         transition:
           opacity 0.6s ease,
           transform 0.6s ease;
@@ -81,58 +81,77 @@
         opacity: 1;
         transform: translateY(0);
       }
-
-      /* Filter tabs */
-      .filter-btn {
-        transition: all 0.25s;
+      .reveal-left {
+        opacity: 0;
+        transform: translateX(-26px);
+        transition:
+          opacity 0.65s ease,
+          transform 0.65s ease;
       }
-      .filter-btn.active {
+      .reveal-left.show {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      /* Hero search glow */
+      .search-glow:focus-within {
+        box-shadow: 0 0 0 3px rgba(191, 160, 80, 0.35);
+      }
+
+      /* Category card hover */
+      .cat-card {
+        transition:
+          transform 0.3s cubic-bezier(0.22, 0.68, 0, 1.2),
+          box-shadow 0.3s,
+          border-color 0.3s;
+      }
+      .cat-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 36px rgba(30, 8, 69, 0.14);
+        border-color: #9b72e8;
+      }
+
+      /* Doc card */
+      .doc-card {
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s;
+      }
+      .doc-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 14px 32px rgba(30, 8, 69, 0.12);
+      }
+      .doc-card:hover .doc-thumb {
+        transform: scale(1.04);
+      }
+      .doc-thumb {
+        transition: transform 0.4s ease;
+      }
+
+      /* Filter tab */
+      .type-tab {
+        transition: all 0.22s;
+      }
+      .type-tab.active {
         background: #3e1490;
         color: #fff;
         box-shadow: 0 4px 14px rgba(62, 20, 144, 0.3);
       }
 
-      /* Program card */
-      .prog-card {
-        transition:
-          transform 0.35s cubic-bezier(0.22, 0.68, 0, 1.2),
-          box-shadow 0.35s;
-        cursor: pointer;
+      /* Slant */
+      .slant-bot {
+        clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
       }
-      .prog-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 24px 50px rgba(30, 8, 69, 0.16);
-      }
-      .prog-card.hidden-card {
-        display: none;
+      .slant-top {
+        clip-path: polygon(0 6%, 100% 0, 100% 100%, 0 100%);
       }
 
-      /* Card header stripe pattern */
-      .stripe-pattern::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: repeating-linear-gradient(
-          45deg,
-          transparent,
-          transparent 12px,
-          rgba(255, 255, 255, 0.1) 12px,
-          rgba(255, 255, 255, 0.1) 24px
-        );
-      }
-
-      /* Duration badge */
-      .duration-badge {
-        background: rgba(255, 255, 255, 0.18);
-        backdrop-filter: blur(4px);
-      }
-
-      /* Modal overlay */
+      /* Modal */
       .modal-overlay {
         position: fixed;
         inset: 0;
         background: rgba(30, 8, 69, 0.6);
-        backdrop-filter: blur(4px);
+        backdrop-filter: blur(5px);
         z-index: 200;
         display: flex;
         align-items: center;
@@ -149,33 +168,71 @@
       .modal-box {
         background: #fff;
         border-radius: 20px;
-        max-width: 640px;
+        max-width: 560px;
         width: 100%;
         max-height: 90vh;
         overflow-y: auto;
-        transform: translateY(20px) scale(0.97);
+        transform: translateY(18px) scale(0.97);
         transition: transform 0.3s;
       }
       .modal-overlay.open .modal-box {
         transform: translateY(0) scale(1);
       }
 
-      /* Slant */
-      .slant-bot {
-        clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+      /* Counter */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
-      .slant-top {
-        clip-path: polygon(0 6%, 100% 0, 100% 100%, 0 100%);
+      .stat-reveal {
+        opacity: 0;
+      }
+      .stat-reveal.show {
+        animation: fadeUp 0.55s ease forwards;
       }
 
-      /* Sticky filter bar */
-      .filter-bar {
-        position: sticky;
-        top: 68px;
-        z-index: 30;
-        background: rgba(247, 244, 255, 0.95);
-        backdrop-filter: blur(8px);
-        border-bottom: 1px solid #ede6ff;
+      /* Scrollbar for doc grid */
+      .doc-scroll::-webkit-scrollbar {
+        width: 5px;
+      }
+      .doc-scroll::-webkit-scrollbar-track {
+        background: #f7f4ff;
+        border-radius: 3px;
+      }
+      .doc-scroll::-webkit-scrollbar-thumb {
+        background: #d4befa;
+        border-radius: 3px;
+      }
+
+      /* Pulse on search button */
+      @keyframes pulse-gold {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(191, 160, 80, 0.5);
+        }
+        50% {
+          box-shadow: 0 0 0 8px rgba(191, 160, 80, 0);
+        }
+      }
+      .search-btn:focus {
+        animation: pulse-gold 1.5s infinite;
+      }
+
+      /* Access locked overlay */
+      .locked-overlay {
+        backdrop-filter: blur(3px);
+      }
+
+      @media (max-width: 1024px) {
+        .aside-panel {
+          display: none;
+        }
       }
     </style>
   </head>
@@ -209,11 +266,7 @@
       class="sticky top-0 z-40 bg-p-900 border-b border-gold/20 px-6 h-[68px] flex items-center justify-between transition-shadow duration-300"
     >
       <a href="index.html" class="flex items-center gap-3 flex-shrink-0">
-        <div
-          class="w-10 h-10 rounded-full bg-gold flex items-center justify-center font-heading text-[18px] font-bold text-p-900"
-        >
-          U
-        </div>
+        <img src="assets/logo_fatecam.png" class="w-10 h-10 rounded-full" />
         <div class="leading-tight">
           <div
             class="font-heading text-[1.35rem] font-semibold text-white leading-none"

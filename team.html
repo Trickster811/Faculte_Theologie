@@ -4,12 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FATECAM — Équipe</title>
+    <link rel="shortcut icon" href="assets/logo_fatecam.png" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
     <script>
       tailwind.config = {
         theme: {
@@ -25,9 +21,13 @@
                 600: "#5520B8",
                 700: "#3E1490",
                 800: "#2D0A6E",
-                900: "#1E0845",
+                900: "#006fc0",
               },
-              gold: { DEFAULT: "#BFA050", light: "#D4B866", dark: "#9A7C30" },
+              gold: {
+                DEFAULT: "#BFA050",
+                light: "#D4B866",
+                dark: "#9A7C30",
+              },
             },
             fontFamily: {
               heading: ["Cormorant Garamond", "Georgia", "serif"],
@@ -72,7 +72,7 @@
       /* Reveal */
       .reveal {
         opacity: 0;
-        transform: translateY(26px);
+        transform: translateY(24px);
         transition:
           opacity 0.6s ease,
           transform 0.6s ease;
@@ -83,7 +83,7 @@
       }
       .reveal-left {
         opacity: 0;
-        transform: translateX(-28px);
+        transform: translateX(-26px);
         transition:
           opacity 0.65s ease,
           transform 0.65s ease;
@@ -92,101 +92,53 @@
         opacity: 1;
         transform: translateX(0);
       }
-      .reveal-right {
-        opacity: 0;
-        transform: translateX(28px);
+
+      /* Hero search glow */
+      .search-glow:focus-within {
+        box-shadow: 0 0 0 3px rgba(191, 160, 80, 0.35);
+      }
+
+      /* Category card hover */
+      .cat-card {
         transition:
-          opacity 0.65s ease,
-          transform 0.65s ease;
+          transform 0.3s cubic-bezier(0.22, 0.68, 0, 1.2),
+          box-shadow 0.3s,
+          border-color 0.3s;
       }
-      .reveal-right.show {
-        opacity: 1;
-        transform: translateX(0);
+      .cat-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 36px rgba(30, 8, 69, 0.14);
+        border-color: #9b72e8;
       }
 
-      /* Leader card */
-      .leader-card {
+      /* Doc card */
+      .doc-card {
         transition:
-          transform 0.35s cubic-bezier(0.22, 0.68, 0, 1.2),
-          box-shadow 0.35s;
+          transform 0.3s,
+          box-shadow 0.3s;
       }
-      .leader-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 22px 48px rgba(30, 8, 69, 0.15);
+      .doc-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 14px 32px rgba(30, 8, 69, 0.12);
       }
-      .leader-card:hover .leader-img {
-        border-color: #bfa050;
+      .doc-card:hover .doc-thumb {
+        transform: scale(1.04);
       }
-      .leader-card:hover .social-links {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      /* Staff card */
-      .staff-card {
-        transition: all 0.3s;
-      }
-      .staff-card:hover {
-        background: #ede6ff;
-        transform: translateY(-4px);
-        box-shadow: 0 12px 30px rgba(30, 8, 69, 0.1);
-      }
-      .staff-card:hover .staff-avatar {
-        border-color: #bfa050;
+      .doc-thumb {
+        transition: transform 0.4s ease;
       }
 
-      /* Social links slide */
-      .social-links {
-        opacity: 0;
-        transform: translateY(6px);
-        transition:
-          opacity 0.3s,
-          transform 0.3s;
+      /* Filter tab */
+      .type-tab {
+        transition: all 0.22s;
       }
-
-      /* Avatar gradient variants */
-      .av1 {
-        background: linear-gradient(135deg, #3e1490, #9b72e8);
-      }
-      .av2 {
-        background: linear-gradient(135deg, #14507a, #4090d0);
-      }
-      .av3 {
-        background: linear-gradient(135deg, #7a1450, #d040a0);
-      }
-      .av4 {
-        background: linear-gradient(135deg, #147a40, #40c070);
-      }
-      .av5 {
-        background: linear-gradient(135deg, #7a6014, #c8a028);
-      }
-      .av6 {
-        background: linear-gradient(135deg, #5520b8, #9b72e8);
-      }
-      .av7 {
-        background: linear-gradient(135deg, #7a3014, #c86040);
-      }
-      .av8 {
-        background: linear-gradient(135deg, #1e0845, #5520b8);
-      }
-      .av9 {
-        background: linear-gradient(135deg, #147a6a, #28c8a8);
-      }
-      .av10 {
-        background: linear-gradient(135deg, #7a1428, #c82850);
-      }
-
-      /* Tab filter */
-      .dept-tab {
-        transition: all 0.25s;
-      }
-      .dept-tab.active {
+      .type-tab.active {
         background: #3e1490;
         color: #fff;
         box-shadow: 0 4px 14px rgba(62, 20, 144, 0.3);
       }
 
-      /* Slants */
+      /* Slant */
       .slant-bot {
         clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
       }
@@ -198,8 +150,8 @@
       .modal-overlay {
         position: fixed;
         inset: 0;
-        background: rgba(30, 8, 69, 0.55);
-        backdrop-filter: blur(4px);
+        background: rgba(30, 8, 69, 0.6);
+        backdrop-filter: blur(5px);
         z-index: 200;
         display: flex;
         align-items: center;
@@ -216,7 +168,7 @@
       .modal-box {
         background: #fff;
         border-radius: 20px;
-        max-width: 520px;
+        max-width: 560px;
         width: 100%;
         max-height: 90vh;
         overflow-y: auto;
@@ -225,6 +177,62 @@
       }
       .modal-overlay.open .modal-box {
         transform: translateY(0) scale(1);
+      }
+
+      /* Counter */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .stat-reveal {
+        opacity: 0;
+      }
+      .stat-reveal.show {
+        animation: fadeUp 0.55s ease forwards;
+      }
+
+      /* Scrollbar for doc grid */
+      .doc-scroll::-webkit-scrollbar {
+        width: 5px;
+      }
+      .doc-scroll::-webkit-scrollbar-track {
+        background: #f7f4ff;
+        border-radius: 3px;
+      }
+      .doc-scroll::-webkit-scrollbar-thumb {
+        background: #d4befa;
+        border-radius: 3px;
+      }
+
+      /* Pulse on search button */
+      @keyframes pulse-gold {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(191, 160, 80, 0.5);
+        }
+        50% {
+          box-shadow: 0 0 0 8px rgba(191, 160, 80, 0);
+        }
+      }
+      .search-btn:focus {
+        animation: pulse-gold 1.5s infinite;
+      }
+
+      /* Access locked overlay */
+      .locked-overlay {
+        backdrop-filter: blur(3px);
+      }
+
+      @media (max-width: 1024px) {
+        .aside-panel {
+          display: none;
+        }
       }
     </style>
   </head>
@@ -258,11 +266,7 @@
       class="sticky top-0 z-40 bg-p-900 border-b border-gold/20 px-6 h-[68px] flex items-center justify-between transition-shadow duration-300"
     >
       <a href="index.html" class="flex items-center gap-3 flex-shrink-0">
-        <div
-          class="w-10 h-10 rounded-full bg-gold flex items-center justify-center font-heading text-[18px] font-bold text-p-900"
-        >
-          U
-        </div>
+        <img src="assets/logo_fatecam.png" class="w-10 h-10 rounded-full" />
         <div class="leading-tight">
           <div
             class="font-heading text-[1.35rem] font-semibold text-white leading-none"

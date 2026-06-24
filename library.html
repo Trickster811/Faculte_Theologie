@@ -4,12 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FATECAM — Bibliothèque Numérique</title>
+    <link rel="shortcut icon" href="assets/logo_fatecam.png" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
     <script>
       tailwind.config = {
         theme: {
@@ -25,9 +21,13 @@
                 600: "#5520B8",
                 700: "#3E1490",
                 800: "#2D0A6E",
-                900: "#1E0845",
+                900: "#006fc0",
               },
-              gold: { DEFAULT: "#BFA050", light: "#D4B866", dark: "#9A7C30" },
+              gold: {
+                DEFAULT: "#BFA050",
+                light: "#D4B866",
+                dark: "#9A7C30",
+              },
             },
             fontFamily: {
               heading: ["Cormorant Garamond", "Georgia", "serif"],
@@ -263,11 +263,7 @@
       class="sticky top-0 z-40 bg-p-900 border-b border-gold/20 px-6 h-[68px] flex items-center justify-between transition-shadow duration-300"
     >
       <a href="index.html" class="flex items-center gap-3 flex-shrink-0">
-        <div
-          class="w-10 h-10 rounded-full bg-gold flex items-center justify-center font-heading text-[18px] font-bold text-p-900"
-        >
-          U
-        </div>
+        <img src="assets/logo_fatecam.png" class="w-10 h-10 rounded-full" />
         <div class="leading-tight">
           <div
             class="font-heading text-[1.35rem] font-semibold text-white leading-none"
